@@ -101,43 +101,5 @@ public class ProductService {
 		return productList;
 	}
 
-	
-	public List<User> getAllUsers(Connection conexion) throws SQLException {
-		List<User> userList = new ArrayList<>();
-		// int id, String name, int age,  String username, String password
-		try {
-			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, name, age, username, password " + " FROM "
-							+ this.table + " ORDER BY id");
-			ResultSet resultado = consulta.executeQuery();
-			while (resultado.next()) {
-				userList.add(new User(resultado.getInt("id"), resultado.getString("name"), 
-						resultado.getInt("age"), resultado.getString("username"), resultado.getString("password")));
-			}
-		} catch (SQLException ex) {
-			throw new SQLException(ex);
-		}
-		return userList;
-	}
-
-	
-	public List<Provider> getAllProviders(Connection conexion) throws SQLException {
-		List<Provider> providerList = new ArrayList<>();
-		// Integer id,  String name, String location, String mail, int phone
-		try {
-			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, name, location, mail, phone " + " FROM "
-							+ this.table + " ORDER BY id");
-			ResultSet resultado = consulta.executeQuery();
-			while (resultado.next()) {
-				providerList.add(new Provider(resultado.getInt("id"), resultado.getString("name"),
-						resultado.getString("location"), resultado.getString("mail"), resultado.getInt("phone")));
-			}
-		} catch (SQLException ex) {
-			throw new SQLException(ex);
-		}
-		return providerList;
-	}
-
 
 }
