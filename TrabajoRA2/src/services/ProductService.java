@@ -20,7 +20,7 @@ public class ProductService {
 	public void save(Connection conexion, Product product) throws SQLException {
 		try {
 			PreparedStatement consult;
-			if (product.getId() == 0) {
+			if (product.getId() == null) {
 				consult = conexion.prepareStatement("INSERT INTO " + this.table
 						+ "(id_prov, name, description, price, category, image, expire_date) VALUES(?, ?, ?, ?, ?, ?, ?)");
 				consult.setInt(1, product.getId_prov());
@@ -58,7 +58,7 @@ public class ProductService {
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				product = new Product(result.getInt("id"), result.getInt("id_prod"),
+				product = new Product(result.getInt("id"), result.getInt("id_prov"),
 						result.getString("name"), result.getString("description"), result.getFloat("price"),
 						result.getString("category"), result.getString("image"), result.getDate("expire_date"));
 			}
@@ -89,7 +89,7 @@ public class ProductService {
 							+ " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				productList.add(new Product(result.getInt("id"), result.getInt("id_prod"),
+				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"),
 						result.getString("name"), result.getString("description"), result.getFloat("price"),
 						result.getString("category"), result.getString("image"), result.getDate("expire_date")));
 			}

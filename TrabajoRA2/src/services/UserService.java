@@ -16,7 +16,7 @@ public class UserService {
 	public void save(Connection conexion, User user) throws SQLException {
 		try {
 			PreparedStatement consult;
-			if (user.getId() == 0) {
+			if (user.getId() == null) {
 				consult = conexion.prepareStatement("INSERT INTO " + this.table
 						+ "(name, age, username, password) VALUES(?, ?, ?, ?)");
 				consult.setString(1, user.getName());

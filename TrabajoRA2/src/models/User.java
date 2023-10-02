@@ -2,7 +2,8 @@ package models;
 
 public class User {
 	
-	private int id, age;
+	private int age;
+	private Integer id;
 	private String name, username, password;
 	
 	public User(int id, String name, int age,  String username, String password) {
@@ -18,10 +19,10 @@ public class User {
 		super();
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public int getAge() {

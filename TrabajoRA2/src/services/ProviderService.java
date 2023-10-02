@@ -16,7 +16,7 @@ public class ProviderService {
 	public void save(Connection conexion, Provider provider) throws SQLException {
 		try {
 			PreparedStatement consult;
-			if (provider.getId() == 0) {
+			if (provider.getId() == null) {
 				consult = conexion.prepareStatement("INSERT INTO " + this.table
 						+ "(name, location, mail, phone) VALUES(?, ?, ?, ?)");
 				consult.setString(1, provider.getName());

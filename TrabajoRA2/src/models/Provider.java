@@ -2,10 +2,11 @@ package models;
 
 public class Provider {
 	
-	private int id, phone;
+	private int phone;
+	private Integer id;
 	private String name, location, mail;
 	
-	public Provider(int id,  String name, String location, String mail, int phone) {
+	public Provider(Integer id,  String name, String location, String mail, int phone) {
 		super();
 		this.id = id;
 		this.phone = phone;
@@ -18,10 +19,10 @@ public class Provider {
 		super();
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public int getPhone() {
