@@ -90,6 +90,7 @@ public class ImageUtilities {
     public static BufferedImage applyShadow(Shape shape, int size, Color backgroundColor, Color shadowColor, float alpha) {
         BufferedImage sourceImage = createCompatibleImage(shape.getBounds().width, shape.getBounds().height);
         Graphics2D g2d = sourceImage.createGraphics();
+        backgroundColor = new Color(113, 207, 245);
         applyQualityRenderingHints(g2d);
         g2d.translate(-shape.getBounds().getX(), -shape.getBounds().getY());
         g2d.setColor(backgroundColor);
