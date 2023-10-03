@@ -17,13 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
-import methods.RoundedBorderPane;
 
 import javax.swing.JButton;
 import java.awt.Font;
-import java.awt.Button;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class Login extends JFrame {
@@ -54,7 +50,26 @@ public class Login extends JFrame {
 		lblRegister.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		contentPane.add(lblRegister);
 		
-		JPanel panel = new RoundedBorderPane();
+		JPanel panel = new JPanel() {
+			@Override
+		    public Dimension getPreferredSize() {
+		        return new Dimension(200, 200);
+		    }
+
+		    @Override
+		    protected void paintComponent(Graphics g) {
+		        super.paintComponent(g);
+		        Graphics2D g2d = (Graphics2D) g.create();
+		                
+		        RoundRectangle2D border = new RoundRectangle2D.Double(0, 0, 210, 200, 20, 20);
+		        ImageUtilities.applyQualityRenderingHints(g2d);
+		        g2d.drawImage(ImageUtilities.applyShadow(border, 2, getBackground(), Color.BLACK, 0.25f), 5, 5, this);
+		        g2d.setColor(Color.DARK_GRAY);
+		        g2d.translate(5, 5);
+		        g2d.draw(border);
+		        g2d.dispose();
+		    }
+		};
 		panel.setBounds(31, 11, 223, 208);
 		contentPane.add(panel);
 		panel.setLayout(null);
