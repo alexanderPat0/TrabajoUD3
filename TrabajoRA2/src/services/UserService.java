@@ -11,20 +11,20 @@ import models.User;
 public class UserService {
 
 	/** The table. */
-	private final String table = "user";
+	private final static String table = "user";
 
-	public void save(Connection conexion, User user) throws SQLException {
+	public static void save(Connection conexion, User user) throws SQLException {
 		try {
 			PreparedStatement consult;
 			if (user.getId() == null) {
-				consult = conexion.prepareStatement("INSERT INTO " + this.table
+				consult = conexion.prepareStatement("INSERT INTO " + table
 						+ "(name, age, username, password) VALUES(?, ?, ?, ?)");
 				consult.setString(1, user.getName());
 				consult.setInt(2, user.getAge());
 				consult.setString(3, user.getUsername());
 				consult.setString(4, user.getPassword());
 			} else {
-				consult = conexion.prepareStatement("UPDATE " + this.table
+				consult = conexion.prepareStatement("UPDATE " + table
 						+ " SET id = ?, name = ?, age = ?, username = ?, password = ? WHERE id = ?");
 				consult.setString(1, user.getName());
 				consult.setInt(2, user.getAge());
