@@ -18,26 +18,7 @@ public class Register extends JFrame {
 	private JPanel contentPane;
 	private JTextField textName, textAge,  textUsername, textPassword, textConfirmPassword;
 	private JButton btnSave, btnCancel;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register frame = new Register();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public Register() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 385, 434);
@@ -116,6 +97,8 @@ public class Register extends JFrame {
 		btnCancel.addActionListener(h);
 		btnCancel.setBounds(144, 303, 85, 32);
 		panel.add(btnCancel);
+		
+		setVisible(true);
 		
 	}
 	

@@ -3,14 +3,14 @@ package test;
 import java.sql.SQLException;
 
 import services.Conexion;
-import views.Login;
+import views.LoadingScreen;
 
 public class Test {
 
 	public static void main(String[] args) {
 		
 		//HEHE, SIUUUUUUUUUUUUUUU
-		new Login();
+		new LoadingScreen();
 		try {
 			Conexion.obtain();
 		} catch (ClassNotFoundException | SQLException e) {

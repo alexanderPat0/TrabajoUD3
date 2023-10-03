@@ -5,6 +5,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -94,9 +96,22 @@ public class Login extends JFrame {
 		panel.add(passwordField);
 		
 		JButton btnLogin = new JButton("Log in");
+		btnLogin.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(e.getSource() == btnLogin) {
+					
+					//Aquí entraría el empleado ya a la pantalla principal del programa.
+					
+				}
+			}
+			
+		});
 		btnLogin.setBackground(Color.BLUE);
 		btnLogin.setForeground(new Color(255, 255, 255));
-		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnLogin.setBounds(38, 153, 139, 28);
 		panel.add(btnLogin);
 
