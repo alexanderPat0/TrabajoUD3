@@ -1,18 +1,24 @@
 package viewsProducts;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
-import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class SeeProd extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JButton btnCreate, btnEdit, btnDelete, btnReturn;
 
 	public SeeProd() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
@@ -29,26 +35,59 @@ public class SeeProd extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
-		JButton btnCreate = new JButton("Create");
+		btnCreate = new JButton("Create");
 		btnCreate.setBounds(335, 11, 89, 23);
 		contentPane.add(btnCreate);
 		
-		JButton btnEdit = new JButton("Edit");
+		btnEdit = new JButton("Edit");
 		btnEdit.setBounds(335, 45, 89, 23);
 		contentPane.add(btnEdit);
 		
-		JButton btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Delete");
 		btnDelete.setBounds(335, 79, 89, 23);
 		contentPane.add(btnDelete);
 		
-		JButton btnReturn = new JButton("Return");
+		btnReturn = new JButton("Return");
 		btnReturn.setBounds(335, 227, 89, 23);
 		contentPane.add(btnReturn);
+		
+		ButtonManager buttonMan = new ButtonManager();
+		btnCreate.addActionListener(buttonMan);
+		btnEdit.addActionListener(buttonMan);
+		btnDelete.addActionListener(buttonMan);
+		btnReturn.addActionListener(buttonMan);
 		
 		
 		
 		
 		setVisible(true);
+	}
+	
+	public class ButtonManager implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource() == btnCreate) {
+				
+				dispose();
+				new AddProd();
+				
+			}else if(e.getSource() == btnCreate) {
+				
+			}else if(e.getSource() == btnDelete) {
+				
+			}else if(e.getSource() == btnEdit) {
+				
+			}else if(e.getSource() == btnReturn) {
+				
+				dispose();
+				new views.MainPanel();
+				
+			}
+			
+		}
+
 	}
 
 }
