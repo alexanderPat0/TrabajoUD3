@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,7 +20,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
+import methods.Method;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
 
@@ -31,13 +34,13 @@ public class Login extends JFrame {
 	private JPasswordField passwordField;
 
 	public Login() {
-		
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 301, 328);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JFrameIcon();
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -124,5 +127,9 @@ public class Login extends JFrame {
 		});
 		setVisible(true);
 
+	}
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
 	}
 }
