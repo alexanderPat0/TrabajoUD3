@@ -153,17 +153,20 @@ public class Register extends JFrame {
 					
 				}else if(!password.equals(confirmPassword)) {
 						JOptionPane.showMessageDialog(null, "Both passwords didn't match!", "Error", JOptionPane.WARNING_MESSAGE);
-				}
+				}else {
 				
 				User user = new User(name, age, username, password);
 				try {
+					JOptionPane.showMessageDialog(null, "Your User have been created succesfully!", "Saving...", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+					new Login();
 					UserService.save(Conexion.obtain(), user);
+					System.out.println();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				JOptionPane.showMessageDialog(null, "Your User have been created succesfully!", "Saving...", JOptionPane.INFORMATION_MESSAGE);
-				dispose();
-				new Login();
+				
+				}
 			}
 		});
 		

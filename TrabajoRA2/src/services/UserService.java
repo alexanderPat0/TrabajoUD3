@@ -11,7 +11,7 @@ import models.User;
 public class UserService {
 
 	/** The table. */
-	private final static String table = "user";
+	private final static String table = "users";
 
 	public static void save(Connection conexion, User user) throws SQLException {
 		try {
