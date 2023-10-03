@@ -70,12 +70,12 @@ public class ProductService {
 		return product;
 	}
 
-	
-	public void remove(Connection conexion, Product product) throws SQLException {
+	// he cambiado Product product por Integer id
+	public void remove(Connection conexion, Integer id) throws SQLException {
 		try {
 			PreparedStatement consult = conexion
 					.prepareStatement("DELETE FROM " + this.table + " WHERE id = ?");
-			consult.setInt(1, product.getId());
+			consult.setInt(1, id);
 			consult.executeUpdate();
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
