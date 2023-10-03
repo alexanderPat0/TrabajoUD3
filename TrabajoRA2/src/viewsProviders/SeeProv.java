@@ -1,4 +1,4 @@
-package viewsProducts;
+package viewsProviders;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,12 +7,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
-public class SeeProd extends JFrame {
+public class SeeProv extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 
-	public SeeProd() {
+	public SeeProv() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
