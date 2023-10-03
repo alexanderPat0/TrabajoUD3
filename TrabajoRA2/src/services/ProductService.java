@@ -18,7 +18,7 @@ public class ProductService {
 
 	/** The table. */
 	private final String table = "products";
-
+ 
 	public void save(Connection conexion, Product product) throws SQLException {
 		try {
 			PreparedStatement consult;
@@ -88,11 +88,11 @@ public class ProductService {
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 					
-					"SELECT id,id_prov, name, description, price, category, image, expire_date"
+					"SELECT id , id_prov, name, description, price, category, image, expire_date"
 							+ " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				productList.add(new Product(result.getInt("id_prov"),
+				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"),
 						result.getString("name"), result.getString("description"), result.getFloat("price"),
 						result.getString("category"), result.getString("image"), result.getDate("expire_date")));
 			}

@@ -86,4 +86,22 @@ public class UserService {
 		}
 		return userList;
 	}
+	
+	public static User checkUser(Connection conexion, String username) throws SQLException {
+		User user = null;
+		try {
+			PreparedStatement consult = conexion.prepareStatement(
+					"SET id, name, age, username, password"
+							+ " FROM " + table + " WHERE name = ?");
+			consult.setString(1, username);
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				user = new User(result.getInt("id"), result.getString("name"), result.getInt("age"), 
+						result.getString("username"), result.getString("password"));
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return user;		
+	}
 }

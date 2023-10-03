@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
 import methods.Method;
+import models.User;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,6 +33,7 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsername;
 	private JPasswordField passwordField;
+	private User LogedInUser;
 
 	public Login() {
 		setTitle("Login");
@@ -106,7 +108,13 @@ public class Login extends JFrame {
 				
 				if(e.getSource() == btnLogin) {
 					
-					//Aquí entraría el empleado ya a la pantalla principal del programa.
+					String username =  txtUsername.getText();
+					String cad = txtUsername.getText().concat(String.valueOf(passwordField.getPassword()));
+//					User u = UserService
+					if(cad.matches(cad)) {
+//						LogedInUser = 
+					}
+					
 					
 				}
 			}
