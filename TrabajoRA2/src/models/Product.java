@@ -16,10 +16,21 @@ public class Product {
 		this.id_prov = id_prov;
 		this.name = name;
 		this.description = description;
+		this.price = price;
 		this.category = category;
 		this.image = image;
 		this.expire_date = expire_date;
+	}
+
+	public Product(int id_prov, String name, String description,float price, String category, String image, Date expire_date) {
+		super();
+		this.id_prov = id_prov;
+		this.name = name;
+		this.description = description;
 		this.price = price;
+		this.category = category;
+		this.image = image;
+		this.expire_date = expire_date;
 	}
 
 	public Product() {

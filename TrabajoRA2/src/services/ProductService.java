@@ -87,7 +87,8 @@ public class ProductService {
 		List<Product> productList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, id_prov, name, description, price, category, image, expire_date"
+					// he quitado el id de aqui
+					"SELECT id_prov, name, description, price, category, image, expire_date"
 							+ " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
