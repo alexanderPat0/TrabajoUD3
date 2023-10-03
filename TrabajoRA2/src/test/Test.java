@@ -20,6 +20,8 @@ public class Test {
 	public static ProductService product=new ProductService();
 	public static ProviderService provider=new ProviderService();
 	public static UserService user=new UserService();
+	
+	public static User LogedInUser;
 
 	public static void main(String[] args) {
 		

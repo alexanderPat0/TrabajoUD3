@@ -50,7 +50,7 @@ public class UserService {
 			while (result.next()) {
 				user = new User(result.getInt("id"), result.getString("name"), result.getInt("age"), 
 						result.getString("username"), result.getString("password"));
-			}
+			} 
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
@@ -69,7 +69,7 @@ public class UserService {
 		}
 	}
 
-
+ 
 	public List<User> getAllUsers(Connection conexion) throws SQLException {
 		List<User> userList = new ArrayList<>();
 		try {
@@ -91,8 +91,8 @@ public class UserService {
 		User user = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SET id, name, age, username, password"
-							+ " FROM " + table + " WHERE name = ?");
+					"SELECT id, name, age, username, password"
+							+ " FROM " + table + " WHERE username = ?");
 			consult.setString(1, username);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
