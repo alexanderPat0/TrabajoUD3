@@ -11,7 +11,7 @@ import models.Provider;
 public class ProviderService {
 
 	/** The table. */
-	private final String table = "provider";
+	private final String table = "providers";
 
 	public void save(Connection conexion, Provider provider) throws SQLException {
 		try {
