@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.SQLException;
 import java.text.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -19,15 +20,22 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import methods.ImageUtilities;
+import models.Provider;
+import services.Conexion;
+import services.ProviderService;
+import services.UserService;
 import views.Login;
 
 @SuppressWarnings("serial")
 public class AddProv extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtName,  txtLocation, txtMail, textPhone;
+	private JTextField txtName,  txtLocation, txtMail, txtPhone;
 	private JLabel lblLocation, lblMail, lblPhone, lblCreate, lblCancel, lblName;
-
+	private String name, location, mail, phone;
+	private int phoneInt;
+	private Provider provider;
+	
 	/**
 	 * Launch the application.
 	 * @throws ParseException 
@@ -118,10 +126,10 @@ public class AddProv extends JFrame {
 		lblPhone.setBounds(26, 177, 120, 14);
 		panel.add(lblPhone);
 		
-		textPhone = new JTextField();
-		textPhone.setColumns(10);
-		textPhone.setBounds(26, 192, 120, 20);
-		panel.add(textPhone);
+		txtPhone = new JTextField();
+		txtPhone.setColumns(10);
+		txtPhone.setBounds(26, 192, 120, 20);
+		panel.add(txtPhone);
 		
 		lblCreate = new JLabel(new ImageIcon("images/icons/add.png"));
 		lblCreate.setBounds(51, 280, 50, 50);
@@ -130,9 +138,28 @@ public class AddProv extends JFrame {
 		lblCreate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "You have created a new Provider!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
-				dispose();
-				new SeeProv();
+				
+				name = txtName.getText();
+				location = txtLocation.getText();
+				mail = txtMail.getText();
+				phone = txtPhone.getText();
+				
+				if(name.isEmpty() || location.isEmpty() || mail.isEmpty() || phone.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
+					
+				}else {
+					
+					phoneInt = Integer.parseInt(phone);
+					provider = new Provider(name, location, mail, phoneInt);
+					try {
+						ProviderService.save(Conexion.obtain(), provider);
+					} catch (ClassNotFoundException | SQLException e1) {
+						e1.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "You have created a new Provider!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+					new SeeProv();
+				}
 			}
 		});
 		

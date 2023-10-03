@@ -15,6 +15,14 @@ public class Provider {
 		this.mail = mail;
 	}
 	
+	public Provider(String name, String location, String mail, int phone) {
+		super();
+		this.phone = phone;
+		this.name = name;
+		this.location = location;
+		this.mail = mail;
+	}
+	
 	public Provider() {
 		super();
 	}
