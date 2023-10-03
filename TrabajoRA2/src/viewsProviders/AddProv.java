@@ -1,38 +1,32 @@
 package viewsProviders;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
-import java.util.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import methods.ImageUtilities;
-import javax.swing.JTextArea;
-import javax.swing.border.BevelBorder;
+import views.Login;
 
 @SuppressWarnings("serial")
 public class AddProv extends JFrame {
 
 	private JPanel contentPane;
-	private JButton btnReturn, btnCreate, btnImage;
-	private JTextField txtNombre, txtPrice, txtExpDate;
-	private JLabel lblPrice, lblExpDate, lblNewLabel;
-
+	private JTextField txtName,  txtLocation, txtMail, textPhone;
+	private JLabel lblLocation, lblMail, lblPhone, lblCreate, lblCancel, lblName;
 
 	/**
 	 * Launch the application.
@@ -55,9 +49,9 @@ public class AddProv extends JFrame {
 	 * Create the frame.
 	 */
 	public AddProv() {
-		setTitle("Oh boi new product lets go");
+		setTitle("Create Provider");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 564, 302);
+		setBounds(100, 100, 281, 392);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,7 +70,7 @@ public class AddProv extends JFrame {
 		        super.paintComponent(g);
 		        Graphics2D g2d = (Graphics2D) g.create();
 		                
-		        RoundRectangle2D border = new RoundRectangle2D.Double(0, 0, 510, 200, 20, 20);
+		        RoundRectangle2D border = new RoundRectangle2D.Double(0, 0, 170, 225, 20, 20);
 		        ImageUtilities.applyQualityRenderingHints(g2d);
 		        g2d.drawImage(ImageUtilities.applyShadow(border, 2, getBackground(), Color.BLACK, 0.25f), 5, 5, this);
 		        g2d.setColor(Color.DARK_GRAY);
@@ -85,72 +79,75 @@ public class AddProv extends JFrame {
 		        g2d.dispose();
 		    }
 		};
-		panel.setBounds(10, 11, 527, 213);
+		panel.setBounds(51, 24, 180, 234);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblProvider = new JLabel("Provider:");
-		lblProvider.setBounds(26, 11, 67, 14);
-		panel.add(lblProvider);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(26, 27, 120, 22);
-		panel.add(comboBox);
-		
-		JLabel lblName = new JLabel("Name:");
-		lblName.setBounds(26, 60, 46, 14);
+		lblName = new JLabel("Name:");
+		lblName.setHorizontalAlignment(SwingConstants.LEFT);
+		lblName.setBounds(26, 14, 120, 14);
 		panel.add(lblName);
 		
-		txtNombre = new JTextField();
-		txtNombre.setBounds(26, 74, 120, 20);
-		panel.add(txtNombre);
-		txtNombre.setColumns(10);
+		txtName = new JTextField();
+		txtName.setBounds(26, 30, 120, 20);
+		panel.add(txtName);
+		txtName.setColumns(10);
 		
-		lblPrice = new JLabel("Price:");
-		lblPrice.setBounds(26, 105, 46, 14);
-		panel.add(lblPrice);
+		lblLocation = new JLabel("Location:");
+		lblLocation.setHorizontalAlignment(SwingConstants.LEFT);
+		lblLocation.setBounds(26, 69, 120, 14);
+		panel.add(lblLocation);
 		
-		txtPrice = new JTextField();
-		txtPrice.setBounds(26, 120, 120, 20);
-		panel.add(txtPrice);
-		txtPrice.setColumns(10);
+		txtLocation = new JTextField();
+		txtLocation.setBounds(26, 84, 120, 20);
+		panel.add(txtLocation);
+		txtLocation.setColumns(10);
 		
-		lblExpDate = new JLabel("Expiration date:");
-		lblExpDate.setBounds(26, 151, 107, 14);
-		panel.add(lblExpDate);
+		lblMail = new JLabel("Mail:");
+		lblMail.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMail.setBounds(26, 123, 120, 14);
+		panel.add(lblMail);
 		
-		txtExpDate = new JTextField();
-		txtExpDate.setText("dd/mm/yyyy");
-		txtExpDate.setColumns(10);
-		txtExpDate.setBounds(26, 167, 120, 20);
-		panel.add(txtExpDate);
+		txtMail = new JTextField();
+		txtMail.setColumns(10);
+		txtMail.setBounds(26, 138, 120, 20);
+		panel.add(txtMail);
 		
-		lblNewLabel = new JLabel("Description:");
-		lblNewLabel.setBounds(170, 11, 81, 14);
-		panel.add(lblNewLabel);
+		lblPhone = new JLabel("Phone:");
+		lblPhone.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPhone.setBounds(26, 177, 120, 14);
+		panel.add(lblPhone);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setBounds(172, 27, 156, 160);
-		panel.add(textArea);
+		textPhone = new JTextField();
+		textPhone.setColumns(10);
+		textPhone.setBounds(26, 192, 120, 20);
+		panel.add(textPhone);
 		
-		JLabel lblImage = new JLabel("Image:");
-		lblImage.setBounds(358, 11, 46, 14);
-		panel.add(lblImage);
+		lblCreate = new JLabel(new ImageIcon("images/icons/add.png"));
+		lblCreate.setBounds(51, 280, 50, 50);
+		lblCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		contentPane.add(lblCreate);
+		lblCreate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "You have created a new Provider!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
+				new SeeProv();
+			}
+		});
 		
-		btnImage = new JButton("Add image");
-		btnImage.setBounds(354, 27, 145, 160);
-		panel.add(btnImage);
-		
-		btnReturn = new JButton("Return");
-		btnReturn.setBounds(128, 235, 103, 23);
-		contentPane.add(btnReturn);
-		
-		btnCreate = new JButton("Create");
-		btnCreate.setBounds(359, 235, 103, 23);
-		contentPane.add(btnCreate);
+		lblCancel = new JLabel(new ImageIcon("images/icons/red_x.png"));
+		lblCancel.setBounds(181, 280, 50, 50);
+		lblCancel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		contentPane.add(lblCancel);
+		lblCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "You have cancelled the registration", "Cancelling...", JOptionPane.ERROR_MESSAGE);
+				dispose();
+				new Login();
+			}
+		});		
 		
 		setVisible(true);
 	}
