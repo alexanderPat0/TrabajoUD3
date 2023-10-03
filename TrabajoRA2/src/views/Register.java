@@ -5,15 +5,11 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +20,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import methods.ImageUtilities;
 import models.User;
@@ -35,11 +33,11 @@ public class Register extends JFrame {
 	private JPanel contentPane;
 	private JTextField textName,  textUsername;
 	private JPasswordField textPassword, textConfirmPassword;
-	private JButton btnSave, btnCancel;
 	private JComboBox<Integer> cbAge;
 	private JLabel lblSave, lblCancel;
-	private String name, username, password, confirmPassword;
-	private int age;
+	private JProgressBar progressBar;
+	private String name, username, password, confirmPassword, regex;
+	private int age, security = 0;
 	
 	public Register() {
 		super("Registration Page");
@@ -102,6 +100,11 @@ public class Register extends JFrame {
 		lblConfirmPassword.setBounds(35, 261, 172, 13);
 		panel.add(lblConfirmPassword);
 		
+		progressBar = new JProgressBar();
+		progressBar.setBounds(35, 231, 172, 11);
+		progressBar.setValue(security);
+		panel.add(progressBar);
+		
 		textName = new JTextField();
 		textName.setBounds(35, 33, 172, 19);
 		panel.add(textName);
@@ -113,6 +116,57 @@ public class Register extends JFrame {
 		panel.add(textUsername);
 		
 		textPassword = new JPasswordField();
+		textPassword.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+            	verifyPassword();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            	verifyPassword();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            	verifyPassword();
+            }
+
+            private void verifyPassword() {
+                String pass = new String(textPassword.getPassword());
+                if (pass.length() < 8 || pass.length() > 20) {
+//					System.out.println("Password must be between 8-20 characters");
+					progressBar.setForeground(Color.RED);
+	            }else {
+	            	security+=25;
+	            	progressBar.setValue(100);
+	            }
+	            
+	            if (!pass.matches(".*[a-zA-Z].*")) {
+//	            	System.out.println("Password must contain a letter");
+	            	progressBar.setForeground(Color.ORANGE);
+	            }else {
+	            	security+=25;
+	            	progressBar.setValue(25);
+	            }
+	            
+	            if (!pass.matches(".*\\d.*")) {
+//	            	System.out.println("Password must contain a number");
+	            	progressBar.setForeground(Color.YELLOW);
+	            }else {
+	            	security+=25;
+	            	progressBar.setValue(50);
+	            }
+	            
+	            if (!pass.matches(".*[@#$%^&+=!].*")) {
+//	            	System.out.println("Password must contain a special caracter @#$%^&+=!");
+	            	progressBar.setForeground(Color.GREEN);
+	            }else {
+	            	security+=25;
+	            	progressBar.setValue(75);
+	            }
+            }
+        });
 		textPassword.setColumns(10);
 		textPassword.setBounds(35, 202, 172, 19);
 		panel.add(textPassword);
@@ -147,6 +201,7 @@ public class Register extends JFrame {
 				password = String.valueOf(pass);
 				confirmPassword = String.valueOf(confirmP);
 				
+				regex = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,20}$";
 				
 				if(name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
@@ -156,12 +211,40 @@ public class Register extends JFrame {
 				}else {
 				
 				User user = new User(name, age, username, password);
+				
 				try {
-					JOptionPane.showMessageDialog(null, "Your User have been created succesfully!", "Saving...", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
-					new Login();
-					UserService.save(Conexion.obtain(), user);
-					System.out.println();
+					
+					if(!password.matches(regex)) {
+						System.out.println("Incorrect Password");
+						
+						if (password.length() < 8 || password.length() > 20) {
+							System.out.println("The password must contain between 8 and 20 characters");
+							security+=25;
+			            }else {
+			            	security-=25;
+			            }
+			            
+			            if (!password.matches(".*[a-zA-Z].*")) {
+			            	System.out.println("The password must contain a letter");
+			            	security+=25;
+			            }
+			            
+			            if (!password.matches(".*\\d.*")) {
+			            	System.out.println("The password must contain a number");
+			            	security-=25;
+			            }
+			            
+			            if (!password.matches(".*[@#$%^&+=!].*")) {
+			            	System.out.println("The password must contain a special caracter like this: @#$%^&+=!");
+			            	security-=25;
+			            }
+					}else {
+						System.out.println("Correct Password!");
+						JOptionPane.showMessageDialog(null, "Your User have been created succesfully!", "Saving...", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						new Login();
+						UserService.save(Conexion.obtain(), user);
+					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -174,10 +257,6 @@ public class Register extends JFrame {
 		lblCancel.setBounds(152, 328, 45, 45);
 		lblCancel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.add(lblCancel);
-		
-		JProgressBar progressBar = new JProgressBar();
-		progressBar.setBounds(35, 231, 172, 11);
-		panel.add(progressBar);
 		lblCancel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -185,26 +264,9 @@ public class Register extends JFrame {
 				dispose();
 				new Login();
 			}
-		});
+		});		
 		
 		setVisible(true);
 	}
 	
-	public class handler implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Object o = e.getSource();
-			
-			if(o == btnSave) {
-				
-				
-			}else if(o == btnCancel) {
-				
-				
-			}
-			
-		}
-		
-	}
 }
