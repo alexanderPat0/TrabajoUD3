@@ -43,11 +43,12 @@ public class Register extends JFrame {
 	private JLabel lblSave, lblCancel, lblVeryWeak, lblWeak, lblMedium, lblStrong;
 	private JProgressBar progressBar;
 	private String name, username, password, confirmPassword;
-	private int age, security = 0;
+	private int age;
 	private List<User> usersList = new ArrayList<>();
+	private UserService us = new UserService();
 
 	public Register() {
-		super("Registration Page");
+		super("Registration Page ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 387, 495);
 		setLocationRelativeTo(null);
@@ -115,7 +116,7 @@ public class Register extends JFrame {
 
 		progressBar = new JProgressBar();
 		progressBar.setBounds(35, 232, 172, 11);
-		progressBar.setValue(security);
+		progressBar.setValue(0);
 		panel.add(progressBar);
 
 		textName = new JTextField();
@@ -186,12 +187,12 @@ public class Register extends JFrame {
 
 						password = String.valueOf(pass);
 						confirmPassword = String.valueOf(confirmP);
-						if(password.length() < 6) {
-							
-							JOptionPane.showMessageDialog(null, "Password must be at least 6 charachters long ", "Error",
-									JOptionPane.WARNING_MESSAGE);
-							
-						}else if (name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty()
+						if (password.length() < 6) {
+
+							JOptionPane.showMessageDialog(null, "Password must be at least 6 charachters long ",
+									"Error", JOptionPane.WARNING_MESSAGE);
+
+						} else if (name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty()
 								|| confirmPassword.isEmpty()) {
 							JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error",
 									JOptionPane.WARNING_MESSAGE);
@@ -199,6 +200,18 @@ public class Register extends JFrame {
 						} else if (!password.equals(confirmPassword)) {
 							JOptionPane.showMessageDialog(null, "Both passwords didn't match!", "Error",
 									JOptionPane.WARNING_MESSAGE);
+						} else {
+
+							User u = new User(name, age, username, password);
+							try {
+								us.save(Conexion.obtain(), u);
+							} catch (ClassNotFoundException | SQLException e1) {
+								e1.printStackTrace();
+							}
+							JOptionPane.showMessageDialog(null, "User registered succesfully.", "Welcome!",
+									JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+							new Login();
 						}
 
 					}
@@ -250,6 +263,7 @@ public class Register extends JFrame {
 	}
 
 	private boolean checkUsername(String userName) {
+
 		List<String> usernamesList = new ArrayList<>();
 		try {
 			usersList = user.getAllUsers(Conexion.obtain());
