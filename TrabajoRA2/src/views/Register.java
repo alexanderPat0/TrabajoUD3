@@ -40,13 +40,11 @@ public class Register extends JFrame {
 	private JTextField textName, textUsername;
 	private JPasswordField textPassword, textConfirmPassword;
 	private JComboBox<Integer> cbAge;
-	private JLabel lblSave, lblCancel;
+	private JLabel lblSave, lblCancel, lblVeryWeak, lblWeak, lblMedium, lblStrong;
 	private JProgressBar progressBar;
-	private String name, username, password, confirmPassword, regex;
+	private String name, username, password, confirmPassword;
 	private int age, security = 0;
 	private List<User> usersList = new ArrayList<>();
-
-	private boolean length = false, specialChar = false, number = false, letter = false;
 
 	public Register() {
 		super("Registration Page");
@@ -112,7 +110,7 @@ public class Register extends JFrame {
 		JLabel lblConfirmPassword = new JLabel("Confirm Password");
 		lblConfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblConfirmPassword.setHorizontalAlignment(SwingConstants.LEFT);
-		lblConfirmPassword.setBounds(35, 263, 172, 13);
+		lblConfirmPassword.setBounds(35, 270, 172, 13);
 		panel.add(lblConfirmPassword);
 
 		progressBar = new JProgressBar();
@@ -154,7 +152,7 @@ public class Register extends JFrame {
 
 		textConfirmPassword = new JPasswordField();
 		textConfirmPassword.setColumns(10);
-		textConfirmPassword.setBounds(35, 277, 172, 26);
+		textConfirmPassword.setBounds(35, 284, 172, 26);
 		panel.add(textConfirmPassword);
 
 		cbAge = new JComboBox<>();
@@ -172,14 +170,14 @@ public class Register extends JFrame {
 		lblSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				if(e.getSource() == lblSave) {
-					
-					if(!checkUsername(textUsername.getText())) {
-						JOptionPane.showMessageDialog(null, "That username is already in use" , "Error" , JOptionPane.ERROR_MESSAGE);
-					}else {
-						//Aquí guardar el usuario
-						
+
+				if (e.getSource() == lblSave) {
+
+					if (!checkUsername(textUsername.getText())) {
+						JOptionPane.showMessageDialog(null, "That username is already in use", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+
 						name = textName.getText();
 						age = (int) cbAge.getSelectedItem();
 						username = textUsername.getText();
@@ -188,8 +186,12 @@ public class Register extends JFrame {
 
 						password = String.valueOf(pass);
 						confirmPassword = String.valueOf(confirmP);
-						
-						if (name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty()
+						if(password.length() < 6) {
+							
+							JOptionPane.showMessageDialog(null, "Password must be at least 6 charachters long ", "Error",
+									JOptionPane.WARNING_MESSAGE);
+							
+						}else if (name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty()
 								|| confirmPassword.isEmpty()) {
 							JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error",
 									JOptionPane.WARNING_MESSAGE);
@@ -198,17 +200,37 @@ public class Register extends JFrame {
 							JOptionPane.showMessageDialog(null, "Both passwords didn't match!", "Error",
 									JOptionPane.WARNING_MESSAGE);
 						}
-						
-						
-						
-						
+
 					}
-	
+
 				}
 
-				
 			}
 		});
+
+		lblWeak = new JLabel("Weak");
+		lblWeak.setForeground(Color.ORANGE);
+		lblWeak.setBounds(35, 245, 46, 14);
+		lblWeak.setVisible(false);
+		panel.add(lblWeak);
+
+		lblVeryWeak = new JLabel("Very Weak!");
+		lblVeryWeak.setForeground(Color.RED);
+		lblVeryWeak.setBounds(35, 245, 77, 14);
+		lblVeryWeak.setVisible(false);
+		panel.add(lblVeryWeak);
+
+		lblMedium = new JLabel("Medium");
+		lblMedium.setForeground(Color.YELLOW);
+		lblMedium.setBounds(35, 245, 46, 14);
+		lblMedium.setVisible(false);
+		panel.add(lblMedium);
+
+		lblStrong = new JLabel("Strong");
+		lblStrong.setForeground(Color.GREEN);
+		lblStrong.setBounds(35, 245, 46, 14);
+		lblStrong.setVisible(false);
+		panel.add(lblStrong);
 
 		lblCancel = new JLabel(new ImageIcon("images/icons/red_x.png"));
 		lblCancel.setBounds(152, 328, 45, 45);
@@ -231,7 +253,7 @@ public class Register extends JFrame {
 		List<String> usernamesList = new ArrayList<>();
 		try {
 			usersList = user.getAllUsers(Conexion.obtain());
-			
+
 			for (User u : usersList) {
 				usernamesList.add(u.getUsername());
 			}
@@ -241,9 +263,9 @@ public class Register extends JFrame {
 
 		if (usersList != null) {
 			for (String usrname : usernamesList) {
-				if(usrname.matches(userName))
-						return false;
-				
+				if (usrname.matches(userName))
+					return false;
+
 			}
 		}
 		return true;
@@ -254,129 +276,37 @@ public class Register extends JFrame {
 
 		String pass = new String(password);
 		System.out.println(pass);
-		System.out.println(security);
 
-		if (pass == null || pass == "") {
-			security = 0;
-			System.out.println("ERROR!");
-		}
-
-		if (security == 25)
-			progressBar.setForeground(Color.RED);
-		else if (security == 50)
-			progressBar.setForeground(Color.ORANGE);
-		else if (security == 75)
-			progressBar.setForeground(Color.YELLOW);
-		else if (security == 100)
+		if (pass.length() > 12) {
+			progressBar.setValue(100);
 			progressBar.setForeground(Color.GREEN);
-		progressBar.setValue(security);
 
-		if ((pass.length() > 7 && pass.length() < 21) && length == false) {
-			System.out.println("Longitud correcta");
-			length = true;
-			security = security + 25;
-			System.out.println(security);
-		} else if (security != 0) {
-			security = security - 25;
-			length = false;
-		}
+			lblMedium.setVisible(false);
+			lblStrong.setVisible(true);
+		} else if (pass.length() > 8) {
+			progressBar.setValue(75);
+			progressBar.setForeground(Color.ORANGE);
 
-		if ((pass.equals(".[a-zA-Z].")) && letter == false) {
-			System.out.println("Tiene letra");
-			letter = true;
-			security = security + 25;
-			System.out.println(security);
-		} else if (security != 0) {
-			security = security - 25;
-			letter = false;
-		}
+			lblStrong.setVisible(false);
+			lblWeak.setVisible(false);
+			lblMedium.setVisible(true);
+		} else if (pass.length() > 5) {
+			progressBar.setValue(50);
+			progressBar.setForeground(Color.YELLOW);
 
-		if (!(pass.equals(".\\d.")) && number == false) {
-			System.out.println("Tiene numero");
-			number = true;
-			security += 25;
-			System.out.println(security);
-		} else if (security != 0) {
-			security = security - 25;
-			number = false;
-		}
+			lblMedium.setVisible(false);
+			lblVeryWeak.setVisible(false);
+			lblWeak.setVisible(true);
+		} else if (pass.length() > 3) {
+			progressBar.setValue(25);
+			progressBar.setForeground(Color.RED);
 
-		if (!(pass.equals(".[@#$%^&+=!].")) && specialChar == false) {
-			System.out.println("Tiene caracter especial");
-			specialChar = true;
-			security += 25;
-			System.out.println(security);
-		} else if (security != 0) {
-			security = security - 25;
-			specialChar = false;
+			lblWeak.setVisible(false);
+			lblVeryWeak.setVisible(true);
+		} else if (pass.length() > 1) {
+			lblVeryWeak.setVisible(false);
+			progressBar.setValue(0);
 		}
 
 	}
 }
-
-/*
- * name = textName.getText();
-				age = (int) cbAge.getSelectedItem();
-				username = textUsername.getText();
-				char[] pass = textPassword.getPassword();
-				char[] confirmP = textConfirmPassword.getPassword();
-
-				password = String.valueOf(pass);
-				confirmPassword = String.valueOf(confirmP);
-
-				regex = "^(?=.[a-zA-Z])(?=.\\d)(?=.*[@#$%^&+=!]).{8,20}$";
-
-				if (name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty()
-						|| confirmPassword.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error",
-							JOptionPane.WARNING_MESSAGE);
-
-				} else if (!password.equals(confirmPassword)) {
-					JOptionPane.showMessageDialog(null, "Both passwords didn't match!", "Error",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-
-					User user1 = new User(name, age, username, password);
-
-					try {
-
-						if (!password.matches(regex)) {
-							System.out.println("Incorrect Password");
-
-							if (password.length() < 8 || password.length() > 20) {
-								System.out.println("The password must contain between 8 and 20 characters");
-								security += 25;
-							} else {
-								security -= 25;
-							}
-
-							if (!password.matches(".[a-zA-Z].")) {
-								System.out.println("The password must contain a letter");
-								security += 25;
-							}
-
-							if (!password.matches(".\\d.")) {
-								System.out.println("The password must contain a number");
-								security -= 25;
-							}
-
-							if (!password.matches(".[@#$%^&+=!].")) {
-								System.out.println("The password must contain a special caracter like this: @#$%^&+=!");
-								security -= 25;
-							}
-						} else {
-							System.out.println("Correct Password!");
-							JOptionPane.showMessageDialog(null, "Your User have been created succesfully!", "Saving...",
-									JOptionPane.INFORMATION_MESSAGE);
-							dispose();
-							new Login();
-							user.save(Conexion.obtain(), user1);
-						}
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-
-				}
- * 
- */
-
