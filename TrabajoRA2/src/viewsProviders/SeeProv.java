@@ -76,10 +76,12 @@ public class SeeProv extends JFrame {
 		
 		btnEdit = new JButton("Edit");
 		btnEdit.setBounds(335, 45, 89, 23);
+		btnEdit.setEnabled(false);
 		contentPane.add(btnEdit);
 		
 		btnDelete = new JButton("Delete");
 		btnDelete.setBounds(335, 79, 89, 23);
+		btnDelete.setEnabled(false);
 		contentPane.add(btnDelete);
 		
 		btnReturn = new JButton("Return");
@@ -128,6 +130,9 @@ public class SeeProv extends JFrame {
 				}
 			}else if(o == btnEdit) {
 				
+				dispose();
+				EditProv ep = new EditProv();
+				ep.setVisible(true);
 				
 			}else if(o == btnReturn) {
 				

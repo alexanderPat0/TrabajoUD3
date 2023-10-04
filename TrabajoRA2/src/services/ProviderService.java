@@ -43,7 +43,7 @@ public class ProviderService {
 		Provider provider = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SET id, name, location, mail, phone"
+					"SELECT id, name, location, mail, phone"
 							+ " FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
