@@ -26,11 +26,12 @@ public class ProviderService {
 			} else {
 				consult = conexion.prepareStatement("UPDATE " + this.table
 						+ " SET id = ?, name = ?, location = ?, mail = ?, phone = ? WHERE id = ?");
-				consult.setString(1, provider.getName());
-				consult.setString(2, provider.getLocation());
-				consult.setString(3, provider.getMail());
-				consult.setInt(4, provider.getPhone());
-				consult.setInt(5, provider.getId());
+				consult.setInt(1, provider.getId());
+				consult.setString(2, provider.getName());
+				consult.setString(3, provider.getLocation());
+				consult.setString(4, provider.getMail());
+				consult.setInt(5, provider.getPhone());
+				consult.setInt(6, provider.getId());
 			}
 			consult.executeUpdate();
 		} catch (SQLException ex) {
@@ -85,5 +86,20 @@ public class ProviderService {
 			throw new SQLException(ex);
 		}
 		return providerList;
+	}
+	public List<String>getNameProvs(Connection conexion) throws SQLException{
+		List<String>nameProvs=new ArrayList<>();
+		try {
+			PreparedStatement consult = conexion.prepareStatement(
+					"SELECT id, name"
+							+ " FROM " + this.table);
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				nameProvs.add(result.getString("name"));
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return nameProvs;
 	}
 }

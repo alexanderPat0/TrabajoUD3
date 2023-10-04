@@ -6,24 +6,23 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
-import java.util.Date;
-import java.text.DateFormat;
+import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
-import javax.swing.JTextArea;
-import javax.swing.border.BevelBorder;
+import services.Conexion;
+import test.Test;
 
 @SuppressWarnings("serial")
 public class AddProd extends JFrame {
@@ -32,6 +31,8 @@ public class AddProd extends JFrame {
 	private JButton btnReturn, btnCreate, btnImage;
 	private JTextField txtNombre, txtPrice, txtExpDate;
 	private JLabel lblPrice, lblExpDate, lblNewLabel;
+	private JComboBox<String>comboBox;
+	private List<String>provNames;
 
 
 	/**
@@ -93,8 +94,16 @@ public class AddProd extends JFrame {
 		lblProvider.setBounds(26, 11, 67, 14);
 		panel.add(lblProvider);
 		
-		JComboBox comboBox = new JComboBox();
+		try {
+			provNames=Test.provider.getNameProvs(Conexion.obtain());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		comboBox = new JComboBox<>();
 		comboBox.setBounds(26, 27, 120, 22);
+		for(String a: provNames) {
+			comboBox.addItem(a);
+		}
 		panel.add(comboBox);
 		
 		JLabel lblName = new JLabel("Name:");
