@@ -36,23 +36,6 @@ public class AddProv extends JFrame {
 	private String name, location, mail, phone;
 	private int phoneInt;
 	private Provider provider;
-	
-	/**
-	 * Launch the application.
-	 * @throws ParseException 
-	 */
-	public static void main(String[] args) throws ParseException {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddProv frame = new AddProv();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.

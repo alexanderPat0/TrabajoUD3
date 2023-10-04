@@ -36,29 +36,10 @@ public class EditProv extends JFrame {
 	private String name, location, mail, phone;
 	private int phoneInt;
 	private Provider provider;
-	
-	/**
-	 * Launch the application.
-	 * @throws ParseException 
-	 */
-	public static void main(String[] args) throws ParseException {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditProv frame = new EditProv();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public EditProv() {
+	public EditProv(Provider p) {
 		setTitle("Edit Provider");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 281, 392);
 		setLocationRelativeTo(null);
@@ -97,7 +78,7 @@ public class EditProv extends JFrame {
 		lblName.setBounds(26, 14, 120, 14);
 		panel.add(lblName);
 		
-		txtName = new JTextField();
+		txtName = new JTextField(p.getName());
 		txtName.setBounds(26, 30, 120, 20);
 		panel.add(txtName);
 		txtName.setColumns(10);
@@ -107,7 +88,7 @@ public class EditProv extends JFrame {
 		lblLocation.setBounds(26, 69, 120, 14);
 		panel.add(lblLocation);
 		
-		txtLocation = new JTextField();
+		txtLocation = new JTextField(p.getLocation());
 		txtLocation.setBounds(26, 84, 120, 20);
 		panel.add(txtLocation);
 		txtLocation.setColumns(10);
@@ -117,7 +98,7 @@ public class EditProv extends JFrame {
 		lblMail.setBounds(26, 123, 120, 14);
 		panel.add(lblMail);
 		
-		txtMail = new JTextField();
+		txtMail = new JTextField(p.getMail());
 		txtMail.setColumns(10);
 		txtMail.setBounds(26, 138, 120, 20);
 		panel.add(txtMail);
@@ -127,7 +108,7 @@ public class EditProv extends JFrame {
 		lblPhone.setBounds(26, 177, 120, 14);
 		panel.add(lblPhone);
 		
-		txtPhone = new JTextField();
+		txtPhone = new JTextField(String.valueOf(p.getPhone()));
 		txtPhone.setColumns(10);
 		txtPhone.setBounds(26, 192, 120, 20);
 		panel.add(txtPhone);
@@ -151,13 +132,14 @@ public class EditProv extends JFrame {
 				}else {
 					
 					phoneInt = Integer.parseInt(phone);
-					provider = new Provider(name, location, mail, phoneInt);
+					System.out.println(p.getId());
+					provider = new Provider(p.getId(), name, location, mail, phoneInt);
 					try {
 						Test.provider.save(Conexion.obtain(), provider);
 					} catch (ClassNotFoundException | SQLException e1) {
 						e1.printStackTrace();
 					}
-					JOptionPane.showMessageDialog(null, "You have created a new Provider!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "You have updated the Provider!", "Updating...", JOptionPane.INFORMATION_MESSAGE);
 					dispose();
 					new SeeProv();
 				}
