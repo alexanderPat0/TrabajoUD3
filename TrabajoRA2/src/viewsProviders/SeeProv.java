@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -60,24 +61,28 @@ public class SeeProv extends JFrame {
 			}
 		};
 		scrollPane.setViewportView(table);
+		
+		//Fervi copia desde aqui hasta ...
 
-		btnCreate = new JButton("Create");
-		btnCreate.setBounds(335, 11, 89, 23);
+		btnCreate = new JButton(new ImageIcon("images/icons/create.png"));
+		btnCreate.setBounds(361, 11, 50, 50);
 		contentPane.add(btnCreate);
 
-		btnEdit = new JButton("Edit");
-		btnEdit.setBounds(335, 45, 89, 23);
+		btnEdit = new JButton(new ImageIcon("images/icons/edit.png"));
+		btnEdit.setBounds(361, 74, 50, 50);
 		btnEdit.setEnabled(false);
 		contentPane.add(btnEdit);
 
-		btnDelete = new JButton("Delete");
-		btnDelete.setBounds(335, 79, 89, 23);
+		btnDelete = new JButton(new ImageIcon("images/icons/delete.png"));
+		btnDelete.setBounds(361, 137, 50, 50);
 		btnDelete.setEnabled(false);
 		contentPane.add(btnDelete);
 
-		btnReturn = new JButton("Return");
-		btnReturn.setBounds(335, 227, 89, 23);
+		btnReturn = new JButton(new ImageIcon("images/icons/undo.png"));
+		btnReturn.setBounds(361, 203, 50, 50);
 		contentPane.add(btnReturn);
+		
+		//hasta aqui no bajes mas para solo hasta aqui
 
 		Handler h = new Handler();
 		btnCreate.addActionListener(h);
