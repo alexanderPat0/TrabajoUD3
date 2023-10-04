@@ -122,7 +122,7 @@ public class Login extends JFrame {
 						
 						try {
 							
-							u = UserService.checkUser(Conexion.obtain(), username);
+							u = Test.user.checkUser(Conexion.obtain(), username);
 							if (username.matches(u.getUsername()) &&  password.equals(u.getPassword())){								
 								Test.LogedInUser = u;
 								dispose();

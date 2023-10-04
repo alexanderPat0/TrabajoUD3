@@ -11,9 +11,9 @@ import models.User;
 public class UserService {
 
 	/** The table. */
-	private final static String table = "users";
+	private final  String table = "users";
 
-	public static void save(Connection conexion, User user) throws SQLException {
+	public  void save(Connection conexion, User user) throws SQLException {
 		try {
 			PreparedStatement consult;
 			if (user.getId() == null) {
@@ -43,7 +43,7 @@ public class UserService {
 		User user = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SET id, name, age, username, password"
+					"SELECT id, name, age, username, password"
 							+ " FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
@@ -87,12 +87,12 @@ public class UserService {
 		return userList;
 	}
 	
-	public static User checkUser(Connection conexion, String username) throws SQLException {
+	public User checkUser(Connection conexion, String username) throws SQLException {
 		User user = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 					"SELECT id, name, age, username, password"
-							+ " FROM " + table + " WHERE username = ?");
+							+ " FROM " + this.table + " WHERE username = ?");
 			consult.setString(1, username);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {

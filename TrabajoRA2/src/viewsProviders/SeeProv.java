@@ -18,7 +18,6 @@ public class SeeProv extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JButton btnCreate, btnEdit, btnDelete, btnReturn;
-	private ProviderService provider;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

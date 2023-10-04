@@ -24,6 +24,7 @@ import models.Provider;
 import services.Conexion;
 import services.ProviderService;
 import services.UserService;
+import test.Test;
 import views.Login;
 
 @SuppressWarnings("serial")
@@ -152,7 +153,7 @@ public class AddProv extends JFrame {
 					phoneInt = Integer.parseInt(phone);
 					provider = new Provider(name, location, mail, phoneInt);
 					try {
-						ProviderService.save(Conexion.obtain(), provider);
+						Test.provider.save(Conexion.obtain(), provider);
 					} catch (ClassNotFoundException | SQLException e1) {
 						e1.printStackTrace();
 					}

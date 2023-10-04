@@ -27,6 +27,7 @@ import methods.ImageUtilities;
 import models.User;
 import services.Conexion;
 import services.UserService;
+import test.Test;
 
 public class Register extends JFrame {
 
@@ -243,7 +244,7 @@ public class Register extends JFrame {
 						JOptionPane.showMessageDialog(null, "Your User have been created succesfully!", "Saving...", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 						new Login();
-						UserService.save(Conexion.obtain(), user);
+						Test.user.save(Conexion.obtain(), user);
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();

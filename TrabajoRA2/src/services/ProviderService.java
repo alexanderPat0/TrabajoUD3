@@ -11,20 +11,20 @@ import models.Provider;
 public class ProviderService {
 
 	/** The table. */
-	private final static String table = "providers";
+	private final  String table = "providers";
 
-	public static void save(Connection conexion, Provider provider) throws SQLException {
+	public void save(Connection conexion, Provider provider) throws SQLException {
 		try {
 			PreparedStatement consult;
 			if (provider.getId() == null) {
-				consult = conexion.prepareStatement("INSERT INTO " + table
+				consult = conexion.prepareStatement("INSERT INTO " + this.table
 						+ "(name, location, mail, phone) VALUES(?, ?, ?, ?)");
 				consult.setString(1, provider.getName());
 				consult.setString(2, provider.getLocation());
 				consult.setString(3, provider.getMail());
 				consult.setInt(4, provider.getPhone());
 			} else {
-				consult = conexion.prepareStatement("UPDATE " + table
+				consult = conexion.prepareStatement("UPDATE " + this.table
 						+ " SET id = ?, name = ?, location = ?, mail = ?, phone = ? WHERE id = ?");
 				consult.setString(1, provider.getName());
 				consult.setString(2, provider.getLocation());
