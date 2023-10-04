@@ -58,11 +58,11 @@ public class ProviderService {
 	}
 
 	
-	public void remove(Connection conexion, Provider provider) throws SQLException {
+	public void remove(Connection conexion, Integer id) throws SQLException {
 		try {
 			PreparedStatement consult = conexion
 					.prepareStatement("DELETE FROM " + this.table + " WHERE id = ?");
-			consult.setInt(1, provider.getId());
+			consult.setInt(1, id);
 			consult.executeUpdate();
 		} catch (SQLException ex) {
 			throw new SQLException(ex);

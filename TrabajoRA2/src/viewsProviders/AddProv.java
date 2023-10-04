@@ -171,9 +171,9 @@ public class AddProv extends JFrame {
 		lblCancel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "You have cancelled the registration", "Cancelling...", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You have cancelled the creation", "Cancelling...", JOptionPane.ERROR_MESSAGE);
 				dispose();
-				new Login();
+				new SeeProv();
 			}
 		});		
 		
