@@ -56,7 +56,7 @@ public class ActionService {
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				action = new Action(result.getInt("id"), result.getInt("id_user"), result.getInt("id_product"),
-						result.getInt("id_provider"), result.getInt("action_tipe"), result.getDate("expire_date"));
+						result.getInt("id_provider"), result.getInt("action_tipe"), result.getDate("date"));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -75,22 +75,21 @@ public class ActionService {
 	}
 
 	public List<Action> getAllActions(Connection conexion) throws SQLException {
-		List<Action> productList = new ArrayList<>();
+		List<Action> actionList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 
-					"SELECT id , id_user, id_product, id_provider, action_tipe, amount, category, image, expire_date" + " FROM "
+					"SELECT id , id_user, id_product, id_provider, action_tipe, date" + " FROM "
 							+ this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
-						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date")));
+				actionList.add(new Action(result.getInt("id"), result.getInt("id_user"), result.getInt("id_product"),
+						result.getInt("id_provider"), result.getInt("action_tipe"), result.getDate("expire_date")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
-		return productList;
+		return actionList;
 	}
 
 }
