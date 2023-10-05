@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
@@ -35,6 +36,9 @@ public class AddProd extends JFrame {
 	private JLabel lblPrice, lblExpDate, lblNewLabel;
 	private JComboBox<String>comboBox;
 	private List<String>provNames;
+	private int id;
+	private String name="";
+	private JTextArea textArea;
 
 
 	/**
@@ -141,7 +145,7 @@ public class AddProd extends JFrame {
 		lblNewLabel.setBounds(170, 11, 81, 14);
 		panel.add(lblNewLabel);
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
@@ -175,10 +179,19 @@ public class AddProd extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			// int id_prov, String name, String description,float price, int amount, String category, String image, Date expire_date
 			if(e.getSource() == btnCreate) {
-				
-				
+				name=comboBox.getSelectedItem().toString();
+				String description = textArea.getText();
+				float price=Float.parseFloat(txtPrice.getText());
+				//int amount = Integer.parseInt(txtAmount.getText());
+				//String category=txtCategory.getText();
+				try {
+					id=Test.provider.getProviderID(Conexion.obtain(), name);
+					System.out.println(id);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				} 
 				
 			}else if(e.getSource() == btnReturn) {
 				dispose();

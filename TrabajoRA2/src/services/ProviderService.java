@@ -102,4 +102,23 @@ public class ProviderService {
 		}
 		return nameProvs;
 	}
+	
+	public Integer getProviderID(Connection conexion, String name) throws SQLException {
+		int id_prov=0;
+		try {
+			PreparedStatement consult = conexion.prepareStatement(
+					"SELECT id"
+							+ " FROM " + this.table + " WHERE name = ?");
+			//consult.setInt(1, id_prov);
+			consult.setString(1, name);
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				id_prov=result.getInt("id");
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return id_prov;
+	}
+	
 }
