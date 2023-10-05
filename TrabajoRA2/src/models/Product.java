@@ -4,30 +4,32 @@ import java.sql.Date;
 
 public class Product {
 	
-	private int id_prov;
+	private int id_prov, amount;
 	private Integer id;
 	private String name, description, category, image;
 	private Date expire_date;
 	private float price;
 	
-	public Product(Integer id, int id_prov, String name, String description, float price, String category, String image, Date expire_date) {
+	public Product(Integer id, int id_prov, String name, String description, float price, int amount, String category, String image, Date expire_date) {
 		super();
 		this.id = id;
 		this.id_prov = id_prov;
 		this.name = name;
 		this.description = description;
 		this.price = price;
+		this.amount = amount;
 		this.category = category;
 		this.image = image;
 		this.expire_date = expire_date;
 	}
 
-	public Product(int id_prov, String name, String description,float price, String category, String image, Date expire_date) {
+	public Product(int id_prov, String name, String description,float price, int amount, String category, String image, Date expire_date) {
 		super();
 		this.id_prov = id_prov;
 		this.name = name;
 		this.description = description;
 		this.price = price;
+		this.amount = amount;
 		this.category = category;
 		this.image = image;
 		this.expire_date = expire_date;
@@ -47,6 +49,15 @@ public class Product {
 
 	public int getId_prov() {
 		return id_prov;
+	}
+	
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	public void setId_prov(int id_prov) {
