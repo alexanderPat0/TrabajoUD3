@@ -1,14 +1,14 @@
 package viewsProviders;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,12 +20,13 @@ import models.Provider;
 import services.Conexion;
 import services.ProviderService;
 import test.Test;
+import views.MainPanel;
 
 public class SeeProv extends JFrame {
 
 	private JPanel contentPane;
 	public static JTable table;
-	private JButton btnCreate, btnEdit, btnDelete, btnReturn;
+	private JLabel lblUndo, lblCreate, lblEdit, lblDelete; 
 	private int idRow, row;
 	private Provider p = null;
 	private ProviderService ps = new ProviderService();
@@ -34,11 +35,7 @@ public class SeeProv extends JFrame {
 		super("Providers");
 		try {
 			Test.providerList = Test.provider.getAllProviders(Conexion.obtain());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,34 +58,6 @@ public class SeeProv extends JFrame {
 			}
 		};
 		scrollPane.setViewportView(table);
-		
-		//Fervi copia desde aqui hasta ...
-
-		btnCreate = new JButton(new ImageIcon("images/icons/create.png"));
-		btnCreate.setBounds(361, 11, 50, 50);
-		contentPane.add(btnCreate);
-
-		btnEdit = new JButton(new ImageIcon("images/icons/edit.png"));
-		btnEdit.setBounds(361, 74, 50, 50);
-		btnEdit.setEnabled(false);
-		contentPane.add(btnEdit);
-
-		btnDelete = new JButton(new ImageIcon("images/icons/delete.png"));
-		btnDelete.setBounds(361, 137, 50, 50);
-		btnDelete.setEnabled(false);
-		contentPane.add(btnDelete);
-
-		btnReturn = new JButton(new ImageIcon("images/icons/undo.png"));
-		btnReturn.setBounds(361, 203, 50, 50);
-		contentPane.add(btnReturn);
-		
-		//hasta aqui no bajes mas para solo hasta aqui
-
-		Handler h = new Handler();
-		btnCreate.addActionListener(h);
-		btnEdit.addActionListener(h);
-		btnDelete.addActionListener(h);
-		btnReturn.addActionListener(h);
 
 		table.addMouseListener(new MouseAdapter() {
 
@@ -103,56 +72,103 @@ public class SeeProv extends JFrame {
 				}
 
 				if (idRow >= 0) {
-					btnEdit.setEnabled(true);
-					btnDelete.setEnabled(true);
+					lblEdit.setEnabled(true);
+					lblDelete.setEnabled(true);
 				}
 			}
 		});
+		
+		MouseListen m = new MouseListen();
+		
+		lblCreate = new JLabel(new ImageIcon("images/icons/create.png"));
+		lblCreate.setBounds(361, 11, 50, 50);
+		lblCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		add(lblCreate);
+		lblCreate.addMouseListener(m);
+		
+		lblEdit = new JLabel(new ImageIcon("images/icons/edit.png"));
+		lblEdit.setBounds(361, 74, 50, 50);
+		lblEdit.setEnabled(false);
+		lblEdit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		add(lblEdit);
+		lblEdit.addMouseListener(m);
+		
+		lblDelete = new JLabel(new ImageIcon("images/icons/delete.png"));
+		lblDelete.setBounds(361, 137, 50, 50);
+		lblDelete.setEnabled(false);
+		lblDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		add(lblDelete);
+		lblDelete.addMouseListener(m);
+
+		lblUndo = new JLabel(new ImageIcon("images/icons/undo.png"));
+		lblUndo.setBounds(361, 203, 50, 50);
+		lblUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		add(lblUndo);
+		lblUndo.addMouseListener(m);
 
 		setVisible(true);
 	}
-
-	public class Handler implements ActionListener {
+	
+	public class MouseListen implements MouseListener{
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void mouseClicked(MouseEvent e) {
 			Object o = e.getSource();
+			
+			if(lblEdit.isEnabled()) {
+				if(o == lblEdit) {
+					
+					dispose();
+					EditProv ep = new EditProv(p);
+					ep.setVisible(true);
+					
+				}
+			}
+			
+			if(lblDelete.isEnabled()) {
+				if(o == lblDelete) {
+					
+					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?", "Delete provider",
+							JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
-			if (o == btnCreate) {
-
+					if (option == 1) {
+						System.out.println("You didn't delete the team");
+					} else {
+						try {
+							Test.provider.remove(Conexion.obtain(), idRow);
+							Method.refreshTableProvider();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+					
+				}
+			}
+			
+			if(o == lblCreate) {
+				
 				dispose();
 				AddProv ap = new AddProv();
 				ap.setVisible(true);
-
-			} else if (o == btnDelete) {
-				int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?", "Delete provider",
-						JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
-
-				if (option == 1) {
-					System.out.println("You didn't delete the team");
-				} else {
-					try {
-						Test.provider.remove(Conexion.obtain(), idRow);
-						Method.refreshTableProvider();
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				}
-			} else if (o == btnEdit) {
-
+				
+			}else if(o == lblUndo){
 				dispose();
-				EditProv ep = new EditProv(p);
-				ep.setVisible(true);
-
-			} else if (o == btnReturn) {
-
-				dispose();
-				new views.MainPanel();
-
+				new MainPanel();
 			}
-
 		}
 
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+		
 	}
 
 }
