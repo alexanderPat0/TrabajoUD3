@@ -1,7 +1,6 @@
 package viewsProducts;
 
 import java.awt.Cursor;
-import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -19,9 +18,9 @@ import javax.swing.border.EmptyBorder;
 import methods.Method;
 import models.Product;
 import services.Conexion;
+import services.ProductService;
 import test.Test;
 import views.MainPanel;
-import viewsProviders.AddProv;
 
 @SuppressWarnings("serial")
 public class SeeProd extends JFrame {
@@ -30,16 +29,13 @@ public class SeeProd extends JFrame {
 	private JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo;
 	private int idRow,row;
-	private Product p;
+	private Product p = null;
+	private ProductService ps = new ProductService();
 
 	public SeeProd() {
 		try {
 			Test.productList=Test.product.getAllProducts(Conexion.obtain());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,6 +66,11 @@ public class SeeProd extends JFrame {
 				row=table.getSelectedRow();
 				idRow=Test.productList.get(row).getId();
 				System.out.println(idRow);
+				try {
+					p = ps.getProduct(Conexion.obtain(), idRow);
+				} catch (ClassNotFoundException | SQLException e1) {
+					e1.printStackTrace();
+				}
 				if (idRow >= 0) {
 					lblEdit.setEnabled(true);
 					lblDelete.setEnabled(true);
@@ -118,8 +119,8 @@ public class SeeProd extends JFrame {
 				if(o == lblEdit) {
 					
 					dispose();
-//					EditProd ep = new EditProd(p);
-//					ep.setVisible(true);
+					EditProd ep = new EditProd(p);
+					ep.setVisible(true);
 					
 				}
 			}
