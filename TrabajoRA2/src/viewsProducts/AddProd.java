@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -132,8 +134,9 @@ public class AddProd extends JFrame {
 		txtExpDate.setText("dd/mm/yyyy");
 		txtExpDate.setColumns(10);
 		txtExpDate.setBounds(26, 167, 120, 20);
-		panel.add(txtExpDate);
+		txtExpDate.setEnabled(false);
 		
+		panel.add(txtExpDate);
 		lblNewLabel = new JLabel("Description:");
 		lblNewLabel.setBounds(170, 11, 81, 14);
 		panel.add(lblNewLabel);
@@ -160,7 +163,29 @@ public class AddProd extends JFrame {
 		btnCreate = new JButton("Create");
 		btnCreate.setBounds(359, 235, 103, 23);
 		contentPane.add(btnCreate);
+		ButtonManager handler=new ButtonManager();
+		btnCreate.addActionListener(handler);
+		btnImage.addActionListener(handler);
+		btnReturn.addActionListener(handler);
+		
 		
 		setVisible(true);
+	}
+	public class ButtonManager implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource() == btnCreate) {
+				
+				
+				
+			}else if(e.getSource() == btnReturn) {
+				dispose();
+				new SeeProd();
+			}
+			
+		}
+
 	}
 }

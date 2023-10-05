@@ -1,9 +1,12 @@
 package services;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import models.Product;
@@ -23,15 +26,18 @@ public class ProductService {
 		try {
 			PreparedStatement consult;
 			if (product.getId() == null) {
+				LocalDateTime localDate = LocalDateTime.now().plusMonths(3); 
 				consult = conexion.prepareStatement("INSERT INTO " + this.table
 						+ "(id_prov, name, description, price, category, image, expire_date) VALUES(?, ?, ?, ?, ?, ?, ?)");
+				
 				consult.setInt(1, product.getId_prov());
 				consult.setString(2, product.getName());
 				consult.setString(3, product.getDescription());
 				consult.setFloat(4, product.getPrice());
 				consult.setString(5, product.getCategory());
 				consult.setString(6, product.getImage());
-				consult.setDate(7, product.getExpire_date());
+				Date sqlDate = Date.valueOf(localDate.toLocalDate());
+				consult.setDate(7, sqlDate);
 			} else {
 				consult = conexion.prepareStatement("UPDATE " + this.table
 						+ " SET id_prov = ?, name = ?, description = ?, price = ?, category = ?, image = ?, expire_date = ? WHERE id = ?");
