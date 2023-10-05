@@ -2,6 +2,7 @@ package methods;
 
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -75,6 +76,33 @@ public class Method {
 		DefaultTableModel model = new DefaultTableModel();
 		return model;
 		
+	}
+	
+	public static List<String> getActionString() throws ClassNotFoundException, SQLException {
+		for (Action a : Test.actionList) {
+			String stringAction;
+			
+			
+			stringAction = a.getDate()+": User "+Test.user.getUser(Conexion.obtain(), a.getId_user()).getName()+" has  ";
+			
+			if(a.getAction_tipe() == 1) {
+				stringAction  += "added ";
+			}else if(a.getAction_tipe() == 2) {
+				stringAction  += "sold ";
+			}else if(a.getAction_tipe() == 3) {
+				stringAction  += "deleted ";
+			}else if(a.getAction_tipe() == 4) {
+				stringAction  += "bought ";
+
+			}else 
+			if(a.getId_product() == 0)
+				stringAction  += "the product "+Test.product.getProduct(Conexion.obtain(), a.getId_product()).getName()+".";
+			else
+				stringAction  += "the provider "+Test.provider.getProvider(Conexion.obtain(), a.getId_provider()).getName()+".";
+			
+			
+		}
+		return null;
 	}
 
 }
