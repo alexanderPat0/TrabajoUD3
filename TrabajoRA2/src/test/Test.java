@@ -19,6 +19,7 @@ public class Test {
 	public static List<Provider> providerList;
 	public static List<User> userList;
 	public static List<Action> actionList;
+	public static List<String> listCategories;
 
 	public static ProductService product = new ProductService();
 	public static ProviderService provider = new ProviderService();

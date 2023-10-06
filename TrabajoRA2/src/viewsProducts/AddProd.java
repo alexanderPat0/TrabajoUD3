@@ -55,7 +55,7 @@ public class AddProd extends JFrame {
 	 * Create the frame.
 	 */
 	public AddProd() {
-		setTitle("Adding a new Product");
+		setTitle("Add a new Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 343);
 		setLocationRelativeTo(null);
@@ -107,6 +107,7 @@ public class AddProd extends JFrame {
 		}
 		panel.add(comboBox);
 		
+//		listCategories = Method.createCategories();
 		System.out.println(createCategories());
 		
 		lblName = new JLabel("Name:");
@@ -254,7 +255,6 @@ public class AddProd extends JFrame {
 		@Override
 		public void mouseExited(MouseEvent e) {}
 	}
-
 	
 	public List<String> createCategories() {
 		listCategories.add("Food");
@@ -267,4 +267,7 @@ public class AddProd extends JFrame {
 		
 		return listCategories;
 	}
+
+	
+	
 }

@@ -109,7 +109,7 @@ public class SeeProd extends JFrame {
 		getContentPane().add(lblUndo);
 		lblUndo.addMouseListener(m);
 		
-		lblImage = new JLabel(new ImageIcon("images/MercadonaLogo.png"));
+		lblImage = new JLabel(new ImageIcon("images/products/Image_not_available.png"));
 		lblImage.setBounds(361, 40, 180, 180);
 		contentPane.add(lblImage);
 		

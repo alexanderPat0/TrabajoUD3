@@ -2,19 +2,21 @@ package viewsProducts;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
-import java.text.ParseException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -22,19 +24,27 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
+import methods.Method;
 import models.Product;
 import services.Conexion;
 import test.Test;
+import viewsProviders.SeeProv;
 
 @SuppressWarnings("serial")
 public class EditProd extends JFrame {
 
 	private JPanel contentPane;
-	private JButton btnReturn, btnCreate, btnImage;
-	private JTextField txtNombre, txtPrice, txtExpDate;
-	private JLabel lblPrice, lblExpDate, lblNewLabel;
-	private JComboBox<String>comboBox;
-	private List<String>provNames;
+	private JTextField txtName, txtPrice, txtExpDate, txtAmount;
+	private JTextArea txtArea;
+	private JComboBox<String> cbCategory, comboBox;
+	private JLabel lblName, lblDescription, lblPrice, lblExpDate, lblImage, lblSetImage, lblCategory, lblAmount, lblCreate, lblCancel;
+	private String name, description, price, amount, category, image;
+	private Date date;
+	private int id, amountInt;
+	private float priceFloat;
+	private List<String> provNames;
+	private List<String> listCategories = new ArrayList<String>();
+	private Product p = new Product();
 
 	/**
 	 * Create the frame.
@@ -42,7 +52,7 @@ public class EditProd extends JFrame {
 	public EditProd(Product p) {
 		setTitle("Edit Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 564, 302);
+		setBounds(100, 100, 564, 343);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,6 +84,19 @@ public class EditProd extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+		createCategories();
+		
+		id = p.getId_prov();
+		
+//		try {
+//			id = Test.provider.getProviderID(Conexion.obtain(), name);
+//			System.out.println(id);
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		} 
+		
+		MouseListen ml = new MouseListen();
+		
 		JLabel lblProvider = new JLabel("Provider:");
 		lblProvider.setBounds(26, 11, 67, 14);
 		panel.add(lblProvider);
@@ -84,27 +107,27 @@ public class EditProd extends JFrame {
 			e.printStackTrace();
 		} 
 		comboBox = new JComboBox<>();
-		comboBox.setBounds(26, 27, 120, 22);
+		comboBox.setBounds(26, 27, 135, 22);
 		for(String a: provNames) {
 			comboBox.addItem(a);
 		}
 		panel.add(comboBox);
 		
-		JLabel lblName = new JLabel("Name:");
+		lblName = new JLabel("Name:");
 		lblName.setBounds(26, 60, 46, 14);
 		panel.add(lblName);
 		
-		txtNombre = new JTextField(p.getName());
-		txtNombre.setBounds(26, 74, 120, 20);
-		panel.add(txtNombre);
-		txtNombre.setColumns(10);
+		txtName = new JTextField(p.getName());
+		txtName.setBounds(26, 74, 135, 20);
+		panel.add(txtName);
+		txtName.setColumns(10);
 		
 		lblPrice = new JLabel("Price:");
 		lblPrice.setBounds(26, 105, 46, 14);
 		panel.add(lblPrice);
 		
 		txtPrice = new JTextField(String.valueOf(p.getPrice()));
-		txtPrice.setBounds(26, 120, 120, 20);
+		txtPrice.setBounds(26, 120, 135, 20);
 		panel.add(txtPrice);
 		txtPrice.setColumns(10);
 		
@@ -113,61 +136,141 @@ public class EditProd extends JFrame {
 		panel.add(lblExpDate);
 		
 		txtExpDate = new JTextField();
-		txtExpDate.setText(String.valueOf(p.getExpire_date()));
+		txtExpDate.setText("yyyy/mm/dd");
 		txtExpDate.setColumns(10);
-		txtExpDate.setBounds(26, 167, 120, 20);
+		txtExpDate.setBounds(26, 167, 135, 20);
 		txtExpDate.setEnabled(false);
 		panel.add(txtExpDate);
 		
-		lblNewLabel = new JLabel("Description:");
-		lblNewLabel.setBounds(170, 11, 81, 14);
-		panel.add(lblNewLabel);
+		lblDescription = new JLabel("Description:");
+		lblDescription.setBounds(338, 11, 81, 14);
+		panel.add(lblDescription);
 		
-		JTextArea textArea = new JTextArea(p.getDescription());
-		textArea.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setBounds(172, 27, 156, 160);
-		panel.add(textArea);
+		txtArea = new JTextArea(p.getDescription());
+		txtArea.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		txtArea.setLineWrap(true);
+		txtArea.setWrapStyleWord(true);
+		txtArea.setBounds(338, 26, 156, 160);
+		panel.add(txtArea);
 		
-		JLabel lblImage = new JLabel("Image:");
-		lblImage.setBounds(358, 11, 46, 14);
+		lblImage = new JLabel("Image:");
+		lblImage.setBounds(180, 105, 46, 14);
 		panel.add(lblImage);
 		
-		btnImage = new JButton("Add image");
-		btnImage.setBounds(354, 27, 145, 160);
-		panel.add(btnImage);
+		lblSetImage = new JLabel(new ImageIcon("images/icons/addImg.png"));
+		lblSetImage.setBounds(180, 120, 138, 70);
+		lblSetImage.addMouseListener(ml);
+		panel.add(lblSetImage);
 		
-		btnReturn = new JButton("Return");
-		btnReturn.setBounds(128, 235, 103, 23);
-		contentPane.add(btnReturn);
+		lblCategory = new JLabel("Category:");
+		lblCategory.setBounds(180, 11, 120, 14);
+		panel.add(lblCategory);
 		
-		btnCreate = new JButton("Create");
-		btnCreate.setBounds(359, 235, 103, 23);
-		contentPane.add(btnCreate);
-		ButtonManager handler=new ButtonManager();
-		btnCreate.addActionListener(handler);
-		btnImage.addActionListener(handler);
-		btnReturn.addActionListener(handler);
+		cbCategory = new JComboBox(listCategories.toArray());
+		cbCategory.setBounds(180, 28, 138, 22);
+		panel.add(cbCategory);
 		
+		
+		lblAmount = new JLabel("Amount:");
+		lblAmount.setBounds(180, 60, 46, 14);
+		panel.add(lblAmount);
+		
+		txtAmount = new JTextField(String.valueOf(p.getAmount()));
+		txtAmount.setColumns(10);
+		txtAmount.setBounds(180, 74, 138, 20);
+		panel.add(txtAmount);
+		
+		lblCreate = new JLabel(new ImageIcon("images/icons/add.png"));
+		lblCreate.setBounds(152, 234, 60, 60);
+		contentPane.add(lblCreate);
+		lblCreate.addMouseListener(ml);
+		
+		lblCancel = new JLabel(new ImageIcon("images/icons/red_x.png"));
+		lblCancel.setBounds(316, 234, 60, 60);
+		contentPane.add(lblCancel);		
+		lblCancel.addMouseListener(ml);	
 		
 		setVisible(true);
 	}
-	public class ButtonManager implements ActionListener{
+	
+	public class MouseListen implements MouseListener{
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void mouseClicked(MouseEvent e) {
+			Object o = e.getSource();
 			
-			if(e.getSource() == btnCreate) {
+			if(o == lblCreate) {
+				// int id_prov, String name, String description,float price, int amount, String category, String image, Date expire_date
+				name = txtName.getText();
+				description = txtArea.getText();
+				price = txtPrice.getText();
+				amount = txtPrice.getText();
+				category = String.valueOf(cbCategory.getSelectedItem());
+//				date = Date.valueOf(txtExpDate.getText());
 				
+//					try {
+//						id = Test.provider.getProviderID(Conexion.obtain(), name);
+//						System.out.println(id);
+//					} catch (Exception e1) {
+//						e1.printStackTrace();
+//					} 
 				
-				
-			}else if(e.getSource() == btnReturn) {
+				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
+					
+				}else {
+					
+					priceFloat = Float.parseFloat(txtPrice.getText());
+					amountInt = Integer.parseInt(txtPrice.getText());
+					
+					System.out.println(id+ " " + p.getId());
+					p = new Product(id, name, description, priceFloat, amountInt, category, image, date);
+					try {
+						Test.product.save(Conexion.obtain(), p);
+					} catch (ClassNotFoundException | SQLException e1) {
+						e1.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "You have updated the Product!", "Updating...", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+					new SeeProd();
+				}
+			}else if(o == lblCancel) {
+				JOptionPane.showMessageDialog(null, "You have cancelled the edition", "Cancelling...", JOptionPane.ERROR_MESSAGE);
 				dispose();
 				new SeeProd();
+			}else if(o == lblSetImage) {
+				image = Method.FileChooserImage();
+				if(image != null) {
+					lblSetImage.setIcon(new ImageIcon(image));
+				}
 			}
 			
 		}
 
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
 	}
+		
+	public List<String> createCategories() {
+		listCategories.add("Food");
+		listCategories.add("Drinks");
+		listCategories.add("Fruits");
+		listCategories.add("Yogurt");
+		listCategories.add("Vegetables");
+		listCategories.add("Sweets");
+		listCategories.add("Other");
+		
+		return listCategories;
+	}		
+		
 }
+
