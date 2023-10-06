@@ -1,9 +1,17 @@
 package methods;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -103,6 +111,39 @@ public class Method {
 			
 		}
 		return null;
+	}
+	
+	public static String FileChooserImage() {
+		JFileChooser fc=new JFileChooser();
+		String path="";
+		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF","PNG"); 
+	    fc.setFileFilter(imgFilter);
+	    int result = fc.showOpenDialog(null);
+	    
+	    File file=fc.getSelectedFile();
+	    
+	    if(result!=JFileChooser.CANCEL_OPTION) {
+	    	
+	    	if(file==null || file.getName().equalsIgnoreCase("")) {
+	    		JOptionPane.showMessageDialog(null, "Choose an image");
+	    }else {
+	    	
+	    	
+	    	String pathImage = "images/products/"+file.getName();
+	    	Path destino=Path.of(pathImage).toAbsolutePath();
+	    	
+	    	path=pathImage;
+	    	
+	    	try {
+				Files.copy(file.toPath(), destino,StandardCopyOption.REPLACE_EXISTING);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    }
+	    	}
+	    return path;
 	}
 
 }

@@ -59,6 +59,8 @@ public class SeeProv extends JFrame {
 		};
 		scrollPane.setViewportView(table);
 
+		table.getTableHeader().setResizingAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {

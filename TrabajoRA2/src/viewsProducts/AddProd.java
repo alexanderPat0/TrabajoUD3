@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -27,6 +29,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
+import methods.Method;
 import models.Product;
 import services.Conexion;
 import test.Test;
@@ -36,10 +39,9 @@ import viewsProviders.SeeProv;
 public class AddProd extends JFrame {
 
 	private JPanel contentPane;
-	private JButton btnImage;
 	private JTextField txtName, txtPrice, txtExpDate, textAmount;
-	private JLabel lblName, lblCategory, lblImage, lblAmount, lblPrice, lblExpDate, lblDescription, lblCreate, lblCancel;
-	private JComboBox<String> comboBox;
+	private JLabel lblName, lblCategory, lblImage, lblSetImage, lblAmount, lblPrice, lblExpDate, lblDescription, lblCreate, lblCancel;
+	private JComboBox<String> comboBox, cbCategory;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
 	private int id, amountInt;
@@ -49,29 +51,11 @@ public class AddProd extends JFrame {
 	private JTextArea textArea;
 	private Product p = new Product();
 
-
-	/**
-	 * Launch the application.
-	 * @throws ParseException 
-	 */
-	public static void main(String[] args) throws ParseException {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddProd frame = new AddProd();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
 	public AddProd() {
-		setTitle("Oh boi new product lets go");
+		setTitle("Adding a new Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 343);
 		setLocationRelativeTo(null);
@@ -104,6 +88,8 @@ public class AddProd extends JFrame {
 		panel.setBounds(10, 11, 527, 213);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
+		MouseListen ml = new MouseListen();
 		
 		JLabel lblProvider = new JLabel("Provider:");
 		lblProvider.setBounds(26, 11, 67, 14);
@@ -167,9 +153,10 @@ public class AddProd extends JFrame {
 		lblImage.setBounds(180, 105, 46, 14);
 		panel.add(lblImage);
 		
-		btnImage = new JButton("Add image");
-		btnImage.setBounds(180, 120, 138, 67);
-		panel.add(btnImage);
+		lblSetImage = new JLabel(new ImageIcon("images/icons/addImg.png"));
+		lblSetImage.setBounds(180, 120, 138, 70);
+		lblSetImage.addMouseListener(ml);
+		panel.add(lblSetImage);
 		
 		lblCategory = new JLabel("Category:");
 		lblCategory.setBounds(180, 11, 120, 14);
@@ -184,17 +171,30 @@ public class AddProd extends JFrame {
 		textAmount.setBounds(180, 74, 138, 20);
 		panel.add(textAmount);
 		
-		JComboBox cbCategory = new JComboBox(listCategories.toArray());
+		cbCategory = new JComboBox(listCategories.toArray());
 		cbCategory.setBounds(180, 28, 138, 22);
 		panel.add(cbCategory);
 		
 		lblCreate = new JLabel(new ImageIcon("images/icons/add.png"));
 		lblCreate.setBounds(152, 234, 60, 60);
 		contentPane.add(lblCreate);
-		lblCreate.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
+		lblCreate.addMouseListener(ml);
+		
+		lblCancel = new JLabel(new ImageIcon("images/icons/red_x.png"));
+		lblCancel.setBounds(316, 234, 60, 60);
+		contentPane.add(lblCancel);		
+		lblCancel.addMouseListener(ml);	
+		
+		setVisible(true);
+	}
+	
+	public class MouseListen implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Object o = e.getSource();
+			
+			if(o == lblCreate) {
 				// int id_prov, String name, String description,float price, int amount, String category, String image, Date expire_date
 				name = txtName.getText();
 				description = textArea.getText();
@@ -229,22 +229,30 @@ public class AddProd extends JFrame {
 					dispose();
 					new SeeProv();
 				}
-			}
-		});
-		
-		lblCancel = new JLabel(new ImageIcon("images/icons/red_x.png"));
-		lblCancel.setBounds(316, 234, 60, 60);
-		contentPane.add(lblCancel);		
-		lblCancel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+			}else if(o == lblCancel) {
 				JOptionPane.showMessageDialog(null, "You have cancelled the creation", "Cancelling...", JOptionPane.ERROR_MESSAGE);
 				dispose();
 				new SeeProd();
+			}else if(o == lblSetImage) {
+				image = Method.FileChooserImage();
+				if(image != null) {
+					lblSetImage.setIcon(new ImageIcon(image));
+				}
 			}
-		});	
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
 		
-		setVisible(true);
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
 	}
 
 	

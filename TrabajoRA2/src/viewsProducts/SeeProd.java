@@ -27,19 +27,20 @@ public class SeeProd extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JLabel lblCreate, lblEdit, lblDelete, lblUndo;
+	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage;
 	private int idRow,row;
 	private Product p = null;
 	private ProductService ps = new ProductService();
 
 	public SeeProd() {
+		super("CRUD products");
 		try {
 			Test.productList=Test.product.getAllProducts(Conexion.obtain());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 578, 365);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -48,7 +49,7 @@ public class SeeProd extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 318, 239);
+		scrollPane.setBounds(10, 11, 320, 239);
 		contentPane.add(scrollPane);
 
 		table = new JTable(Method.UploadProductList()) {
@@ -59,6 +60,8 @@ public class SeeProd extends JFrame {
 		};
 		scrollPane.setViewportView(table);
 
+		table.getTableHeader().setResizingAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
 			
 			public void mouseClicked(MouseEvent e) {
@@ -81,30 +84,35 @@ public class SeeProd extends JFrame {
 		MouseListen m = new MouseListen();
 		
 		lblCreate = new JLabel(new ImageIcon("images/icons/create.png"));
-		lblCreate.setBounds(361, 11, 50, 50);
+		lblCreate.setBounds(30, 268, 50, 50);
 		lblCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblCreate);
+		getContentPane().add(lblCreate);
 		lblCreate.addMouseListener(m);
 		
 		lblEdit = new JLabel(new ImageIcon("images/icons/edit.png"));
-		lblEdit.setBounds(361, 74, 50, 50);
+		lblEdit.setBounds(110, 268, 50, 50);
 		lblEdit.setEnabled(false);
 		lblEdit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblEdit);
+		getContentPane().add(lblEdit);
 		lblEdit.addMouseListener(m);
 		
 		lblDelete = new JLabel(new ImageIcon("images/icons/delete.png"));
-		lblDelete.setBounds(361, 137, 50, 50);
+		lblDelete.setBounds(190, 268, 50, 50);
 		lblDelete.setEnabled(false);
 		lblDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblDelete);
+		getContentPane().add(lblDelete);
 		lblDelete.addMouseListener(m);
 
 		lblUndo = new JLabel(new ImageIcon("images/icons/undo.png"));
-		lblUndo.setBounds(361, 203, 50, 50);
+		lblUndo.setBounds(270, 268, 50, 50);
 		lblUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblUndo);
+		getContentPane().add(lblUndo);
 		lblUndo.addMouseListener(m);
+		
+		lblImage = new JLabel(new ImageIcon("images/MercadonaLogo.png"));
+		lblImage.setBounds(361, 40, 180, 180);
+		contentPane.add(lblImage);
+		
 
 		setVisible(true);
 	}
@@ -170,5 +178,4 @@ public class SeeProd extends JFrame {
 		public void mouseExited(MouseEvent e) {}
 		
 	}
-
 }

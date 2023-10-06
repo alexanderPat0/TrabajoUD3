@@ -117,8 +117,8 @@ public class EditProd extends JFrame {
 		txtExpDate.setColumns(10);
 		txtExpDate.setBounds(26, 167, 120, 20);
 		txtExpDate.setEnabled(false);
-		
 		panel.add(txtExpDate);
+		
 		lblNewLabel = new JLabel("Description:");
 		lblNewLabel.setBounds(170, 11, 81, 14);
 		panel.add(lblNewLabel);
