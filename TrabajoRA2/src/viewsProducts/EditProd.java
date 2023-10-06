@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,6 @@ import methods.Method;
 import models.Product;
 import services.Conexion;
 import test.Test;
-import viewsProviders.SeeProv;
 
 @SuppressWarnings("serial")
 public class EditProd extends JFrame {
@@ -39,8 +39,8 @@ public class EditProd extends JFrame {
 	private JComboBox<String> cbCategory, comboBox;
 	private JLabel lblName, lblDescription, lblPrice, lblExpDate, lblImage, lblSetImage, lblCategory, lblAmount, lblCreate, lblCancel;
 	private String name, description, price, amount, category, image;
-	private Date date;
-	private int id, amountInt;
+	private Date date = new Date(20231210);
+	private int id, id_prov, amountInt;
 	private float priceFloat;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
@@ -86,7 +86,13 @@ public class EditProd extends JFrame {
 		
 		createCategories();
 		
-		id = p.getId_prov();
+		id_prov = p.getId_prov();
+		
+		try {
+			Test.productList=Test.product.getAllProducts(Conexion.obtain());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 //		try {
 //			id = Test.provider.getProviderID(Conexion.obtain(), name);
@@ -136,7 +142,7 @@ public class EditProd extends JFrame {
 		panel.add(lblExpDate);
 		
 		txtExpDate = new JTextField();
-		txtExpDate.setText("yyyy/mm/dd");
+		txtExpDate.setText(String.valueOf(date));
 		txtExpDate.setColumns(10);
 		txtExpDate.setBounds(26, 167, 135, 20);
 		txtExpDate.setEnabled(false);
@@ -206,14 +212,16 @@ public class EditProd extends JFrame {
 				price = txtPrice.getText();
 				amount = txtPrice.getText();
 				category = String.valueOf(cbCategory.getSelectedItem());
+				System.out.println(date);
 //				date = Date.valueOf(txtExpDate.getText());
-				
-//					try {
-//						id = Test.provider.getProviderID(Conexion.obtain(), name);
-//						System.out.println(id);
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					} 
+
+				try {
+					id = Test.product.getProductID(Conexion.obtain(), name);
+					System.out.println(id);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				System.out.println(id);
 				
 				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
@@ -223,8 +231,8 @@ public class EditProd extends JFrame {
 					priceFloat = Float.parseFloat(txtPrice.getText());
 					amountInt = Integer.parseInt(txtPrice.getText());
 					
-					System.out.println(id+ " " + p.getId());
-					p = new Product(id, name, description, priceFloat, amountInt, category, image, date);
+					System.out.println(id_prov+ " " + id);
+					p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date);
 					try {
 						Test.product.save(Conexion.obtain(), p);
 					} catch (ClassNotFoundException | SQLException e1) {

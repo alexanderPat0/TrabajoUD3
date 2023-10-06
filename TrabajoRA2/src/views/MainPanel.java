@@ -1,10 +1,11 @@
 package views;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,13 +17,13 @@ public class MainPanel extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JButton btnProducts, btnExit, btnProviders, btnInfo;
+	private JLabel lblProducts, lblExit, lblProviders, lblInfo;
 
 	@SuppressWarnings("serial")
 	public MainPanel() {
 		setTitle("Mercadona");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 475, 315);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -37,60 +38,55 @@ public class MainPanel extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
-		btnProducts = new JButton("Products");
-		btnProducts.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == btnProducts) {
-					
-				}
-			}
-		});
-		btnProducts.setBounds(335, 11, 89, 23);
-		contentPane.add(btnProducts);
+		lblProducts = new JLabel(new ImageIcon("images/icons/products.png"));
+		lblProducts.setToolTipText("Products");
+		lblProducts.setBounds(375, 10, 50, 50);
+		contentPane.add(lblProducts);
 		
-		btnProviders = new JButton("Providers");
-		btnProviders.setBounds(335, 45, 89, 23);
-		contentPane.add(btnProviders);
+		lblProviders = new JLabel(new ImageIcon("images/icons/provider.png"));
+		lblProviders.setToolTipText("Providers");
+		lblProviders.setBounds(375, 75, 50, 50);
+		contentPane.add(lblProviders);
 		
-		btnInfo = new JButton("More info");
-		btnInfo.setBounds(335, 79, 89, 23);
-		contentPane.add(btnInfo);
+		lblInfo = new JLabel(new ImageIcon("images/icons/information.png"));
+		lblInfo.setToolTipText("More Information");
+		lblInfo.setBounds(375, 140, 50, 50);
+		contentPane.add(lblInfo);
 		
-		btnExit = new JButton("Exit");
-		btnExit.setBounds(335, 227, 89, 23);
-		contentPane.add(btnExit);
+		lblExit = new JLabel(new ImageIcon("images/icons/exit.png"));
+		lblExit.setToolTipText("Exit");
+		lblExit.setBounds(375, 210, 50, 50);
+		contentPane.add(lblExit);
 		
-		ButtonManager handler = new ButtonManager();
-		btnProviders.addActionListener(handler);
-		btnProducts.addActionListener(handler);
-		btnExit.addActionListener(handler);
-		btnInfo.addActionListener(handler);
-		
-		
-		
+		MouseListen ml = new MouseListen();
+		lblProviders.addMouseListener(ml);
+		lblProducts.addMouseListener(ml);
+		lblExit.addMouseListener(ml);
+		lblInfo.addMouseListener(ml);
 
 		setVisible(true);
 	}
 	
-	private class ButtonManager implements ActionListener{
+	public class MouseListen implements MouseListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == btnProviders) {
+		public void mouseClicked(MouseEvent e) {
+			Object o = e.getSource();
+			if(e.getSource() == lblProviders) {
 				
 				dispose();
 				new viewsProviders.SeeProv();
 				
-			}else if(e.getSource() == btnProducts) {
+			}else if(e.getSource() == lblProducts) {
 				
 				dispose();
 				new viewsProducts.SeeProd();
 				
-			}else if(e.getSource() == btnInfo) {
+			}else if(e.getSource() == lblInfo) {
 				
 				JOptionPane.showMessageDialog(null, "Oh yeah boi", "BOI", JOptionPane.INFORMATION_MESSAGE);
 				
-			}else if(e.getSource() == btnExit) {
+			}else if(e.getSource() == lblExit) {
 				
 				dispose();
 				new Login();
@@ -99,6 +95,18 @@ public class MainPanel extends JFrame {
 				
 			} 
 		}
-		
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
 	}
 }

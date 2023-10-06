@@ -103,5 +103,23 @@ public class ProductService {
 		}
 		return productList;
 	}
+	
+	public Integer getProductID(Connection conexion, String name) throws SQLException {
+		int id=0;
+		try {
+			PreparedStatement consult = conexion.prepareStatement(
+					"SELECT id"
+							+ " FROM " + this.table + " WHERE name = ?");
+			//consult.setInt(1, id_prov);
+			consult.setString(1, name);
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				id=result.getInt("id");
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return id;
+	}
 
 }
