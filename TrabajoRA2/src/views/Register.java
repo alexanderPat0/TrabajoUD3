@@ -187,16 +187,15 @@ public class Register extends JFrame {
 
 						password = String.valueOf(pass);
 						confirmPassword = String.valueOf(confirmP);
-						if (password.length() < 6) {
-
-							JOptionPane.showMessageDialog(null, "Password must be at least 6 charachters long ",
-									"Error", JOptionPane.WARNING_MESSAGE);
-
-						} else if (name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty()
+						if (name.isEmpty() || age == 0 || username.isEmpty() || password.isEmpty()
 								|| confirmPassword.isEmpty()) {
 							JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error",
 									JOptionPane.WARNING_MESSAGE);
 
+						} else if (password.length() < 6) {
+
+							JOptionPane.showMessageDialog(null, "Password must be at least 6 charachters long ",
+									"Error", JOptionPane.WARNING_MESSAGE);
 						} else if (!password.equals(confirmPassword)) {
 							JOptionPane.showMessageDialog(null, "Both passwords didn't match!", "Error",
 									JOptionPane.WARNING_MESSAGE);
