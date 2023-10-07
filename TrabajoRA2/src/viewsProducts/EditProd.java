@@ -38,10 +38,10 @@ public class EditProd extends JFrame {
 	private JTextArea txtArea;
 	private JComboBox<String> cbCategory, comboBox;
 	private JLabel lblName, lblDescription, lblPrice, lblExpDate, lblImage, lblSetImage, lblCategory, lblAmount, lblCreate, lblCancel;
-	private String name, description, price, amount, category, image;
+	private String name, description, price, category, image;
 	private Date date = new Date(20231210);
 	private int id, id_prov, amountInt;
-	private float priceFloat;
+	private float priceFloat,amount;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
 	private Product p = new Product();
@@ -210,7 +210,7 @@ public class EditProd extends JFrame {
 				name = txtName.getText();
 				description = txtArea.getText();
 				price = txtPrice.getText();
-				amount = txtPrice.getText();
+				amount = Float.parseFloat(txtPrice.getText());
 				category = String.valueOf(cbCategory.getSelectedItem());
 				System.out.println(date);
 //				date = Date.valueOf(txtExpDate.getText());
@@ -223,7 +223,7 @@ public class EditProd extends JFrame {
 				}
 				System.out.println(id);
 				
-				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty()) {
+				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount==0 || category.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
 					
 				}else {
@@ -231,7 +231,7 @@ public class EditProd extends JFrame {
 					priceFloat = Float.parseFloat(txtPrice.getText());
 					amountInt = Integer.parseInt(txtPrice.getText());
 					
-					System.out.println(id_prov+ " " + id);
+					System.out.println(date);
 					p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date);
 					try {
 						Test.product.save(Conexion.obtain(), p);
