@@ -26,7 +26,7 @@ public class ProductService {
 			if (product.getId() == null) {
 				LocalDateTime localDate = LocalDateTime.now().plusMonths(3);
 				consult = conexion.prepareStatement("INSERT INTO " + this.table
-						+ "(id_prov, name, description, price, amount, category, image, expire_date) VALUES(?, ?, ?, ?, ?, ?, ?)");
+						+ "(id_prov, name, description, price, amount, category, image, expire_date) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 
 				consult.setInt(1, product.getId_prov());
 				consult.setString(2, product.getName());
@@ -39,15 +39,16 @@ public class ProductService {
 				consult.setDate(7, sqlDate);
 			} else {
 				consult = conexion.prepareStatement("UPDATE " + this.table
-						+ " SET id_prov = ?, name = ?, description = ?, price = ?, category = ?, image = ?, expire_date = ? WHERE id = ?");
+						+ " SET id_prov = ?, name = ?, description = ?, price = ?, amount = ? , category = ?, image = ?, expire_date = ? WHERE id = ?");
 				consult.setInt(1, product.getId_prov());
 				consult.setString(2, product.getName());
 				consult.setString(3, product.getDescription());
 				consult.setFloat(4, product.getPrice());
-				consult.setString(5, product.getCategory());
-				consult.setString(6, product.getImage());
-				consult.setDate(7, product.getExpire_date());
-				consult.setInt(8, product.getId());
+				consult.setInt(5, product.getAmount());
+				consult.setString(6, product.getCategory());
+				consult.setString(7, product.getImage());
+				consult.setDate(8, product.getExpire_date());
+				consult.setInt(9, product.getId());
 			}
 			consult.executeUpdate();
 		} catch (SQLException ex) {
