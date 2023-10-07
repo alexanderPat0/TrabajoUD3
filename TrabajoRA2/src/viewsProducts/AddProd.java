@@ -2,22 +2,18 @@ package viewsProducts;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
 import methods.Method;
+import models.Action;
 import models.Product;
 import services.Conexion;
 import test.Test;
@@ -205,7 +202,7 @@ public class AddProd extends JFrame {
 //				date = Date.valueOf(txtExpDate.getText());
 				
 					try {
-						id = Test.provider.getProviderID(Conexion.obtain(), name);
+						id = Test.provider.getProviderID(Conexion.obtain(), comboBox.getSelectedItem().toString());
 						System.out.println(id);
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -219,16 +216,30 @@ public class AddProd extends JFrame {
 					priceFloat = Float.parseFloat(txtPrice.getText());
 					amountInt = Integer.parseInt(txtPrice.getText());
 					
-					System.out.println(p.getId());
-					p = new Product(p.getId(), name, description, priceFloat, amountInt, category, image, date);
+					p = new Product(id, name, description, priceFloat, amountInt, category, image, date);
 					try {
 						Test.product.save(Conexion.obtain(), p);
 					} catch (ClassNotFoundException | SQLException e1) {
 						e1.printStackTrace();
 					}
+					int prodId = 0;
+					 try {
+						prodId=  Test.product.getProductID(Conexion.obtain(), name);
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					Action a = new Action(Test.LogedInUser.getId() , prodId , p.getId_prov() , 1 , Date.valueOf(LocalDate.now()));
+					try {
+						Test.action.save(Conexion.obtain(), a);
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(null, "You have created the Product!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
 					dispose();
-					new SeeProv();
+					new SeeProd();
 				}
 			}else if(o == lblCancel) {
 				JOptionPane.showMessageDialog(null, "You have cancelled the creation", "Cancelling...", JOptionPane.ERROR_MESSAGE);
