@@ -36,7 +36,7 @@ import viewsProviders.SeeProv;
 public class AddProd extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtName, txtPrice, txtExpDate, textAmount;
+	private JTextField txtName, txtPrice, txtExpDate, txtAmount;
 	private JLabel lblName, lblCategory, lblImage, lblSetImage, lblAmount, lblPrice, lblExpDate, lblDescription, lblCreate, lblCancel;
 	private JComboBox<String> comboBox, cbCategory;
 	private List<String> provNames;
@@ -164,10 +164,10 @@ public class AddProd extends JFrame {
 		lblAmount.setBounds(180, 60, 46, 14);
 		panel.add(lblAmount);
 		
-		textAmount = new JTextField();
-		textAmount.setColumns(10);
-		textAmount.setBounds(180, 74, 138, 20);
-		panel.add(textAmount);
+		txtAmount = new JTextField();
+		txtAmount.setColumns(10);
+		txtAmount.setBounds(180, 74, 138, 20);
+		panel.add(txtAmount);
 		
 		cbCategory = new JComboBox(listCategories.toArray());
 		cbCategory.setBounds(180, 28, 138, 22);
@@ -197,7 +197,7 @@ public class AddProd extends JFrame {
 				name = txtName.getText();
 				description = textArea.getText();
 				price = txtPrice.getText();
-				amount = txtPrice.getText();
+				amount = txtAmount.getText();
 				category = String.valueOf(cbCategory.getSelectedItem());
 //				date = Date.valueOf(txtExpDate.getText());
 				
@@ -208,38 +208,42 @@ public class AddProd extends JFrame {
 						e1.printStackTrace();
 					} 
 				
-				if(name.isEmpty() ) {
+				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty() || image.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
 					
 				}else {
 					
-					priceFloat = Float.parseFloat(txtPrice.getText());
-					amountInt = Integer.parseInt(txtPrice.getText());
-					
-					p = new Product(id, name, description, priceFloat, amountInt, category, image, date);
-					try {
-						Test.product.save(Conexion.obtain(), p);
-					} catch (ClassNotFoundException | SQLException e1) {
-						e1.printStackTrace();
+					if(price.matches("^-?\\d+(\\.\\d+)?$") && amount.matches("\\d+")) {
+						priceFloat = Float.parseFloat(txtPrice.getText());
+						amountInt = Integer.parseInt(txtAmount.getText());
+						
+						p = new Product(id, name, description, priceFloat, amountInt, category, image, date);
+						try {
+							Test.product.save(Conexion.obtain(), p);
+						} catch (ClassNotFoundException | SQLException e1) {
+							e1.printStackTrace();
+						}
+						int prodId = 0;
+						 try {
+							prodId=  Test.product.getProductID(Conexion.obtain(), name);
+						} catch (ClassNotFoundException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						Action a = new Action(Test.LogedInUser.getId() , prodId , p.getId_prov() , 1 , Date.valueOf(LocalDate.now()));
+						try {
+							Test.action.save(Conexion.obtain(), a);
+						} catch (ClassNotFoundException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						JOptionPane.showMessageDialog(null, "You have created the Product!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						new SeeProd();
+					}else {
+						JOptionPane.showMessageDialog(null, "Price and Amount must be numbers!", "Error", JOptionPane.WARNING_MESSAGE);
 					}
-					int prodId = 0;
-					 try {
-						prodId=  Test.product.getProductID(Conexion.obtain(), name);
-					} catch (ClassNotFoundException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					Action a = new Action(Test.LogedInUser.getId() , prodId , p.getId_prov() , 1 , Date.valueOf(LocalDate.now()));
-					try {
-						Test.action.save(Conexion.obtain(), a);
-					} catch (ClassNotFoundException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					JOptionPane.showMessageDialog(null, "You have created the Product!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
-					new SeeProd();
 				}
 			}else if(o == lblCancel) {
 				JOptionPane.showMessageDialog(null, "You have cancelled the creation", "Cancelling...", JOptionPane.ERROR_MESSAGE);
