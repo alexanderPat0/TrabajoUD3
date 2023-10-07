@@ -201,8 +201,24 @@ public class SeeProd extends JFrame {
 				option = String.valueOf(cbSearch.getSelectedItem());
 				if(option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {
 					inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
+					
+					//ESTO DE AQUI ABAJO SUPUESTAMENTE ES PA QUE CUANDO LE DES A CANCEL NO SALGA ERROR, PERO SALE
+					
+//					if(!inputString.equals(null)) {
+//						if(inputString.trim().equalsIgnoreCase("OK")) {
+//						System.out.println("Mostraria la tabla ordenada por nombres/descrip/prov_name");
+//					}else 
+//						System.out.println("Cancelado");
+//					}
 				}else {
 					inputFloat = Float.parseFloat(JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE));
+					
+					//ESTO DE AQUI ABAJO SUPUESTAMENTE ES PA QUE CUANDO LE DES A CANCEL NO SALGA ERROR, PERO SALE
+					if(inputFloat != 0) {
+						System.out.println("Mostraria la tabla ordenada por precios");
+					}else {
+						System.out.println("No escribiste nada");
+					}
 				}
 			}
 		}
