@@ -32,11 +32,11 @@ public class ProductService {
 				consult.setString(2, product.getName());
 				consult.setString(3, product.getDescription());
 				consult.setFloat(4, product.getPrice());
-				consult.setFloat(4, product.getAmount());
-				consult.setString(5, product.getCategory());
-				consult.setString(6, product.getImage());
+				consult.setFloat(5, product.getAmount());
+				consult.setString(6, product.getCategory());
+				consult.setString(7, product.getImage());
 				Date sqlDate = Date.valueOf(localDate.toLocalDate());
-				consult.setDate(7, sqlDate);
+				consult.setDate(8, sqlDate);
 			} else {
 				consult = conexion.prepareStatement("UPDATE " + this.table
 						+ " SET id_prov = ?, name = ?, description = ?, price = ?, amount = ? , category = ?, image = ?, expire_date = ? WHERE id = ?");
