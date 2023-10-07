@@ -38,10 +38,10 @@ public class EditProd extends JFrame {
 	private JTextArea txtArea;
 	private JComboBox<String> cbCategory, comboBox;
 	private JLabel lblName, lblDescription, lblPrice, lblExpDate, lblImage, lblSetImage, lblCategory, lblAmount, lblCreate, lblCancel;
-	private String name, description, price, category, image;
+	private String name, description, category, image;
 	private Date date = new Date(20231210);
 	private int id, id_prov, amountInt;
-	private float priceFloat,amount;
+	private float amount,price;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
 	private Product p = new Product();
@@ -209,7 +209,7 @@ public class EditProd extends JFrame {
 				// int id_prov, String name, String description,float price, int amount, String category, String image, Date expire_date
 				name = txtName.getText();
 				description = txtArea.getText();
-				price = txtPrice.getText();
+				price = Float.parseFloat(txtPrice.getText());
 				amount = Float.parseFloat(txtPrice.getText());
 				category = String.valueOf(cbCategory.getSelectedItem());
 				System.out.println(date);
@@ -223,17 +223,18 @@ public class EditProd extends JFrame {
 				}
 				System.out.println(id);
 				
-				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount==0 || category.isEmpty()) {
+				if(name.isEmpty() || description.isEmpty() || price==0 || amount==0 || category.isEmpty() || image==null) {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
 					
 				}else {
 					
-					priceFloat = Float.parseFloat(txtPrice.getText());
+					price = Float.parseFloat(txtPrice.getText());
 					amountInt = Integer.parseInt(txtPrice.getText());
 					
 					System.out.println(date);
-					p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date);
+					p = new Product(id, id_prov, name, description, price, amountInt, category, image, date);
 					try {
+						System.out.println("Llegas aquii");
 						Test.product.save(Conexion.obtain(), p);
 					} catch (ClassNotFoundException | SQLException e1) {
 						e1.printStackTrace();
