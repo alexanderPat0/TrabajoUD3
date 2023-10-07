@@ -31,12 +31,14 @@ public class SeeProd extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch;
+	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
+	private JComboBox cbSearch;
 	private int idRow,row;
+	private float inputFloat;
+	private String option, inputString;
 	private Product p = null;
 	private ProductService ps = new ProductService();
 	private List<String> listSearch = new ArrayList<String>();
-	private JLabel lblNewLabel;
 
 	public SeeProd() {
 		super("CRUD products");
@@ -121,9 +123,9 @@ public class SeeProd extends JFrame {
 		lblImage.setBounds(443, 70, 180, 180);
 		contentPane.add(lblImage);
 		
-		JComboBox comboBox = new JComboBox(listSearch.toArray());
-		comboBox.setBounds(443, 25, 140, 20);
-		contentPane.add(comboBox);
+		cbSearch = new JComboBox(listSearch.toArray());
+		cbSearch.setBounds(443, 25, 140, 20);
+		contentPane.add(cbSearch);
 		
 		lblSell = new JLabel(new ImageIcon("images/icons/sell.png"));
 		lblSell.setBounds(270, 268, 50, 50);
@@ -196,7 +198,12 @@ public class SeeProd extends JFrame {
 				dispose();
 				new MainPanel();
 			}else if(o == lblSearch) {
-				JOptionPane.showInputDialog("Elige");
+				option = String.valueOf(cbSearch.getSelectedItem());
+				if(option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {
+					inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
+				}else {
+					inputFloat = Float.parseFloat(JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE));
+				}
 			}
 		}
 
