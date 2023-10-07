@@ -130,18 +130,22 @@ public class EditProv extends JFrame {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
 					
 				}else {
-					
-					phoneInt = Integer.parseInt(phone);
-					System.out.println(p.getId());
-					provider = new Provider(p.getId(), name, location, mail, phoneInt);
-					try {
-						Test.provider.save(Conexion.obtain(), provider);
-					} catch (ClassNotFoundException | SQLException e1) {
-						e1.printStackTrace();
+					if (phone.matches("\\d+")) {
+						phoneInt = Integer.parseInt(phone);
+						System.out.println(p.getId());
+						provider = new Provider(p.getId(), name, location, mail, phoneInt);
+						try {
+							Test.provider.save(Conexion.obtain(), provider);
+						} catch (ClassNotFoundException | SQLException e1) {
+							e1.printStackTrace();
+						}
+						JOptionPane.showMessageDialog(null, "You have updated the Provider!", "Updating...", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						new SeeProv();
+					} else {
+						JOptionPane.showMessageDialog(null, "Phone must be a number!", "Error",
+								JOptionPane.WARNING_MESSAGE);
 					}
-					JOptionPane.showMessageDialog(null, "You have updated the Provider!", "Updating...", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
-					new SeeProv();
 				}
 			}
 		});
