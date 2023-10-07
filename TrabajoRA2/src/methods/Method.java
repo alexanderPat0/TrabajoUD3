@@ -68,11 +68,11 @@ public class Method {
 
 	public static DefaultTableModel refreshTableProduct() {
 
-		String[] cols = { "Name", "Description", "Price", "Category", "Expire_Date" };
+		String[] cols = {"Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
 		DefaultTableModel model = new DefaultTableModel(cols, 0);
 
 		for (Product p : Test.productList) {
-			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getCategory(),
+			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),p.getAmount(), p.getCategory(),
 					p.getExpire_date() };
 			model.addRow(row);
 		}

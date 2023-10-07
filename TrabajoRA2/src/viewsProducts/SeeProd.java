@@ -5,14 +5,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import methods.Method;
@@ -27,20 +31,23 @@ public class SeeProd extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage;
+	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch;
 	private int idRow,row;
 	private Product p = null;
 	private ProductService ps = new ProductService();
+	private List<String> listSearch = new ArrayList<String>();
+	private JLabel lblNewLabel;
 
 	public SeeProd() {
 		super("CRUD products");
+		getListSerch();
 		try {
 			Test.productList=Test.product.getAllProducts(Conexion.obtain());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 578, 365);
+		setBounds(100, 100, 647, 367);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,7 +56,7 @@ public class SeeProd extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 320, 239);
+		scrollPane.setBounds(10, 11, 423, 239);
 		contentPane.add(scrollPane);
 
 		table = new JTable(Method.UploadProductList()) {
@@ -77,6 +84,7 @@ public class SeeProd extends JFrame {
 				if (idRow >= 0) {
 					lblEdit.setEnabled(true);
 					lblDelete.setEnabled(true);
+					lblSell.setEnabled(true);
 				}
 			}
 		});
@@ -104,15 +112,33 @@ public class SeeProd extends JFrame {
 		lblDelete.addMouseListener(m);
 
 		lblUndo = new JLabel(new ImageIcon("images/icons/undo.png"));
-		lblUndo.setBounds(270, 268, 50, 50);
+		lblUndo.setBounds(350, 268, 50, 50);
 		lblUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblUndo);
 		lblUndo.addMouseListener(m);
 		
 		lblImage = new JLabel(new ImageIcon("images/products/Image_not_available.png"));
-		lblImage.setBounds(361, 40, 180, 180);
+		lblImage.setBounds(443, 70, 180, 180);
 		contentPane.add(lblImage);
 		
+		JComboBox comboBox = new JComboBox(listSearch.toArray());
+		comboBox.setBounds(443, 25, 140, 20);
+		contentPane.add(comboBox);
+		
+		lblSell = new JLabel(new ImageIcon("images/icons/sell.png"));
+		lblSell.setBounds(270, 268, 50, 50);
+		lblSell.setEnabled(false);
+		contentPane.add(lblSell);
+		lblSell.addMouseListener(m);
+		
+		lblNewLabel = new JLabel("Search products by: ");
+		lblNewLabel.setBounds(443, 8, 140, 13);
+		contentPane.add(lblNewLabel);
+		
+		lblSearch = new JLabel(new ImageIcon("images/icons/lupa.png"));
+		lblSearch.setBounds(593, 20, 25, 25);
+		contentPane.add(lblSearch);
+		lblSearch.addMouseListener(m);
 
 		setVisible(true);
 	}
@@ -144,11 +170,18 @@ public class SeeProd extends JFrame {
 					} else {
 						try {
 							Test.product.remove(Conexion.obtain(), idRow);
-							Method.refreshTableProvider();
+							table = new JTable(Method.refreshTableProduct());
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
 					}
+					
+				}
+			}
+			
+			if(lblSell.isEnabled()) {
+				if(o == lblSell) {
+					JOptionPane.showConfirmDialog(null, "A");
 					
 				}
 			}
@@ -162,6 +195,8 @@ public class SeeProd extends JFrame {
 			}else if(o == lblUndo){
 				dispose();
 				new MainPanel();
+			}else if(o == lblSearch) {
+				JOptionPane.showInputDialog("Elige");
 			}
 		}
 
@@ -177,5 +212,14 @@ public class SeeProd extends JFrame {
 		@Override
 		public void mouseExited(MouseEvent e) {}
 		
+	}
+	
+	public List<String> getListSerch(){
+		listSearch.add("Name");
+		listSearch.add("Category");
+		listSearch.add("Provider name");
+		listSearch.add("Price");
+		
+		return listSearch;
 	}
 }
