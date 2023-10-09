@@ -42,7 +42,7 @@ public class AddProd extends JFrame {
 	private JComboBox<String> comboBox, cbCategory;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
-	private int id, amountInt;
+	private int id, amountInt, idProd;
 	private String name, description, category, image = "", price, amount;
 	private Date date = null;
 	private float priceFloat;
@@ -225,14 +225,17 @@ public class AddProd extends JFrame {
 						for(Product p: Test.productList) {
 							if(name.equalsIgnoreCase(p.getName())) {
 								try {
-									System.out.println( ps.getProductID(Conexion.obtain(), name));
+									System.out.println(p);
+									ps.getProductID(Conexion.obtain(), name);
+									p.setAmount(amountInt += p.getAmount());
+									ps.save(Conexion.obtain(), p);
 								} catch (ClassNotFoundException | SQLException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
-								amountInt += p.getAmount();
+								
 							}
 						}
+						
 						
 						p = new Product(id, name, description, priceFloat, amountInt, category, image, date, available);
 						try {
