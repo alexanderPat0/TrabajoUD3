@@ -234,9 +234,9 @@ public class EditProd extends JFrame {
 					if (price.matches("^-?\\d+(\\.\\d+)?$") && amount.matches("\\d+")) {
 						priceFloat = Float.parseFloat(txtPrice.getText());
 						amountInt = Integer.parseInt(txtAmount.getText());
-
+						int available = 1;
 						System.out.println(date);
-						p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date);
+						p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date , available);
 						try {
 							System.out.println("Llegas aquii");
 							Test.product.save(Conexion.obtain(), p);
