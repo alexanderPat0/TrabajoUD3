@@ -26,14 +26,15 @@ import viewsProviders.SeeProv;
 public class Method {
 
 	public static TableModel UploadProductList() {
-		String[] col = { "id_prov", "Name", "Description", "Price", "Amount", "Category", "Image", "Expire_Date", "Available" };
+		String[] col = { "id_prov", "Name", "Description", "Price", "Amount", "Category", "Image", "Expire_Date",
+				"Available" };
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
-			if(p.getAvailable()!=0) {
-			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
-					p.getCategory(), p.getImage(), p.getExpire_date(), p.getAvailable() };
-			model.addRow(row);
+			if (p.getAvailable() != 0) {
+				Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
+						p.getCategory(), p.getImage(), p.getExpire_date(), p.getAvailable() };
+				model.addRow(row);
 			}
 		}
 		return model;
@@ -78,9 +79,9 @@ public class Method {
 			it = Test.product.getAllProducts(Conexion.obtain()).iterator();
 			while (it.hasNext()) {
 				Product p = it.next();
-				if(p.getAvailable()!=0) {
-				model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),
-						p.getAmount(), p.getCategory(), p.getImage(), p.getExpire_date() });
+				if (p.getAvailable() != 0) {
+					model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),
+							p.getAmount(), p.getCategory(), p.getImage(), p.getExpire_date() });
 				}
 			}
 		} catch (ClassNotFoundException e) {
@@ -93,33 +94,23 @@ public class Method {
 
 		SeeProd.table.setModel(model);
 	}
-	
+
 	public static void refreshTableProduct2(List<Product> listP) {
 
 		String[] cols = { "Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
 		DefaultTableModel model = new DefaultTableModel(cols, 0);
 		Iterator<Product> it;
-		try {
-			it = Test.product.getAllProducts(Conexion.obtain()).iterator();
-			while (it.hasNext()) {
-				Product p = it.next();
-				model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),
-						p.getAmount(), p.getCategory(), p.getImage(), p.getExpire_date() });
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		it = listP.iterator();
+		while (it.hasNext()) {
+			Product p = it.next();
+			model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
+					p.getCategory(), p.getImage(), p.getExpire_date() });
 		}
-
 		SeeProd.table.setModel(model);
 	}
 
 	public static String getActionString(Action a) throws ClassNotFoundException, SQLException {
-		String stringAction = "User " + Test.user.getUser(Conexion.obtain(), a.getId_user()).getName()
-				+ " has ";
+		String stringAction = "User " + Test.user.getUser(Conexion.obtain(), a.getId_user()).getName() + " has ";
 
 		if (a.getAction_tipe() == 1) {
 			stringAction += "added ";
@@ -128,9 +119,9 @@ public class Method {
 		} else if (a.getAction_tipe() == 3) {
 			stringAction += "deleted ";
 		} else if (a.getAction_tipe() == 4) {
-			stringAction += "bought ";
+			stringAction += "edited ";
 
-		} 
+		}
 		if (a.getId_product() != 0)
 			stringAction += "the product " + Test.product.getProduct(Conexion.obtain(), a.getId_product()).getName()
 					+ ".";

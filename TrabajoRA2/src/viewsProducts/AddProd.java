@@ -258,6 +258,7 @@ public class AddProd extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						Test.actionList.add(a);
 						JOptionPane.showMessageDialog(null, "You have created the Product!", "Creating...", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 						new SeeProd();

@@ -223,9 +223,9 @@ public class SeeProd extends JFrame {
 				dispose();
 				new MainPanel();
 			}else if(o == lblSearch) {
+				
 				option = String.valueOf(cbSearch.getSelectedItem());
-				if(option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {
-//					
+				if(option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {		
 					
 					if(option.equalsIgnoreCase("Provider Name")) {
 						inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);

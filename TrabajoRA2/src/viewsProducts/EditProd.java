@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
 import methods.Method;
+import models.Action;
 import models.Product;
 import services.Conexion;
 import test.Test;
@@ -198,6 +199,15 @@ public class EditProd extends JFrame {
 		lblCancel.setBounds(316, 234, 60, 60);
 		contentPane.add(lblCancel);
 		lblCancel.addMouseListener(ml);
+		
+		name = txtName.getText();
+		try {
+			id = Test.product.getProductID(Conexion.obtain(), name);
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		System.out.println(id);
 
 		setVisible(true);
 	}
@@ -219,13 +229,7 @@ public class EditProd extends JFrame {
 				date = Date.valueOf(txtExpDate.getText());
 				System.out.println(date);
 
-				try {
-					id = Test.product.getProductID(Conexion.obtain(), name);
-					
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				System.out.println(id);
+				
 
 				if (name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty()
 						|| image == null) {
@@ -242,6 +246,15 @@ public class EditProd extends JFrame {
 						try {
 							System.out.println("Llegas aquii");
 							Test.product.save(Conexion.obtain(), p);
+							
+							Action a = new Action(Test.LogedInUser.getId() , id , p.getId_prov() , 4 , Date.valueOf(LocalDate.now()));
+							try {
+								Test.action.save(Conexion.obtain(), a);
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							Test.actionList.add(a);
 						} catch (ClassNotFoundException | SQLException e1) {
 							e1.printStackTrace();
 						}
