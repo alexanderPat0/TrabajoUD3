@@ -26,7 +26,7 @@ public class ProductService {
 			if (product.getId() == null) {
 				LocalDateTime localDate = LocalDateTime.now().plusMonths(3);
 				consult = conexion.prepareStatement("INSERT INTO " + this.table
-						+ "(id_prov, name, description, price, amount, category, image, expire_date) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+						+ "(id_prov, name, description, price, amount, category, image, expire_date, available) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 				consult.setInt(1, product.getId_prov());
 				consult.setString(2, product.getName());
@@ -37,9 +37,10 @@ public class ProductService {
 				consult.setString(7, product.getImage());
 				Date sqlDate = Date.valueOf(localDate.toLocalDate());
 				consult.setDate(8, sqlDate);
+				consult.setInt(9, product.getAvailable());
 			} else {
 				consult = conexion.prepareStatement("UPDATE " + this.table
-						+ " SET id_prov = ?, name = ?, description = ?, price = ?, amount = ? , category = ?, image = ?, expire_date = ? WHERE id = ?");
+						+ " SET id_prov = ?, name = ?, description = ?, price = ?, amount = ? , category = ?, image = ?, expire_date = ? , available = ? WHERE id = ?");
 				consult.setInt(1, product.getId_prov());
 				consult.setString(2, product.getName());
 				consult.setString(3, product.getDescription());
@@ -48,7 +49,9 @@ public class ProductService {
 				consult.setString(6, product.getCategory());
 				consult.setString(7, product.getImage());
 				consult.setDate(8, product.getExpire_date());
-				consult.setInt(9, product.getId());
+				consult.setInt(9, product.getAvailable());
+				consult.setInt(10, product.getId());
+				
 			}
 			consult.executeUpdate();
 		} catch (SQLException ex) {
@@ -60,14 +63,14 @@ public class ProductService {
 		Product product = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, id_prov, name, description, price, amount, category, image, expire_date" + " FROM "
+					"SELECT id, id_prov, name, description, price, amount, category, image, expire_date , available" + " FROM "
 							+ this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				product = new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date"));
+						result.getString("category"), result.getString("image"), result.getDate("expire_date") , result.getInt("available"));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -78,7 +81,7 @@ public class ProductService {
 	// he cambiado Product product por Integer id
 	public void remove(Connection conexion, Integer id) throws SQLException {
 		try {
-			PreparedStatement consult = conexion.prepareStatement("DELETE FROM " + this.table + " WHERE id = ?");
+			PreparedStatement consult = conexion.prepareStatement("SET available = 0 WHERE id = ?");
 			consult.setInt(1, id);
 			consult.executeUpdate();
 		} catch (SQLException ex) {
@@ -91,18 +94,23 @@ public class ProductService {
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 
-					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date" + " FROM "
+					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available" + " FROM "
 							+ this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date")));
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"), result.getInt("available")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return productList;
+	}
+	
+	//Juanjo mete aqui el metodo para buscar por precio
+	public List<Product> getProductsByPrice(Connection conexion , int a , int b) throws SQLException{
+		return null;
 	}
 	
 	public Integer getProductID(Connection conexion, String name) throws SQLException {
