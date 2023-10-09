@@ -180,19 +180,17 @@ public class SeeProd extends JFrame {
 			if (lblDelete.isEnabled()) {
 				if (o == lblDelete) {
 
-					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?",
-							"Delete provider", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this product?",
+							"Delete product", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
-					if (option != 1) {
+					if (option == JOptionPane.YES_OPTION) {
 						try {
 							Test.product.remove(Conexion.obtain(), p.getId());
-
 							Method.refreshTableProduct();
-
 							Action a = new Action(Test.LogedInUser.getId(), p.getId(), p.getId_prov(), 3,
 									Date.valueOf(LocalDate.now()));
 							try {
-								Test.action.remove(Conexion.obtain(), p.getId());
+								Test.action.save(Conexion.obtain(), a);
 							} catch (ClassNotFoundException | SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

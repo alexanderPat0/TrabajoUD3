@@ -30,26 +30,20 @@ public class Test {
 	public static User LogedInUser;
 
 	public static void main(String[] args) {
-
-		// HEHE, SIUUUUUUUUUUUUUUU
-	
+		
 		try {
 			System.out.println("Products:");
-			// int id_prov, String name, String description,float price, String category,
-			// String image, Date expire_date
+
 			productList = product.getAllProducts(Conexion.obtain());
 			for (Product p : productList) {
 				System.out.println(p);
 			}
 			System.out.println("Providers:");
-			// Integer id, String name, String location, String mail, int phone
 			providerList = provider.getAllProviders(Conexion.obtain());
 			for (Provider p : providerList) {
 				System.out.println(p);
 			}
 			System.out.println("Users:");
-			// int id_prov, String name, String description,float price, String category,
-			// String image, Date expire_date
 			userList = user.getAllUsers(Conexion.obtain());
 			for (User p : userList) {
 				System.out.println(p);

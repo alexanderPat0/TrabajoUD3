@@ -4,7 +4,9 @@ import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
 import methods.Method;
+import models.Action;
 import models.Provider;
 import services.Conexion;
 import services.ProviderService;
@@ -128,26 +131,33 @@ public class SeeProv extends JFrame {
 				}
 			}
 			
-			if(lblDelete.isEnabled()) {
-				if(o == lblDelete) {
-					
-					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?", "Delete provider",
-							JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+			if (lblDelete.isEnabled()) {
+				if (o == lblDelete) {
 
-					if (option == 1) {
-						System.out.println("You didn't delete the team");
-					} else {
+					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?",
+							"Delete provider", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+					if (option  == JOptionPane.YES_OPTION) {
 						try {
-							Test.provider.remove(Conexion.obtain(), idRow);
+							Test.provider.remove(Conexion.obtain(), p.getId());
+
 							Method.refreshTableProvider();
+
+							Action a = new Action(Test.LogedInUser.getId(), 0 , p.getId(), 3, Date.valueOf(LocalDate.now()));
+							try {
+								Test.action.save(Conexion.obtain(), a);
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							Test.actionList.add(a);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
 					}
-					
 				}
 			}
-			
+
 			if(o == lblCreate) {
 				
 				dispose();

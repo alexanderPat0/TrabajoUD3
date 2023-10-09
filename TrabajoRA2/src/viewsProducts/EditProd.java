@@ -232,7 +232,7 @@ public class EditProd extends JFrame {
 						int available = 1;
 						p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date , available);
 						try {
-							System.out.println("Llegas aquii");
+							
 							Test.product.save(Conexion.obtain(), p);
 							
 							Action a = new Action(Test.LogedInUser.getId() , id , p.getId_prov() , 4 , Date.valueOf(LocalDate.now()));
