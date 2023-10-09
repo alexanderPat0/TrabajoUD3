@@ -20,6 +20,7 @@ import models.Product;
 import models.Provider;
 import services.Conexion;
 import test.Test;
+import viewsProducts.SeeProd;
 import viewsProviders.SeeProv;
 
 public class Method {
@@ -66,17 +67,27 @@ public class Method {
 		SeeProv.table.setModel(model);
 	}
 
-	public static DefaultTableModel refreshTableProduct() {
+	public static void refreshTableProduct() {
 
 		String[] cols = {"Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
 		DefaultTableModel model = new DefaultTableModel(cols, 0);
-
-		for (Product p : Test.productList) {
-			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),p.getAmount(), p.getCategory(),
-					p.getExpire_date() };
-			model.addRow(row);
+		Iterator<Product>it;
+		try {
+			it=Test.product.getAllProducts(Conexion.obtain()).iterator();
+			while(it.hasNext()) {
+				Product p=it.next();
+				model.addRow(new Object[] {p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(), p.getCategory(),
+					p.getImage(), p.getExpire_date() });
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return model;
+		
+		SeeProd.table.setModel(model);
 	}
 
 	public static DefaultTableModel showLog() {

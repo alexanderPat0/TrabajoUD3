@@ -30,7 +30,7 @@ import views.MainPanel;
 public class SeeProd extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
+	public static JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
 	private JComboBox cbSearch;
 	private int idRow,row;
@@ -172,7 +172,7 @@ public class SeeProd extends JFrame {
 					} else {
 						try {
 							Test.product.remove(Conexion.obtain(), idRow);
-							table = new JTable(Method.refreshTableProduct());
+							Method.refreshTableProduct();
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
