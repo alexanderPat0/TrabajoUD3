@@ -30,8 +30,8 @@ public class Method {
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
-			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(), p.getCategory(),
-					p.getImage(), p.getExpire_date() };
+			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
+					p.getCategory(), p.getImage(), p.getExpire_date() };
 			model.addRow(row);
 		}
 		return model;
@@ -69,15 +69,15 @@ public class Method {
 
 	public static void refreshTableProduct() {
 
-		String[] cols = {"Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
+		String[] cols = { "Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
 		DefaultTableModel model = new DefaultTableModel(cols, 0);
-		Iterator<Product>it;
+		Iterator<Product> it;
 		try {
-			it=Test.product.getAllProducts(Conexion.obtain()).iterator();
-			while(it.hasNext()) {
-				Product p=it.next();
-				model.addRow(new Object[] {p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(), p.getCategory(),
-					p.getImage(), p.getExpire_date() });
+			it = Test.product.getAllProducts(Conexion.obtain()).iterator();
+			while (it.hasNext()) {
+				Product p = it.next();
+				model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),
+						p.getAmount(), p.getCategory(), p.getImage(), p.getExpire_date() });
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -86,75 +86,64 @@ public class Method {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		SeeProd.table.setModel(model);
 	}
 
-	public static DefaultTableModel showLog() {
+	public static String getActionString(Action a) throws ClassNotFoundException, SQLException {
+		String stringAction = "User " + Test.user.getUser(Conexion.obtain(), a.getId_user()).getName()
+				+ " has ";
 
-		DefaultTableModel model = new DefaultTableModel();
-		return model;
-		
-	}
-	
-	public static List<String> getActionString() throws ClassNotFoundException, SQLException {
-		for (Action a : Test.actionList) {
-			String stringAction;
-			
-			
-			stringAction = a.getDate()+": User "+Test.user.getUser(Conexion.obtain(), a.getId_user()).getName()+" has  ";
-			
-			if(a.getAction_tipe() == 1) {
-				stringAction  += "added ";
-			}else if(a.getAction_tipe() == 2) {
-				stringAction  += "sold ";
-			}else if(a.getAction_tipe() == 3) {
-				stringAction  += "deleted ";
-			}else if(a.getAction_tipe() == 4) {
-				stringAction  += "bought ";
+		if (a.getAction_tipe() == 1) {
+			stringAction += "added ";
+		} else if (a.getAction_tipe() == 2) {
+			stringAction += "sold ";
+		} else if (a.getAction_tipe() == 3) {
+			stringAction += "deleted ";
+		} else if (a.getAction_tipe() == 4) {
+			stringAction += "bought ";
 
-			}else 
-			if(a.getId_product() == 0)
-				stringAction  += "the product "+Test.product.getProduct(Conexion.obtain(), a.getId_product()).getName()+".";
-			else
-				stringAction  += "the provider "+Test.provider.getProvider(Conexion.obtain(), a.getId_provider()).getName()+".";
-			
-			
-		}
-		return null;
+		} 
+		if (a.getId_product() == 0)
+			stringAction += "the product " + Test.product.getProduct(Conexion.obtain(), a.getId_product()).getName()
+					+ ".";
+		else
+			stringAction += "the provider " + Test.provider.getProvider(Conexion.obtain(), a.getId_provider()).getName()
+					+ ".";
+
+		return stringAction;
 	}
-	
+
 	public static String FileChooserImage() {
-		JFileChooser fc=new JFileChooser();
-		String path="";
+		JFileChooser fc = new JFileChooser();
+		String path = "";
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF","PNG"); 
-	    fc.setFileFilter(imgFilter);
-	    int result = fc.showOpenDialog(null);
-	    
-	    File file=fc.getSelectedFile();
-	    
-	    if(result!=JFileChooser.CANCEL_OPTION) {
-	    	
-	    	if(file==null || file.getName().equalsIgnoreCase("")) {
-	    		path="images/products/Image_not_available.png";
-	    }else {
-	    	
-	    	
-	    	String pathImage = "images/products/"+file.getName();
-	    	Path destino=Path.of(pathImage).toAbsolutePath();
-	    	
-	    	path=pathImage;
-	    	
-	    	try {
-				Files.copy(file.toPath(), destino,StandardCopyOption.REPLACE_EXISTING);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
+		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
+		fc.setFileFilter(imgFilter);
+		int result = fc.showOpenDialog(null);
+
+		File file = fc.getSelectedFile();
+
+		if (result != JFileChooser.CANCEL_OPTION) {
+
+			if (file == null || file.getName().equalsIgnoreCase("")) {
+				path = "images/products/Image_not_available.png";
+			} else {
+
+				String pathImage = "images/products/" + file.getName();
+				Path destino = Path.of(pathImage).toAbsolutePath();
+
+				path = pathImage;
+
+				try {
+					Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-	    }
-	    	}
-	    return path;
+		}
+		return path;
 	}
 
 }

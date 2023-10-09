@@ -18,20 +18,21 @@ public class Test {
 	public static List<Product> productList;
 	public static List<Provider> providerList;
 	public static List<User> userList;
-	public static List<Action> actionList;
 	public static List<String> listCategories;
+	public static List<Action> actionList;
 
 	public static ProductService product = new ProductService();
 	public static ProviderService provider = new ProviderService();
 	public static UserService user = new UserService();
 	public static ActionService action = new ActionService();
 
+
 	public static User LogedInUser;
 
 	public static void main(String[] args) {
 
 		// HEHE, SIUUUUUUUUUUUUUUU
-
+	
 		try {
 			System.out.println("Products:");
 			// int id_prov, String name, String description,float price, String category,

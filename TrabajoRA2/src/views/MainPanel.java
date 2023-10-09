@@ -2,6 +2,7 @@ package views;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,6 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import methods.Method;
+import models.Action;
+import test.Test;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JFrame {
@@ -19,11 +25,10 @@ public class MainPanel extends JFrame {
 	private JTable table;
 	private JLabel lblProducts, lblExit, lblProviders, lblInfo;
 
-	@SuppressWarnings("serial")
 	public MainPanel() {
 		setTitle("Mercadona");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 475, 315);
+		setBounds(100, 100, 555, 315);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -32,30 +37,59 @@ public class MainPanel extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 315, 239);
+		scrollPane.setBounds(10, 11, 453, 239);
 		contentPane.add(scrollPane);
 		
-		table = new JTable();
+
+		DefaultTableModel model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
+		model.setColumnIdentifiers(
+				new String[] { "Date", "Log" });
+
+		for (Action a : Test.actionList) {
+			String stringAction = "";
+			try {
+				stringAction = Method.getActionString(a);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			model.addRow(new Object[] { a.getDate() , stringAction});
+		}
+
+		table = new JTable(model);
+		
 		scrollPane.setViewportView(table);
+
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		table.getColumnModel().getColumn(1).setPreferredWidth(30);
+		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+
 		
 		lblProducts = new JLabel(new ImageIcon("images/icons/products.png"));
 		lblProducts.setToolTipText("Products");
-		lblProducts.setBounds(375, 10, 50, 50);
+		lblProducts.setBounds(473, 11, 50, 50);
 		contentPane.add(lblProducts);
 		
 		lblProviders = new JLabel(new ImageIcon("images/icons/provider.png"));
 		lblProviders.setToolTipText("Providers");
-		lblProviders.setBounds(375, 75, 50, 50);
+		lblProviders.setBounds(473, 76, 50, 50);
 		contentPane.add(lblProviders);
 		
 		lblInfo = new JLabel(new ImageIcon("images/icons/information.png"));
 		lblInfo.setToolTipText("More Information");
-		lblInfo.setBounds(375, 140, 50, 50);
+		lblInfo.setBounds(473, 141, 50, 50);
 		contentPane.add(lblInfo);
 		
 		lblExit = new JLabel(new ImageIcon("images/icons/exit.png"));
 		lblExit.setToolTipText("Exit");
-		lblExit.setBounds(375, 210, 50, 50);
+		lblExit.setBounds(473, 211, 50, 50);
 		contentPane.add(lblExit);
 		
 		MouseListen ml = new MouseListen();
