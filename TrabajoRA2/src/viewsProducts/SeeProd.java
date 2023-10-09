@@ -79,17 +79,18 @@ public class SeeProd extends JFrame {
 		table.addMouseListener(new MouseAdapter() {
 			
 			public void mouseClicked(MouseEvent e) {
-				// Integer id, int id_prov, String name, String description, float price, String category, String image, Date expire_date
-				
 				
 				row=table.getSelectedRow();
+				
+				String name = (String) table.getValueAt(row, 1);
+
 				idRow=Test.productList.get(row).getId();
 				image=Test.productList.get(row).getImage();
 				lblImage.setIcon(new ImageIcon(image));
 				try {
 					System.out.println(idRow);
 					Method.UploadProductList();
-					p = ps.getProduct(Conexion.obtain(), idRow);
+					p = ps.getProduct(Conexion.obtain(), ps.getProductID(Conexion.obtain(), name));
 					System.out.println(p);
 					
 				} catch (ClassNotFoundException | SQLException e1) {
@@ -185,7 +186,7 @@ public class SeeProd extends JFrame {
 						System.out.println("You didn't delete the team");
 					} else {
 						try {
-							Test.product.remove(Conexion.obtain(), idRow);
+							Test.product.remove(Conexion.obtain(), p.getId());
 							
 							Method.refreshTableProduct();
 							
