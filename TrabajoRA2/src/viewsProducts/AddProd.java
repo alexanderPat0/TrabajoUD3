@@ -29,9 +29,7 @@ import methods.Method;
 import models.Action;
 import models.Product;
 import services.Conexion;
-import services.ProductService;
 import test.Test;
-import viewsProviders.SeeProv;
 
 @SuppressWarnings("serial")
 public class AddProd extends JFrame {
@@ -43,17 +41,14 @@ public class AddProd extends JFrame {
 	private JComboBox<String> comboBox, cbCategory;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
-	private int id, amountInt, idProd;
+	private int id, amountInt;
 	private String name, description, category, image = "", price, amount;
 	private Date date = null;
 	private float priceFloat;
 	private JTextArea textArea;
 	private Product p = new Product(), existingProduct = new Product();
-	private ProductService ps = new ProductService();
 
-	/**
-	 * Create the frame.
-	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AddProd() {
 		setTitle("Add a new Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

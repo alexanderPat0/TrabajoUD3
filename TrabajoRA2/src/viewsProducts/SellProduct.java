@@ -27,24 +27,23 @@ import javax.swing.border.EmptyBorder;
 import methods.ImageUtilities;
 import models.Product;
 import services.Conexion;
-import services.ProductService;
 import test.Test;
 
+@SuppressWarnings("serial")
 public class SellProduct extends JFrame {
 
 	private JPanel contentPane, panel, panel2;
 	private JLabel lblImage, lblTittle, lblSelectAmount;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbAmount;
 	private List<Integer> listAmount = new ArrayList<Integer>();
 	private JLabel lblInfo, lblPriceUnit, lbl_1, lbl_2, lbl_3, lblTotalPrice, lblStocks, lblSave, lblCancel;
 	private JTextField UnitPrice, TotalPrice, textStock;
 	private Product p = new Product();
+	@SuppressWarnings("unused")
 	private int amount, available = 1, finalStock;
-	private ProductService ps = new ProductService();
 
-	/**
-	 * Create the frame.
-	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public SellProduct(Product p2) {
 		super("Sell a Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,10 +106,8 @@ public class SellProduct extends JFrame {
 					cbAmount.setSelectedItem(p.getAmount());
 				}
 					amount = p.getAmount() - selectedValue;
-					System.out.println(amount);
 					textStock.setText(String.valueOf(amount));
 					finalStock = amount;
-				int selectedValue2 = (int) cbAmount.getSelectedItem();
 				float price = p.getPrice();
 
 				TotalPrice.setText(String.valueOf(price * selectedValue));
@@ -200,12 +197,9 @@ public class SellProduct extends JFrame {
 			Object o = e.getSource();
 			amount = Integer.parseInt(textStock.getText());
 			if(o == lblSave) {
-				
-				System.out.println("Amount: " + amount);
-				System.out.println("Available: "+available);
+
 					Product p2 = new Product(p.getId(), p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
 							p.getImage(), p.getExpire_date(), available);
-					System.out.println(p2);
 					try {
 						Test.product.save(Conexion.obtain(), p2);
 					} catch (ClassNotFoundException | SQLException e1) {

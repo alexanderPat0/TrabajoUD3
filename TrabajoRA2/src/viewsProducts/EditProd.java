@@ -53,6 +53,7 @@ public class EditProd extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public EditProd(Product p) {
 		this.image=p.getImage();
 		setTitle("Edit Product");
@@ -98,13 +99,6 @@ public class EditProd extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-//		try {
-//			id = Test.provider.getProviderID(Conexion.obtain(), name);
-//			System.out.println(id);
-//		} catch (Exception e1) {
-//			e1.printStackTrace();
-//		} 
 
 		MouseListen ml = new MouseListen();
 
@@ -207,8 +201,6 @@ public class EditProd extends JFrame {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		System.out.println(id);
-
 		setVisible(true);
 	}
 
@@ -227,9 +219,6 @@ public class EditProd extends JFrame {
 				amount = txtAmount.getText();
 				category = String.valueOf(cbCategory.getSelectedItem());
 				date = Date.valueOf(txtExpDate.getText());
-				System.out.println(date);
-
-				
 
 				if (name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty()
 						|| image == null) {
@@ -241,7 +230,6 @@ public class EditProd extends JFrame {
 						priceFloat = Float.parseFloat(txtPrice.getText());
 						amountInt = Integer.parseInt(txtAmount.getText());
 						int available = 1;
-						System.out.println(date);
 						p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date , available);
 						try {
 							System.out.println("Llegas aquii");

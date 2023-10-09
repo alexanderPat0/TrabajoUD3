@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -36,6 +35,7 @@ public class SeeProd extends JFrame {
 	private JPanel contentPane;
 	public static JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbSearch;
 	private int idRow, row;
 	private float inputFloat;
@@ -45,6 +45,7 @@ public class SeeProd extends JFrame {
 	private List<String> listSearch = new ArrayList<String>();
 	private List<String> listCategories = createCategories();
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public SeeProd() {
 		super("CRUD products");
 		getListSerch();
@@ -88,12 +89,8 @@ public class SeeProd extends JFrame {
 				image = Test.productList.get(row).getImage();
 				lblImage.setIcon(new ImageIcon(image));
 				try {
-
-					System.out.println(idRow);
 					Method.UploadProductList();
 					p = ps.getProduct(Conexion.obtain(), ps.getProductID(Conexion.obtain(), name));
-					System.out.println(p);
-
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -186,9 +183,7 @@ public class SeeProd extends JFrame {
 					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?",
 							"Delete provider", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
-					if (option == 1) {
-						System.out.println("You didn't delete the team");
-					} else {
+					if (option != 1) {
 						try {
 							Test.product.remove(Conexion.obtain(), p.getId());
 
