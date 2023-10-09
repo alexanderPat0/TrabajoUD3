@@ -166,7 +166,7 @@ public class SeeProd extends JFrame {
 				if(o == lblEdit) {
 					
 					dispose();
-					EditProd ep = new EditProd(p);
+					EditProd ep = new EditProd(p,image);
 					ep.setVisible(true);
 					
 				}

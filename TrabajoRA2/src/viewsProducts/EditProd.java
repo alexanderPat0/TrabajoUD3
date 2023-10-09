@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -51,7 +52,8 @@ public class EditProd extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EditProd(Product p) {
+	public EditProd(Product p,String image) {
+		this.image=image;
 		setTitle("Edit Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 343);
@@ -258,6 +260,8 @@ public class EditProd extends JFrame {
 				dispose();
 				new SeeProd();
 			} else if (o == lblSetImage) {
+				File f=new File(image);
+				f.delete();
 				image = Method.FileChooserImage();
 				if (image != null) {
 					lblSetImage.setIcon(new ImageIcon(image));
