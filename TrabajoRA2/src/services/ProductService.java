@@ -112,9 +112,27 @@ public class ProductService {
 		return productList;
 	}
 
-	// Juanjo mete aqui el metodo para buscar por precio
+	
 	public List<Product> getProductsByPrice(Connection conexion, int a, int b) throws SQLException {
-		return null;
+		List<Product> productList = new ArrayList<>();
+		try {
+			PreparedStatement consult = conexion.prepareStatement(
+
+					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
+							+ " FROM " + this.table + " WHERE price >= ? AND price <= ?");
+					consult.setInt(1, a);
+					consult.setInt(2, b);
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
+						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available")));
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return productList;
 	}
 
 	public List<Product> getNameProducts(Connection conexion, String name) throws SQLException {
@@ -157,13 +175,14 @@ public class ProductService {
 		return productList;
 	}
 
-	public List<Product> getProductsByCategory(Connection conexion, String provider_name) throws SQLException {
+	public List<Product> getProductsByCategory(Connection conexion, String category) throws SQLException {
 		List<Product> productList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-
 					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
-							+ " FROM " + this.table + " WHERE category = ?");
+							+ " FROM " + this.table + " WHERE category = ? AND available = ?");
+			consult.setString(1, category);
+			consult.setInt(2, 1);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
@@ -187,6 +206,29 @@ public class ProductService {
 							+ this.table
 							+ " INNER JOIN providers ON products.id_prov = providers.id WHERE providers.name = ? AND products.available = ?");
 				consult.setString(1, provider_name);
+				consult.setInt(2, 1);
+
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				
+				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
+						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available")));
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return productList;
+	}
+	
+	public List<Product> getProductsByName(Connection conexion, String name) throws SQLException {
+		List<Product> productList = new ArrayList<>();
+		try {
+			PreparedStatement consult = conexion.prepareStatement(
+					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
+							+ " FROM " + this.table + " WHERE name = ? AND available = ?");
+				consult.setString(1, name);
 				consult.setInt(2, 1);
 
 			ResultSet result = consult.executeQuery();

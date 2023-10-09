@@ -222,35 +222,19 @@ public class AddProd extends JFrame {
 						priceFloat = Float.parseFloat(txtPrice.getText());
 						amountInt = Integer.parseInt(txtAmount.getText());
 						
-						for(Product p: Test.productList) {
-							if(name.equalsIgnoreCase(p.getName())) {
-								try {
-									System.out.println(p);
-									ps.getProductID(Conexion.obtain(), name);
-									p.setAmount(amountInt += p.getAmount());
-									ps.save(Conexion.obtain(), p);
-								} catch (ClassNotFoundException | SQLException e1) {
-									e1.printStackTrace();
-								}
-								
-							}
-						}
-						
-						
 						p = new Product(id, name, description, priceFloat, amountInt, category, image, date, available);
-						try {
-							Test.product.save(Conexion.obtain(), p);
-						} catch (ClassNotFoundException | SQLException e1) {
-							e1.printStackTrace();
-						}
+							try {
+								Test.product.save(Conexion.obtain(), p);
+							} catch (ClassNotFoundException | SQLException e1) {
+								e1.printStackTrace();
+							}
 						int prodId = 0;
-						 try {
-							prodId=  Test.product.getProductID(Conexion.obtain(), name);
-						} catch (ClassNotFoundException | SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
+							 try {
+								prodId=  Test.product.getProductID(Conexion.obtain(), name);
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						Action a = new Action(Test.LogedInUser.getId() , prodId , p.getId_prov() , 1 , Date.valueOf(LocalDate.now()));
 						try {
 							Test.action.save(Conexion.obtain(), a);
@@ -305,6 +289,22 @@ public class AddProd extends JFrame {
 		return listCategories;
 	}
 
+	
+//	for(Product p: Test.productList) {
+//		if(name.equalsIgnoreCase(p.getName())) {
+//			try {
+//				System.out.println(p);
+//				ps.getProductID(Conexion.obtain(), name);
+//				p.setAmount(amountInt += p.getAmount());
+//				ps.save(Conexion.obtain(), p);
+//			} catch (ClassNotFoundException | SQLException e1) {
+//				e1.printStackTrace();
+//			}
+//			
+//		}else {
+//			
+//		}
+//	}
 	
 	
 }

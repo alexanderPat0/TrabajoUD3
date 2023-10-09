@@ -37,9 +37,9 @@ public class SeeProd extends JFrame {
 	public static JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
 	private JComboBox cbSearch;
-	private int idRow,row;
+	private int idRow, row;
 	private float inputFloat;
-	private String option, inputString,image;
+	private String option, inputString, image;
 	private Product p = null;
 	private ProductService ps = new ProductService();
 	private List<String> listSearch = new ArrayList<String>();
@@ -49,7 +49,7 @@ public class SeeProd extends JFrame {
 		super("CRUD products");
 		getListSerch();
 		try {
-			Test.productList=Test.product.getAllProducts(Conexion.obtain());
+			Test.productList = Test.product.getAllProducts(Conexion.obtain());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,38 +61,38 @@ public class SeeProd extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 11, 423, 239);
 		contentPane.add(scrollPane);
 
 		table = new JTable(Method.UploadProductList()) {
 			public boolean isCellEditable(int rowIndex, int vColIndex) {
-	            return false;
-	        
+				return false;
+
 			}
 		};
 		scrollPane.setViewportView(table);
 
 		table.getTableHeader().setResizingAllowed(false);
-        table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
-			
+
 			public void mouseClicked(MouseEvent e) {
-				
-				row=table.getSelectedRow();
-				
+
+				row = table.getSelectedRow();
+
 				String name = (String) table.getValueAt(row, 1);
 
-				idRow=Test.productList.get(row).getId();
-				image=Test.productList.get(row).getImage();
+				idRow = Test.productList.get(row).getId();
+				image = Test.productList.get(row).getImage();
 				lblImage.setIcon(new ImageIcon(image));
 				try {
 					System.out.println(idRow);
 					Method.UploadProductList();
 					p = ps.getProduct(Conexion.obtain(), ps.getProductID(Conexion.obtain(), name));
 					System.out.println(p);
-					
+
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -101,25 +101,25 @@ public class SeeProd extends JFrame {
 					lblDelete.setEnabled(true);
 					lblSell.setEnabled(true);
 				}
-				
+
 			}
 		});
-		
+
 		MouseListen m = new MouseListen();
-		
+
 		lblCreate = new JLabel(new ImageIcon("images/icons/create.png"));
 		lblCreate.setBounds(30, 268, 50, 50);
 		lblCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblCreate);
 		lblCreate.addMouseListener(m);
-		
+
 		lblEdit = new JLabel(new ImageIcon("images/icons/edit.png"));
 		lblEdit.setBounds(110, 268, 50, 50);
 		lblEdit.setEnabled(false);
 		lblEdit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblEdit);
 		lblEdit.addMouseListener(m);
-		
+
 		lblDelete = new JLabel(new ImageIcon("images/icons/delete.png"));
 		lblDelete.setBounds(190, 268, 50, 50);
 		lblDelete.setEnabled(false);
@@ -132,25 +132,25 @@ public class SeeProd extends JFrame {
 		lblUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblUndo);
 		lblUndo.addMouseListener(m);
-		
+
 		lblImage = new JLabel(new ImageIcon("images/products/Image_not_available.png"));
 		lblImage.setBounds(443, 70, 180, 180);
 		contentPane.add(lblImage);
-		
+
 		cbSearch = new JComboBox(listSearch.toArray());
 		cbSearch.setBounds(443, 25, 140, 20);
 		contentPane.add(cbSearch);
-		
+
 		lblSell = new JLabel(new ImageIcon("images/icons/sell.png"));
 		lblSell.setBounds(270, 268, 50, 50);
 		lblSell.setEnabled(false);
 		contentPane.add(lblSell);
 		lblSell.addMouseListener(m);
-		
+
 		lblNewLabel = new JLabel("Search products by: ");
 		lblNewLabel.setBounds(443, 8, 140, 13);
 		contentPane.add(lblNewLabel);
-		
+
 		lblSearch = new JLabel(new ImageIcon("images/icons/lupa.png"));
 		lblSearch.setBounds(593, 20, 25, 25);
 		contentPane.add(lblSearch);
@@ -159,38 +159,39 @@ public class SeeProd extends JFrame {
 
 		setVisible(true);
 	}
-	
-	public class MouseListen implements MouseListener{
+
+	public class MouseListen implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Object o = e.getSource();
-			
-			if(lblEdit.isEnabled()) {
-				if(o == lblEdit) {
-					
+
+			if (lblEdit.isEnabled()) {
+				if (o == lblEdit) {
+
 					dispose();
 					EditProd ep = new EditProd(p);
 					ep.setVisible(true);
-					
+
 				}
 			}
-			
-			if(lblDelete.isEnabled()) {
-				if(o == lblDelete) {
-					
-					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?", "Delete provider",
-							JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+			if (lblDelete.isEnabled()) {
+				if (o == lblDelete) {
+
+					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?",
+							"Delete provider", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
 					if (option == 1) {
 						System.out.println("You didn't delete the team");
 					} else {
 						try {
 							Test.product.remove(Conexion.obtain(), p.getId());
-							
+
 							Method.refreshTableProduct();
-							
-							Action a = new Action(Test.LogedInUser.getId() , p.getId() , p.getId_prov() , 3 , Date.valueOf(LocalDate.now()));
+
+							Action a = new Action(Test.LogedInUser.getId(), p.getId(), p.getId_prov(), 3,
+									Date.valueOf(LocalDate.now()));
 							try {
 								Test.action.remove(Conexion.obtain(), p.getId());
 							} catch (ClassNotFoundException | SQLException e1) {
@@ -202,70 +203,111 @@ public class SeeProd extends JFrame {
 							e1.printStackTrace();
 						}
 					}
-					
+
 				}
 			}
-			
-			if(lblSell.isEnabled()) {
-				if(o == lblSell) {
-					JOptionPane.showConfirmDialog(null, "A");
-					
+
+			if (lblSell.isEnabled()) {
+				if (o == lblSell) {
+					new SellProduct(p);
+					dispose();
 				}
 			}
-			
-			if(o == lblCreate) {
-				
+
+			if (o == lblCreate) {
+
 				dispose();
 				AddProd ap = new AddProd();
 				ap.setVisible(true);
-				
-			}else if(o == lblUndo){
+
+			} else if (o == lblUndo) {
 				dispose();
 				new MainPanel();
-			}else if(o == lblSearch) {
-				
+			} else if (o == lblSearch) {
+
 				option = String.valueOf(cbSearch.getSelectedItem());
-				if(option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {		
-					
-					if(option.equalsIgnoreCase("Provider Name")) {
-						inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
-						try {
-							List<Product> sortedProv = ps.getProductsByProvider(Conexion.obtain(), inputString);
-							Method.refreshTableProduct2(sortedProv);
-						} catch (Exception e1) {
-							e1.printStackTrace();
+				if (option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {
+
+					// FILTRAR POR NOMBRE DE PROVEEDORES
+					if (option.equalsIgnoreCase("Provider Name")) {
+
+						inputString = JOptionPane.showInputDialog(null, "Write here the " + option + ": ",
+								"Searching...", JOptionPane.QUESTION_MESSAGE);
+
+						if (inputString != null && !inputString.trim().isEmpty()) {
+							try {
+								List<Product> sortedProv = ps.getProductsByProvider(Conexion.obtain(), inputString);
+								Method.refreshTableProduct2(sortedProv);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
 						}
-					}else if(option.equalsIgnoreCase("Name")) {
-						inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
-						
-					}else if(option.equalsIgnoreCase("Category")) {
-					
-					JComboBox<String> comboBox = new JComboBox<>(listCategories.toArray(new String[0]));
-			        comboBox.setSelectedIndex(0);
 
-			        JPanel panel = new JPanel();
-			        panel.setLayout(new GridLayout(2, 1));
-			        panel.add(new JLabel("Select a "+option+":"));
-			        panel.add(comboBox);
+						// FILTRAR POR NOMBRE DE PRODUCTOS
+					} else if (option.equalsIgnoreCase("Name")) {
 
-			        int result = JOptionPane.showConfirmDialog(null, panel, "Select Category",
-			                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+						inputString = JOptionPane.showInputDialog(null, "Write here the " + option + ": ",
+								"Searching...", JOptionPane.QUESTION_MESSAGE);
+						if (inputString != null && !inputString.trim().isEmpty()) {
+							try {
+								List<Product> sortedName = ps.getProductsByName(Conexion.obtain(), inputString);
+								Method.refreshTableProduct2(sortedName);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						// FILTRAR POR CATEGORÍA DE PRODUCTOS
+					} else if (option.equalsIgnoreCase("Category")) {
 
-				        if (result == JOptionPane.OK_OPTION) {
-				            String selectedCategory = (String) comboBox.getSelectedItem();
-				            System.out.println("Selected category: " + selectedCategory);
-				        } else {
-				            System.out.println("Cancelled");
-				        }
+						JComboBox<String> comboBox = new JComboBox<>(listCategories.toArray(new String[0]));
+						comboBox.setSelectedIndex(0);
+
+						JPanel panel = new JPanel();
+						panel.setLayout(new GridLayout(2, 1));
+						panel.add(new JLabel("Select a " + option + ":"));
+						panel.add(comboBox);
+
+						int result = JOptionPane.showConfirmDialog(null, panel, "Select Category",
+								JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+						if (result == JOptionPane.OK_OPTION) {
+							String selectedCategory = (String) comboBox.getSelectedItem();
+							try {
+								List<Product> sortedCategory = ps.getProductsByCategory(Conexion.obtain(),
+										selectedCategory);
+								Method.refreshTableProduct2(sortedCategory);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+
+						} 
 					}
-				}else {
-					inputFloat = Float.parseFloat(JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE));
-					
-					//ESTO DE AQUI ABAJO SUPUESTAMENTE ES PA QUE CUANDO LE DES A CANCEL NO SALGA ERROR, PERO SALE
-					if(inputFloat != 0) {
-						System.out.println("Mostraria la tabla ordenada por precios");
-					}else {
-						System.out.println("No escribiste nada");
+//					FILTRAR POR PRECIOS DE PRODUCTOS
+				} else {
+					try {
+						
+						String input = JOptionPane.showInputDialog(null, "Escribe el valor " + option + ":", "Búsqueda...",
+								JOptionPane.QUESTION_MESSAGE);
+						if (input != null && !input.trim().isEmpty()) {
+							
+							inputFloat = Float.parseFloat(input);
+							int slashedNumba = (int) ((inputFloat / 10) * 10);
+							int aboveLimit = (int) (Math.ceil(slashedNumba / 10) * 10) + 10;
+							int belowLimit = aboveLimit - 10;
+							
+							try {
+								List<Product> sortedPrice = ps.getProductsByPrice(Conexion.obtain(),
+										belowLimit, aboveLimit);
+								Method.refreshTableProduct2(sortedPrice);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							
+							
+						}
+					}catch(Exception e3) {
+						JOptionPane.showMessageDialog(null, "Price inserted invalid", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -275,34 +317,37 @@ public class SeeProd extends JFrame {
 		public void mousePressed(MouseEvent e) {}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {
+		}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {
+		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {}
-		
+		public void mouseExited(MouseEvent e) {
+		}
+
 	}
-	
-	public List<String> getListSerch(){
+
+	public List<String> getListSerch() {
 		listSearch.add("Name");
 		listSearch.add("Category");
 		listSearch.add("Provider name");
 		listSearch.add("Price");
-		
+
 		return listSearch;
 	}
-	
+
 	public static List<String> createCategories() {
-        List<String> listCategories = new ArrayList<>();
-        listCategories.add("Food");
-        listCategories.add("Drinks");
-        listCategories.add("Fruits");
-        listCategories.add("Yogurt");
-        listCategories.add("Vegetables");
-        listCategories.add("Sweets");
-        listCategories.add("Other");
-        return listCategories;
-    }
+		List<String> listCategories = new ArrayList<>();
+		listCategories.add("Food");
+		listCategories.add("Drinks");
+		listCategories.add("Fruits");
+		listCategories.add("Yogurt");
+		listCategories.add("Vegetables");
+		listCategories.add("Sweets");
+		listCategories.add("Other");
+		return listCategories;
+	}
 }

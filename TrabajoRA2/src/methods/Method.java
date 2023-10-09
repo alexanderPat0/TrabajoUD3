@@ -104,7 +104,7 @@ public class Method {
 		while (it.hasNext()) {
 			Product p = it.next();
 			model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
-					p.getCategory(), p.getImage(), p.getExpire_date() });
+					p.getCategory(), p.getExpire_date() });
 		}
 		SeeProd.table.setModel(model);
 	}
