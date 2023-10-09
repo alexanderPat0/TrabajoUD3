@@ -2,12 +2,14 @@ package views;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileFilter;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -119,7 +121,26 @@ public class MainPanel extends JFrame {
 				
 			}else if(e.getSource() == lblInfo) {
 				
-				JOptionPane.showMessageDialog(null, "Oh yeah boi", "BOI", JOptionPane.INFORMATION_MESSAGE);
+				 JFileChooser chooser = new JFileChooser();
+				 
+				    File selectedFile = new File("/Downloads");
+				    chooser.setSelectedFile(selectedFile);
+
+				    FileFilter filter = new FileFilter(){
+				    	public boolean accept(File file) {
+				    		if (file.getName().endsWith(".jpg") || file.getName().endsWith(".gif")) {
+				    			return true;
+				    		}
+				    		return false;
+				    	}
+				    };
+				
+				    int returnVal = chooser.showSaveDialog(null);
+				    if(returnVal == JFileChooser.APPROVE_OPTION) {
+				       System.out.println("You chose to open this file: " +
+				            chooser.getSelectedFile().getName());
+				       //then write your code to write to disk
+				    }
 				
 			}else if(e.getSource() == lblExit) {
 				

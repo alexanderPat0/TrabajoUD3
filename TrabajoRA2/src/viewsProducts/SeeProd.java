@@ -6,7 +6,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
 import methods.Method;
+import models.Action;
 import models.Product;
 import services.Conexion;
 import services.ProductService;
@@ -186,6 +189,15 @@ public class SeeProd extends JFrame {
 							File f=new File(image);
 							f.delete();
 							Method.refreshTableProduct();
+							
+							Action a = new Action(Test.LogedInUser.getId() , p.getId() , p.getId_prov() , 3 , Date.valueOf(LocalDate.now()));
+							try {
+								Test.action.remove(Conexion.obtain(), p.getId());
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							Test.actionList.add(a);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}

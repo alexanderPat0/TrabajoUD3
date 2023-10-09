@@ -80,9 +80,11 @@ public class ProductService {
 
 	// he cambiado Product product por Integer id
 	public void remove(Connection conexion, Integer id) throws SQLException {
+		PreparedStatement consult;
 		try {
-			PreparedStatement consult = conexion.prepareStatement("SET available = 0 WHERE id = ?");
-			consult.setInt(1, id);
+			consult = conexion.prepareStatement("UPDATE "+this.table+" SET available = ? WHERE id = ?");
+			consult.setInt(1, 0);
+			consult.setInt(2, id);
 			consult.executeUpdate();
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
