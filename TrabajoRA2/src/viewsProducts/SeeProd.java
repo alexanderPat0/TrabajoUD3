@@ -88,6 +88,7 @@ public class SeeProd extends JFrame {
 				image = Test.productList.get(row).getImage();
 				lblImage.setIcon(new ImageIcon(image));
 				try {
+					
 					System.out.println(idRow);
 					Method.UploadProductList();
 					p = ps.getProduct(Conexion.obtain(), ps.getProductID(Conexion.obtain(), name));
