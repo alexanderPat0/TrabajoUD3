@@ -199,6 +199,7 @@ public class AddProd extends JFrame {
 				price = txtPrice.getText();
 				amount = txtAmount.getText();
 				category = String.valueOf(cbCategory.getSelectedItem());
+				int available = 1;
 //				date = Date.valueOf(txtExpDate.getText());
 				
 					try {
@@ -219,7 +220,7 @@ public class AddProd extends JFrame {
 						priceFloat = Float.parseFloat(txtPrice.getText());
 						amountInt = Integer.parseInt(txtAmount.getText());
 						
-						p = new Product(id, name, description, priceFloat, amountInt, category, image, date);
+						p = new Product(id, name, description, priceFloat, amountInt, category, image, date, available);
 						try {
 							Test.product.save(Conexion.obtain(), p);
 						} catch (ClassNotFoundException | SQLException e1) {
