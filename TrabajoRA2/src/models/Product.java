@@ -4,13 +4,13 @@ import java.sql.Date;
 
 public class Product {
 	
-	private int id_prov, amount;
+	private int id_prov, amount, available;
 	private Integer id;
 	private String name, description, category, image;
 	private Date expire_date;
 	private float price;
 	
-	public Product(Integer id, int id_prov, String name, String description, float price, int amount, String category, String image, Date expire_date) {
+	public Product(Integer id, int id_prov, String name, String description, float price, int amount, String category, String image, Date expire_date, int available) {
 		super();
 		this.id = id;
 		this.id_prov = id_prov;
@@ -21,9 +21,10 @@ public class Product {
 		this.category = category;
 		this.image = image;
 		this.expire_date = expire_date;
-	}
+		this.available = available;
+		}
 
-	public Product(int id_prov, String name, String description,float price, int amount, String category, String image, Date expire_date) {
+	public Product(int id_prov, String name, String description,float price, int amount, String category, String image, Date expire_date, int available) {
 		super();
 		this.id_prov = id_prov;
 		this.name = name;
@@ -33,6 +34,7 @@ public class Product {
 		this.category = category;
 		this.image = image;
 		this.expire_date = expire_date;
+		this.available = available;
 	}
 
 	public Product() {
@@ -111,12 +113,21 @@ public class Product {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+	
+
+	public int getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(int available) {
+		this.available = available;
+	}
 
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", id_prov=" + id_prov + ", name=" + name + ", description=" + description
 				+ ", category=" + category + ", image=" + image + ", expire_date=" + expire_date + ", price=" + price
-				+ "]";
+				+ "available= "+available+ "]";
 	}
 	
 	
