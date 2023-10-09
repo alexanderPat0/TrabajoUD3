@@ -88,7 +88,7 @@ public class SeeProd extends JFrame {
 				image = Test.productList.get(row).getImage();
 				lblImage.setIcon(new ImageIcon(image));
 				try {
-					
+
 					System.out.println(idRow);
 					Method.UploadProductList();
 					p = ps.getProduct(Conexion.obtain(), ps.getProductID(Conexion.obtain(), name));
@@ -100,7 +100,10 @@ public class SeeProd extends JFrame {
 				if (idRow >= 0) {
 					lblEdit.setEnabled(true);
 					lblDelete.setEnabled(true);
-					lblSell.setEnabled(true);
+					if (p.getAmount() != 0)
+						lblSell.setEnabled(true);
+					else
+						lblSell.setEnabled(false);
 				}
 
 			}
@@ -227,10 +230,29 @@ public class SeeProd extends JFrame {
 			} else if (o == lblSearch) {
 
 				option = String.valueOf(cbSearch.getSelectedItem());
-				if (option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {
+				if (option.equals("Default") || option.equals("Name") || option.equals("Category")
+						|| option.equals("Provider name")) {
 
-					// FILTRAR POR NOMBRE DE PROVEEDORES
-					if (option.equalsIgnoreCase("Provider Name")) {
+					if (option.equalsIgnoreCase("Default")) {
+
+						JOptionPane.showMessageDialog(null, "Showing all the products", "Default Products",
+								JOptionPane.INFORMATION_MESSAGE);
+
+						try {
+
+							List<Product> allProd = ps.getAllProducts(Conexion.obtain());
+							List<Product> sortedAllProd = new ArrayList<>();
+							for (Product p : allProd) {
+								if (p.getAvailable() == 1)
+									sortedAllProd.add(p);
+							}
+							Method.refreshTableProduct2(sortedAllProd);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+
+						// FILTRAR POR NOMBRE DE PROVEEDORES
+					} else if (option.equalsIgnoreCase("Provider Name")) {
 
 						inputString = JOptionPane.showInputDialog(null, "Write here the " + option + ": ",
 								"Searching...", JOptionPane.QUESTION_MESSAGE);
@@ -281,32 +303,31 @@ public class SeeProd extends JFrame {
 								e1.printStackTrace();
 							}
 
-						} 
+						}
 					}
 //					FILTRAR POR PRECIOS DE PRODUCTOS
 				} else {
 					try {
-						
-						String input = JOptionPane.showInputDialog(null, "Escribe el valor " + option + ":", "Búsqueda...",
-								JOptionPane.QUESTION_MESSAGE);
+
+						String input = JOptionPane.showInputDialog(null, "Escribe el valor " + option + ":",
+								"Búsqueda...", JOptionPane.QUESTION_MESSAGE);
 						if (input != null && !input.trim().isEmpty()) {
-							
+
 							inputFloat = Float.parseFloat(input);
 							int slashedNumba = (int) ((inputFloat / 10) * 10);
 							int aboveLimit = (int) (Math.ceil(slashedNumba / 10) * 10) + 10;
 							int belowLimit = aboveLimit - 10;
-							
+
 							try {
-								List<Product> sortedPrice = ps.getProductsByPrice(Conexion.obtain(),
-										belowLimit, aboveLimit);
+								List<Product> sortedPrice = ps.getProductsByPrice(Conexion.obtain(), belowLimit,
+										aboveLimit);
 								Method.refreshTableProduct2(sortedPrice);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
-							
-							
+
 						}
-					}catch(Exception e3) {
+					} catch (Exception e3) {
 						JOptionPane.showMessageDialog(null, "Price inserted invalid", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -315,7 +336,8 @@ public class SeeProd extends JFrame {
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {
+		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
@@ -332,6 +354,7 @@ public class SeeProd extends JFrame {
 	}
 
 	public List<String> getListSerch() {
+		listSearch.add("Default");
 		listSearch.add("Name");
 		listSearch.add("Category");
 		listSearch.add("Provider name");

@@ -200,9 +200,7 @@ public class SellProduct extends JFrame {
 			Object o = e.getSource();
 			amount = Integer.parseInt(textStock.getText());
 			if(o == lblSave) {
-				if(amount == 0) {
-					available = 0;
-				}
+				
 				System.out.println("Amount: " + amount);
 				System.out.println("Available: "+available);
 					Product p2 = new Product(p.getId(), p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
