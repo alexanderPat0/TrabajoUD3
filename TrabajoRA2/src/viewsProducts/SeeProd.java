@@ -230,9 +230,8 @@ public class SeeProd extends JFrame {
 					if(option.equalsIgnoreCase("Provider Name")) {
 						inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
 						try {
-							ps.getProductsByProviderName(Conexion.obtain(), inputString);
-							List<Product> productName = new ArrayList<Product>();
-							Method.refreshTableProduct2(productName);
+							List<Product> sortedProv = ps.getProductsByProvider(Conexion.obtain(), inputString);
+							Method.refreshTableProduct2(sortedProv);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}

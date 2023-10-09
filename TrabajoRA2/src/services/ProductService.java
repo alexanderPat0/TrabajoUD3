@@ -51,7 +51,7 @@ public class ProductService {
 				consult.setDate(8, product.getExpire_date());
 				consult.setInt(9, product.getAvailable());
 				consult.setInt(10, product.getId());
-				
+
 			}
 			consult.executeUpdate();
 		} catch (SQLException ex) {
@@ -63,14 +63,15 @@ public class ProductService {
 		Product product = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, id_prov, name, description, price, amount, category, image, expire_date , available" + " FROM "
-							+ this.table + " WHERE id = ?");
+					"SELECT id, id_prov, name, description, price, amount, category, image, expire_date , available"
+							+ " FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				product = new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date") , result.getInt("available"));
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available"));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -82,7 +83,7 @@ public class ProductService {
 	public void remove(Connection conexion, Integer id) throws SQLException {
 		PreparedStatement consult;
 		try {
-			consult = conexion.prepareStatement("UPDATE "+this.table+" SET available = ? WHERE id = ?");
+			consult = conexion.prepareStatement("UPDATE " + this.table + " SET available = ? WHERE id = ?");
 			consult.setInt(1, 0);
 			consult.setInt(2, id);
 			consult.executeUpdate();
@@ -96,56 +97,59 @@ public class ProductService {
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 
-					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available" + " FROM "
-							+ this.table);
+					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
+							+ " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date"), result.getInt("available")));
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return productList;
 	}
-	
-	//Juanjo mete aqui el metodo para buscar por precio
-	public List<Product> getProductsByPrice(Connection conexion , int a , int b) throws SQLException{
+
+	// Juanjo mete aqui el metodo para buscar por precio
+	public List<Product> getProductsByPrice(Connection conexion, int a, int b) throws SQLException {
 		return null;
 	}
-	
+
 	public List<Product> getNameProducts(Connection conexion, String name) throws SQLException {
 		List<Product> productList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 
-					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available" + " FROM "
-							+ this.table + " WHERE name = ?");
+					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
+							+ " FROM " + this.table + " WHERE name = ?");
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date"), result.getInt("available")));
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return productList;
 	}
-	
+
 	public List<Product> getCategoryProducts(Connection conexion, String category) throws SQLException {
 		List<Product> productList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 
-					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available" + " FROM "
-							+ this.table + " WHERE category = ?");
+					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
+							+ " FROM " + this.table + " WHERE category = ?");
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date"), result.getInt("available")));
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -153,37 +157,62 @@ public class ProductService {
 		return productList;
 	}
 
-	
-	public List<Product> getProductsByProviderName(Connection conexion, String provider_name) throws SQLException {
+	public List<Product> getProductsByCategory(Connection conexion, String provider_name) throws SQLException {
 		List<Product> productList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 
-					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available" + " FROM "
-							+ this.table + " WHERE category = ?");
+					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
+							+ " FROM " + this.table + " WHERE category = ?");
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
-						result.getString("category"), result.getString("image"), result.getDate("expire_date"), result.getInt("available")));
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return productList;
 	}
-	
-	public Integer getProductID(Connection conexion, String name) throws SQLException {
-		int id=0;
+
+	public List<Product> getProductsByProvider(Connection conexion, String provider_name) throws SQLException {
+		List<Product> productList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id"
-							+ " FROM " + this.table + " WHERE name = ?");
-			//consult.setInt(1, id_prov);
+
+					"SELECT products.id, products.id_prov , products.name , products.description , products.price , "
+							+ "products.amount , products.category , products.image , products.expire_date , products.available FROM "
+							+ this.table
+							+ " INNER JOIN providers ON products.id_prov = providers.id WHERE providers.name = ? AND products.available = ?");
+				consult.setString(1, provider_name);
+				consult.setInt(2, 1);
+
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				
+				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
+						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
+						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
+						result.getInt("available")));
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return productList;
+	}
+
+	public Integer getProductID(Connection conexion, String name) throws SQLException {
+		int id = 0;
+		try {
+			PreparedStatement consult = conexion
+					.prepareStatement("SELECT id" + " FROM " + this.table + " WHERE name = ?");
+			// consult.setInt(1, id_prov);
 			consult.setString(1, name);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				id=result.getInt("id");
+				id = result.getInt("id");
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
