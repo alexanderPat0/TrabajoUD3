@@ -29,6 +29,7 @@ import methods.Method;
 import models.Action;
 import models.Product;
 import services.Conexion;
+import services.ProductService;
 import test.Test;
 import viewsProviders.SeeProv;
 
@@ -47,6 +48,7 @@ public class AddProd extends JFrame {
 	private float priceFloat;
 	private JTextArea textArea;
 	private Product p = new Product();
+	private ProductService ps = new ProductService();
 
 	/**
 	 * Create the frame.
@@ -219,6 +221,18 @@ public class AddProd extends JFrame {
 					if(price.matches("^-?\\d+(\\.\\d+)?$") && amount.matches("\\d+")) {
 						priceFloat = Float.parseFloat(txtPrice.getText());
 						amountInt = Integer.parseInt(txtAmount.getText());
+						
+						for(Product p: Test.productList) {
+							if(name.equalsIgnoreCase(p.getName())) {
+								try {
+									System.out.println( ps.getProductID(Conexion.obtain(), name));
+								} catch (ClassNotFoundException | SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								amountInt += p.getAmount();
+							}
+						}
 						
 						p = new Product(id, name, description, priceFloat, amountInt, category, image, date, available);
 						try {

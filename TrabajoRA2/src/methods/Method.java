@@ -26,12 +26,12 @@ import viewsProviders.SeeProv;
 public class Method {
 
 	public static TableModel UploadProductList() {
-		String[] col = { "id_prov", "Name", "Description", "Price", "Amount", "Category", "Image", "Expire_Date" };
+		String[] col = { "id_prov", "Name", "Description", "Price", "Amount", "Category", "Image", "Expire_Date", "Available" };
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
 			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
-					p.getCategory(), p.getImage(), p.getExpire_date() };
+					p.getCategory(), p.getImage(), p.getExpire_date(), p.getAvailable() };
 			model.addRow(row);
 		}
 		return model;
