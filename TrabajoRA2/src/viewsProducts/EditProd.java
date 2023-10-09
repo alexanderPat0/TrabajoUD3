@@ -40,7 +40,8 @@ public class EditProd extends JFrame {
 	private JLabel lblName, lblDescription, lblPrice, lblExpDate, lblImage, lblSetImage, lblCategory, lblAmount,
 			lblCreate, lblCancel;
 	private String name, description, amount, price, category, image;
-	private Date date = new Date(20231210);
+	private Date date;
+//	private Date date = new Date(20231210);
 	private int id, id_prov, amountInt;
 	private float priceFloat;
 	private List<String> provNames;
@@ -143,7 +144,7 @@ public class EditProd extends JFrame {
 		panel.add(lblExpDate);
 
 		txtExpDate = new JTextField();
-		txtExpDate.setText(String.valueOf(date));
+		txtExpDate.setText(String.valueOf(p.getExpire_date()));
 		txtExpDate.setColumns(10);
 		txtExpDate.setBounds(26, 167, 135, 20);
 		txtExpDate.setEnabled(false);
@@ -213,8 +214,8 @@ public class EditProd extends JFrame {
 				price = txtPrice.getText();
 				amount = txtAmount.getText();
 				category = String.valueOf(cbCategory.getSelectedItem());
+				date = Date.valueOf(txtExpDate.getText());
 				System.out.println(date);
-//				date = Date.valueOf(txtExpDate.getText());
 
 				try {
 					id = Test.product.getProductID(Conexion.obtain(), name);
