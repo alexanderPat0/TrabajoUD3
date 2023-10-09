@@ -30,9 +30,11 @@ public class Method {
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
+			if(p.getAvailable()!=0) {
 			Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
 					p.getCategory(), p.getImage(), p.getExpire_date(), p.getAvailable() };
 			model.addRow(row);
+			}
 		}
 		return model;
 	}
@@ -76,8 +78,10 @@ public class Method {
 			it = Test.product.getAllProducts(Conexion.obtain()).iterator();
 			while (it.hasNext()) {
 				Product p = it.next();
+				if(p.getAvailable()!=0) {
 				model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),
 						p.getAmount(), p.getCategory(), p.getImage(), p.getExpire_date() });
+				}
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

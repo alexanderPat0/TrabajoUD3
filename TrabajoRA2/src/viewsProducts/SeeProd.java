@@ -169,7 +169,7 @@ public class SeeProd extends JFrame {
 				if(o == lblEdit) {
 					
 					dispose();
-					EditProd ep = new EditProd(p,image);
+					EditProd ep = new EditProd(p);
 					ep.setVisible(true);
 					
 				}
@@ -186,8 +186,7 @@ public class SeeProd extends JFrame {
 					} else {
 						try {
 							Test.product.remove(Conexion.obtain(), idRow);
-							File f=new File(image);
-							f.delete();
+							
 							Method.refreshTableProduct();
 							
 							Action a = new Action(Test.LogedInUser.getId() , p.getId() , p.getId_prov() , 3 , Date.valueOf(LocalDate.now()));

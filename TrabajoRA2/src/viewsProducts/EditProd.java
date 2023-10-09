@@ -52,8 +52,8 @@ public class EditProd extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EditProd(Product p,String image) {
-		this.image=image;
+	public EditProd(Product p) {
+		this.image=p.getImage();
 		setTitle("Edit Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 343);
