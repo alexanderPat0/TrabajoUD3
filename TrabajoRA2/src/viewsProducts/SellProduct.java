@@ -39,7 +39,7 @@ public class SellProduct extends JFrame {
 	private JLabel lblInfo, lblPriceUnit, lbl_1, lbl_2, lbl_3, lblTotalPrice, lblStocks, lblSave, lblCancel;
 	private JTextField UnitPrice, TotalPrice, textStock;
 	private Product p = new Product();
-	private int amount, available = p.getAvailable(), finalStock;
+	private int amount, available = 1, finalStock;
 	private ProductService ps = new ProductService();
 
 	/**
@@ -106,10 +106,10 @@ public class SellProduct extends JFrame {
 				if (selectedValue > p.getAmount()) {
 					cbAmount.setSelectedItem(p.getAmount());
 				}
-					int result = p.getAmount() - selectedValue;
-					System.out.println(result);
-					textStock.setText(String.valueOf(result));
-					finalStock = result;
+					amount = p.getAmount() - selectedValue;
+					System.out.println(amount);
+					textStock.setText(String.valueOf(amount));
+					finalStock = amount;
 				int selectedValue2 = (int) cbAmount.getSelectedItem();
 				float price = p.getPrice();
 
@@ -203,15 +203,16 @@ public class SellProduct extends JFrame {
 				if(amount == 0) {
 					available = 0;
 				}
-					p = new Product(p.getId(), p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
+				System.out.println("Amount: " + amount);
+				System.out.println("Available: "+available);
+					Product p2 = new Product(p.getId(), p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
 							p.getImage(), p.getExpire_date(), available);
-					System.out.println(p);
+					System.out.println(p2);
 					try {
-						Test.product.save(Conexion.obtain(), p);
+						Test.product.save(Conexion.obtain(), p2);
 					} catch (ClassNotFoundException | SQLException e1) {
 						e1.printStackTrace();
 					}
-					System.out.println(p);
 					JOptionPane.showMessageDialog(null, "You have sold the product", "Selling...", JOptionPane.INFORMATION_MESSAGE);
 					dispose();
 					new SeeProd();
