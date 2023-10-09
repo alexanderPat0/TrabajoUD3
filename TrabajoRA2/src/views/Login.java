@@ -26,7 +26,6 @@ import javax.swing.border.EmptyBorder;
 import methods.ImageUtilities;
 import models.User;
 import services.Conexion;
-import services.UserService;
 import test.Test;
 
 @SuppressWarnings("serial")

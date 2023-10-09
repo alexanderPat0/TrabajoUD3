@@ -79,7 +79,6 @@ public class Register extends JFrame {
 			}
 		};
 		panel.setBackground(new Color(240, 240, 240));
-		;
 		panel.setBounds(68, 23, 235, 401);
 		contentPane.add(panel);
 		panel.setLayout(null);

@@ -191,15 +191,13 @@ public class AddProd extends JFrame {
 			Object o = e.getSource();
 
 			if (o == lblCreate) {
-				// int id_prov, String name, String description,float price, int amount, String
-				// category, String image, Date expire_date
+
 				name = txtName.getText();
 				description = textArea.getText();
 				price = txtPrice.getText();
 				amount = txtAmount.getText();
 				category = String.valueOf(cbCategory.getSelectedItem());
 				int available = 1;
-//				date = Date.valueOf(txtExpDate.getText());
 
 				try {
 					id = Test.provider.getProviderID(Conexion.obtain(), comboBox.getSelectedItem().toString());

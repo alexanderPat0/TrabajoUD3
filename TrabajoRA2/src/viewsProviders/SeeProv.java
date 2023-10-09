@@ -22,6 +22,7 @@ import services.ProviderService;
 import test.Test;
 import views.MainPanel;
 
+@SuppressWarnings("serial")
 public class SeeProv extends JFrame {
 
 	private JPanel contentPane;

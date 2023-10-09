@@ -3,14 +3,13 @@ package viewsProviders;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.SQLException;
-import java.text.ParseException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,13 +18,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 import methods.ImageUtilities;
 import models.Provider;
 import services.Conexion;
-import services.ProviderService;
-import services.UserService;
 import test.Test;
-import views.Login;
 
 @SuppressWarnings("serial")
 public class EditProv extends JFrame {
