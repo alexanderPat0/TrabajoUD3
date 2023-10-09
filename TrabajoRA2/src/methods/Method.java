@@ -89,6 +89,29 @@ public class Method {
 
 		SeeProd.table.setModel(model);
 	}
+	
+	public static void refreshTableProduct2(List<Product> listP) {
+
+		String[] cols = { "Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
+		DefaultTableModel model = new DefaultTableModel(cols, 0);
+		Iterator<Product> it;
+		try {
+			it = Test.product.getAllProducts(Conexion.obtain()).iterator();
+			while (it.hasNext()) {
+				Product p = it.next();
+				model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),
+						p.getAmount(), p.getCategory(), p.getImage(), p.getExpire_date() });
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		SeeProd.table.setModel(model);
+	}
 
 	public static String getActionString(Action a) throws ClassNotFoundException, SQLException {
 		String stringAction = "User " + Test.user.getUser(Conexion.obtain(), a.getId_user()).getName()
@@ -104,7 +127,7 @@ public class Method {
 			stringAction += "bought ";
 
 		} 
-		if (a.getId_product() == 0)
+		if (a.getId_product() != 0)
 			stringAction += "the product " + Test.product.getProduct(Conexion.obtain(), a.getId_product()).getName()
 					+ ".";
 		else

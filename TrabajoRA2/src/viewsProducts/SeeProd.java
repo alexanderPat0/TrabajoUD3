@@ -1,6 +1,7 @@
 package viewsProducts;
 
 import java.awt.Cursor;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -39,6 +40,7 @@ public class SeeProd extends JFrame {
 	private Product p = null;
 	private ProductService ps = new ProductService();
 	private List<String> listSearch = new ArrayList<String>();
+	private List<String> listCategories = createCategories();
 
 	public SeeProd() {
 		super("CRUD products");
@@ -211,16 +213,40 @@ public class SeeProd extends JFrame {
 			}else if(o == lblSearch) {
 				option = String.valueOf(cbSearch.getSelectedItem());
 				if(option.equals("Name") || option.equals("Category") || option.equals("Provider name")) {
-					inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
+//					
 					
-					//ESTO DE AQUI ABAJO SUPUESTAMENTE ES PA QUE CUANDO LE DES A CANCEL NO SALGA ERROR, PERO SALE
+					if(option.equalsIgnoreCase("Provider Name")) {
+						inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
+						try {
+							ps.getProductsByProviderName(Conexion.obtain(), inputString);
+							List<Product> productName = new ArrayList<Product>();
+							Method.refreshTableProduct2(productName);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}else if(option.equalsIgnoreCase("Name")) {
+						inputString = JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE);
+						
+					}else if(option.equalsIgnoreCase("Category")) {
 					
-//					if(!inputString.equals(null)) {
-//						if(inputString.trim().equalsIgnoreCase("OK")) {
-//						System.out.println("Mostraria la tabla ordenada por nombres/descrip/prov_name");
-//					}else 
-//						System.out.println("Cancelado");
-//					}
+					JComboBox<String> comboBox = new JComboBox<>(listCategories.toArray(new String[0]));
+			        comboBox.setSelectedIndex(0);
+
+			        JPanel panel = new JPanel();
+			        panel.setLayout(new GridLayout(2, 1));
+			        panel.add(new JLabel("Select a "+option+":"));
+			        panel.add(comboBox);
+
+			        int result = JOptionPane.showConfirmDialog(null, panel, "Select Category",
+			                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				        if (result == JOptionPane.OK_OPTION) {
+				            String selectedCategory = (String) comboBox.getSelectedItem();
+				            System.out.println("Selected category: " + selectedCategory);
+				        } else {
+				            System.out.println("Cancelled");
+				        }
+					}
 				}else {
 					inputFloat = Float.parseFloat(JOptionPane.showInputDialog(null, "Write here the "+option+": ", "Searching...", JOptionPane.QUESTION_MESSAGE));
 					
@@ -256,4 +282,16 @@ public class SeeProd extends JFrame {
 		
 		return listSearch;
 	}
+	
+	public static List<String> createCategories() {
+        List<String> listCategories = new ArrayList<>();
+        listCategories.add("Food");
+        listCategories.add("Drinks");
+        listCategories.add("Fruits");
+        listCategories.add("Yogurt");
+        listCategories.add("Vegetables");
+        listCategories.add("Sweets");
+        listCategories.add("Other");
+        return listCategories;
+    }
 }
