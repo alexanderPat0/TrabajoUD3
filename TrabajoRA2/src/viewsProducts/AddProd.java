@@ -204,7 +204,7 @@ public class AddProd extends JFrame {
 				
 					try {
 						id = Test.provider.getProviderID(Conexion.obtain(), comboBox.getSelectedItem().toString());
-						System.out.println(id);
+						
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					} 

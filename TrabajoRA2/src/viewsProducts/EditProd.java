@@ -219,7 +219,7 @@ public class EditProd extends JFrame {
 
 				try {
 					id = Test.product.getProductID(Conexion.obtain(), name);
-					System.out.println(id);
+					
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
