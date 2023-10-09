@@ -137,7 +137,7 @@ public class Method {
 	    if(result!=JFileChooser.CANCEL_OPTION) {
 	    	
 	    	if(file==null || file.getName().equalsIgnoreCase("")) {
-	    		JOptionPane.showMessageDialog(null, "Choose an image");
+	    		path="images/products/Image_not_available.png";
 	    }else {
 	    	
 	    	

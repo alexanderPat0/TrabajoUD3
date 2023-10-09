@@ -207,8 +207,10 @@ public class AddProd extends JFrame {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					} 
-				
-				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty() || image.isEmpty()) {
+				if(image.isEmpty()) {
+					image="images/MercadonaLogo.png";
+				}else {
+				if(name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
 					
 				}else {
@@ -244,6 +246,7 @@ public class AddProd extends JFrame {
 					}else {
 						JOptionPane.showMessageDialog(null, "Price and Amount must be numbers!", "Error", JOptionPane.WARNING_MESSAGE);
 					}
+				}
 				}
 			}else if(o == lblCancel) {
 				JOptionPane.showMessageDialog(null, "You have cancelled the creation", "Cancelling...", JOptionPane.ERROR_MESSAGE);

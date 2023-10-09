@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import methods.Method;
@@ -35,7 +35,7 @@ public class SeeProd extends JFrame {
 	private JComboBox cbSearch;
 	private int idRow,row;
 	private float inputFloat;
-	private String option, inputString;
+	private String option, inputString,image;
 	private Product p = null;
 	private ProductService ps = new ProductService();
 	private List<String> listSearch = new ArrayList<String>();
@@ -75,11 +75,18 @@ public class SeeProd extends JFrame {
 			
 			public void mouseClicked(MouseEvent e) {
 				// Integer id, int id_prov, String name, String description, float price, String category, String image, Date expire_date
+				
+				
 				row=table.getSelectedRow();
 				idRow=Test.productList.get(row).getId();
-				System.out.println(idRow);
+				image=Test.productList.get(row).getImage();
+				lblImage.setIcon(new ImageIcon(image));
 				try {
+					System.out.println(idRow);
+					Method.UploadProductList();
 					p = ps.getProduct(Conexion.obtain(), idRow);
+					System.out.println(p);
+					
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -88,6 +95,7 @@ public class SeeProd extends JFrame {
 					lblDelete.setEnabled(true);
 					lblSell.setEnabled(true);
 				}
+				
 			}
 		});
 		
@@ -141,6 +149,7 @@ public class SeeProd extends JFrame {
 		lblSearch.setBounds(593, 20, 25, 25);
 		contentPane.add(lblSearch);
 		lblSearch.addMouseListener(m);
+		lblImage.repaint();
 
 		setVisible(true);
 	}
@@ -172,6 +181,8 @@ public class SeeProd extends JFrame {
 					} else {
 						try {
 							Test.product.remove(Conexion.obtain(), idRow);
+							File f=new File(image);
+							f.delete();
 							Method.refreshTableProduct();
 						} catch (Exception e1) {
 							e1.printStackTrace();
