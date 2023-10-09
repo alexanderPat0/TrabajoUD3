@@ -67,9 +67,10 @@ public class MainPanel extends JFrame {
 		scrollPane.setViewportView(table);
 
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getTableHeader().setResizingAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(70);
+		table.getColumnModel().getColumn(1).setPreferredWidth(380);
 
 		
 		lblProducts = new JLabel(new ImageIcon("images/icons/products.png"));
