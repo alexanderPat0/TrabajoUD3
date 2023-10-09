@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import methods.ImageUtilities;
 import models.Product;
 import services.Conexion;
+import services.ProductService;
 import test.Test;
 
 public class SellProduct extends JFrame {
@@ -38,19 +39,20 @@ public class SellProduct extends JFrame {
 	private JLabel lblInfo, lblPriceUnit, lbl_1, lbl_2, lbl_3, lblTotalPrice, lblStocks, lblSave, lblCancel;
 	private JTextField UnitPrice, TotalPrice, textStock;
 	private Product p = new Product();
-	private int amount, available = p.getAvailable();
+	private int amount, available = p.getAvailable(), finalStock;
+	private ProductService ps = new ProductService();
 
 	/**
 	 * Create the frame.
 	 */
-	public SellProduct(Product p) {
+	public SellProduct(Product p2) {
 		super("Sell a Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 562, 419);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
-
+		p = p2;
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -103,12 +105,11 @@ public class SellProduct extends JFrame {
 				int selectedValue = (int) cbAmount.getSelectedItem();
 				if (selectedValue > p.getAmount()) {
 					cbAmount.setSelectedItem(p.getAmount());
-				} else {
+				}
 					int result = p.getAmount() - selectedValue;
 					System.out.println(result);
 					textStock.setText(String.valueOf(result));
-				}
-
+					finalStock = result;
 				int selectedValue2 = (int) cbAmount.getSelectedItem();
 				float price = p.getPrice();
 
@@ -202,8 +203,9 @@ public class SellProduct extends JFrame {
 				if(amount == 0) {
 					available = 0;
 				}
-					p = new Product(p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
+					p = new Product(p.getId(), p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
 							p.getImage(), p.getExpire_date(), available);
+					System.out.println(p);
 					try {
 						Test.product.save(Conexion.obtain(), p);
 					} catch (ClassNotFoundException | SQLException e1) {
