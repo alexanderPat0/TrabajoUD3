@@ -30,7 +30,7 @@ public class Test {
 	public static User LogedInUser;
 
 	public static void main(String[] args) {
-		
+				
 		try {
 			System.out.println("Products:");
 

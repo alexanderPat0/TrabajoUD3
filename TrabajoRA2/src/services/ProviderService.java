@@ -18,20 +18,22 @@ public class ProviderService {
 			PreparedStatement consult;
 			if (provider.getId() == null) {
 				consult = conexion.prepareStatement("INSERT INTO " + this.table
-						+ "(name, location, mail, phone) VALUES(?, ?, ?, ?)");
+						+ "(name, location, mail, phone, available) VALUES(?, ?, ?, ? , ?)");
 				consult.setString(1, provider.getName());
 				consult.setString(2, provider.getLocation());
 				consult.setString(3, provider.getMail());
 				consult.setInt(4, provider.getPhone());
+				consult.setInt(5, provider.getAvailable());
 			} else {
 				consult = conexion.prepareStatement("UPDATE " + this.table
-						+ " SET id = ?, name = ?, location = ?, mail = ?, phone = ? WHERE id = ?");
+						+ " SET id = ?, name = ?, location = ?, mail = ?, phone = ? ,available = ? WHERE id = ?");
 				consult.setInt(1, provider.getId());
 				consult.setString(2, provider.getName());
 				consult.setString(3, provider.getLocation());
 				consult.setString(4, provider.getMail());
 				consult.setInt(5, provider.getPhone());
-				consult.setInt(6, provider.getId());
+				consult.setInt(6, provider.getAvailable());
+				consult.setInt(7, provider.getId());
 			}
 			consult.executeUpdate();
 		} catch (SQLException ex) {
@@ -44,13 +46,13 @@ public class ProviderService {
 		Provider provider = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name, location, mail, phone"
+					"SELECT id, name, location, mail, phone, available"
 							+ " FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				provider = new Provider(result.getInt("id"), result.getString("name"), result.getString("location"), 
-						result.getString("mail"), result.getInt("phone"));
+						result.getString("mail"), result.getInt("phone"), result.getInt("available"));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -60,10 +62,11 @@ public class ProviderService {
 
 	
 	public void remove(Connection conexion, Integer id) throws SQLException {
+		PreparedStatement consult;
 		try {
-			PreparedStatement consult = conexion
-					.prepareStatement("DELETE FROM " + this.table + " WHERE id = ?");
-			consult.setInt(1, id);
+			consult = conexion.prepareStatement("UPDATE " + this.table + " SET available = ? WHERE id = ?");
+			consult.setInt(1, 0);
+			consult.setInt(2, id);
 			consult.executeUpdate();
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -75,12 +78,12 @@ public class ProviderService {
 		List<Provider> providerList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name, location, mail, phone"
-							+ " FROM " + this.table);
+					"SELECT id, name, location, mail, phone, available"
+							+ " FROM " + this.table );
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				providerList.add(new Provider(result.getInt("id"), result.getString("name"), result.getString("location"), 
-						result.getString("mail"), result.getInt("phone")));
+						result.getString("mail"), result.getInt("phone"), result.getInt("available")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);

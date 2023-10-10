@@ -161,7 +161,7 @@ public class ProductService {
 			PreparedStatement consult = conexion.prepareStatement(
 
 					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
-							+ " FROM " + this.table + " WHERE category = ?");
+							+ " FROM " + this.table + " WHERE category = ? AND available = ?");
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),

@@ -69,14 +69,16 @@ public class SeeProv extends JFrame {
 
 			public void mouseClicked(MouseEvent e) {
 				row = table.getSelectedRow();
+				
+				String name = (String) table.getValueAt(row, 1);
+				
 				idRow = Test.providerList.get(row).getId();
-				System.out.println(idRow);
 				try {
-					p = ps.getProvider(Conexion.obtain(), idRow);
+					Method.UploadProductList();
+					p = Test.provider.getProvider(Conexion.obtain(), Test.provider.getProviderID(Conexion.obtain(), name));
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
-
 				if (idRow >= 0) {
 					lblEdit.setEnabled(true);
 					lblDelete.setEnabled(true);
