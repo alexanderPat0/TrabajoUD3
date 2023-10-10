@@ -48,7 +48,7 @@ public class Bill extends JFrame {
 		setLocationRelativeTo(null);
 
 		try {
-			System.out.println(Test.transactionList = Test.transaction.getAllTransactions(Conexion.obtain()));
+			Test.transactionList = Test.transaction.getAllTransactions(Conexion.obtain());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

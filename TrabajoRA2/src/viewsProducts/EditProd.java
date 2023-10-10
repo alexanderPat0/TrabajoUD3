@@ -145,22 +145,22 @@ public class EditProd extends JFrame {
 		panel.add(txtExpDate);
 
 		lblDescription = new JLabel("Description:");
-		lblDescription.setBounds(338, 11, 81, 14);
+		lblDescription.setBounds(181, 105, 81, 14);
 		panel.add(lblDescription);
 
 		txtArea = new JTextArea(p.getDescription());
 		txtArea.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtArea.setLineWrap(true);
 		txtArea.setWrapStyleWord(true);
-		txtArea.setBounds(338, 26, 156, 160);
+		txtArea.setBounds(181, 120, 137, 70);
 		panel.add(txtArea);
 
 		lblImage = new JLabel("Image:");
-		lblImage.setBounds(180, 105, 46, 14);
+		lblImage.setBounds(338, 9, 179, 14);
 		panel.add(lblImage);
 
 		lblSetImage = new JLabel(new ImageIcon(p.getImage()));
-		lblSetImage.setBounds(180, 120, 138, 70);
+		lblSetImage.setBounds(338, 24, 168, 163);
 		lblSetImage.addMouseListener(ml);
 		panel.add(lblSetImage);
 
