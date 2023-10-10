@@ -60,7 +60,7 @@ public class Method {
 	
 	public static TableModel UploadTransactionList() {
 		String name = null;
-		String[] col = { "Product", "Price By Unit", "Amount", "Total Price"};
+		String[] col = { "Date", "Product", "Price By Unit", "Amount", "Total Price"};
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 		
 		for (Transaction t : Test.transactionList) {
@@ -70,7 +70,7 @@ public class Method {
 				e.printStackTrace();
 			}
 			float totalPrice = t.getPrice()*t.getAmount();
-			Object[] row = { name, t.getPrice(), t.getAmount(), totalPrice };
+			Object[] row = { t.getDate(), name, t.getPrice()+" $", t.getAmount(), totalPrice+" $" };
 			model.addRow(row);
 		}
 		return model;

@@ -84,6 +84,11 @@ public class Bill extends JFrame {
 		};
 		table.getTableHeader().setResizingAllowed(false);
 		table.getTableHeader().setReorderingAllowed(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(90);
+		table.getColumnModel().getColumn(1).setPreferredWidth(160);
+		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setPreferredWidth(70);
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
 
 		DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
@@ -129,8 +134,7 @@ public class Bill extends JFrame {
             table.getColumnModel().getColumn(i).setCellRenderer(columnRenderer);
         }
 
-		lbl_1_1 = new JLabel(
-				"----------------------------------------------------------------");
+		lbl_1_1 = new JLabel("----------------------------------------------------------------");
 		lbl_1_1.setBounds(205, 444, 258, 13);
 		panel.add(lbl_1_1);
 
