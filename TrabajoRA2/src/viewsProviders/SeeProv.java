@@ -70,12 +70,13 @@ public class SeeProv extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				row = table.getSelectedRow();
 				
-				String name = (String) table.getValueAt(row, 1);
-				
+				String name = (String) table.getValueAt(row, 0);
+				System.out.println(name);
 				idRow = Test.providerList.get(row).getId();
 				try {
-					Method.UploadProductList();
+					Method.UploadProviderList();
 					p = Test.provider.getProvider(Conexion.obtain(), Test.provider.getProviderID(Conexion.obtain(), name));
+					System.out.println(p);
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -89,29 +90,33 @@ public class SeeProv extends JFrame {
 		MouseListen m = new MouseListen();
 		
 		lblCreate = new JLabel(new ImageIcon("images/icons/create.png"));
+		lblCreate.setToolTipText("Create provider");
 		lblCreate.setBounds(361, 11, 50, 50);
 		lblCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblCreate);
+		getContentPane().add(lblCreate);
 		lblCreate.addMouseListener(m);
 		
 		lblEdit = new JLabel(new ImageIcon("images/icons/edit.png"));
+		lblEdit.setToolTipText("Edit provider");
 		lblEdit.setBounds(361, 74, 50, 50);
 		lblEdit.setEnabled(false);
 		lblEdit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblEdit);
+		getContentPane().add(lblEdit);
 		lblEdit.addMouseListener(m);
 		
 		lblDelete = new JLabel(new ImageIcon("images/icons/delete.png"));
+		lblDelete.setToolTipText("Delete provider");
 		lblDelete.setBounds(361, 137, 50, 50);
 		lblDelete.setEnabled(false);
 		lblDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblDelete);
+		getContentPane().add(lblDelete);
 		lblDelete.addMouseListener(m);
 
 		lblUndo = new JLabel(new ImageIcon("images/icons/undo.png"));
+		lblUndo.setToolTipText("Return");
 		lblUndo.setBounds(361, 203, 50, 50);
 		lblUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		add(lblUndo);
+		getContentPane().add(lblUndo);
 		lblUndo.addMouseListener(m);
 
 		setVisible(true);

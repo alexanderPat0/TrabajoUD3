@@ -29,17 +29,7 @@ public class ActionService {
 				consult.setInt(4, action.getAction_tipe());
 				Date sqlDate = Date.valueOf(localDate.toLocalDate());
 				consult.setDate(5, sqlDate);
-			} else {
-				consult = conexion.prepareStatement("UPDATE " + this.table
-						+ " SET id_user = ?, id_product = ?, id_provider = ?, action_tipe = ?, date = ? WHERE id = ?");
-				consult.setInt(1, action.getId_user());
-				consult.setInt(2, action.getId_product());
-				consult.setInt(3, action.getId_provider());
-				consult.setInt(4, action.getAction_tipe());
-				consult.setDate(5, action.getDate());
-				consult.setInt(6, action.getId());
-			}
-			consult.executeUpdate();
+			} 
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}

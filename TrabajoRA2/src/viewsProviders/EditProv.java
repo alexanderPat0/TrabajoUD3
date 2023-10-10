@@ -8,7 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -20,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
+import models.Action;
 import models.Provider;
 import services.Conexion;
 import test.Test;
@@ -123,27 +126,98 @@ public class EditProv extends JFrame {
 				mail = txtMail.getText();
 				phone = txtPhone.getText();
 				
-				if(name.isEmpty() || location.isEmpty() || mail.isEmpty() || phone.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error", JOptionPane.WARNING_MESSAGE);
-					
-				}else {
-					if (phone.matches("\\d+")) {
-						phoneInt = Integer.parseInt(phone);
-						System.out.println(p.getId());
-						provider = new Provider(p.getId(), name, location, mail, phoneInt);
-						try {
-							Test.provider.save(Conexion.obtain(), provider);
-						} catch (ClassNotFoundException | SQLException e1) {
-							e1.printStackTrace();
+				boolean providerExists = false;
+				Provider existingProvider = new Provider();
+				
+				if (!name.isEmpty()) {
+					for (Provider p : Test.providerList) {
+						if (name.equalsIgnoreCase(p.getName())) {
+							existingProvider = p;
+							providerExists = true;
 						}
-						JOptionPane.showMessageDialog(null, "You have updated the Provider!", "Updating...", JOptionPane.INFORMATION_MESSAGE);
-						dispose();
-						new SeeProv();
-					} else {
-						JOptionPane.showMessageDialog(null, "Phone must be a number!", "Error",
-								JOptionPane.WARNING_MESSAGE);
 					}
+					if (providerExists) {
+
+						if (existingProvider.getAvailable() == 1)
+							JOptionPane.showMessageDialog(null, "That provider has already been added", "Error",
+									JOptionPane.WARNING_MESSAGE);
+						else {
+							JOptionPane.showMessageDialog(null, "That provider was created and deleted, restoring...",
+									"Error", JOptionPane.WARNING_MESSAGE);
+							
+							Provider p = new Provider(existingProvider.getId(),  existingProvider.getName(), existingProvider.getLocation(),
+									existingProvider.getMail(), existingProvider.getPhone(),  1);
+							try {
+								Test.provider.save(Conexion.obtain(), p);
+							} catch (ClassNotFoundException | SQLException e1) {
+								e1.printStackTrace();
+							}
+							Action a = new Action(Test.LogedInUser.getId(), 0 ,existingProvider.getId(), 4, Date.valueOf(LocalDate.now()));
+							System.out.println(a);
+							try {
+								Test.action.save(Conexion.obtain(), a);
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							Test.actionList.add(a);
+						}
+
+					} else {
+
+						if (location.isEmpty() || mail.isEmpty() || phone.isEmpty())
+							JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error",
+									JOptionPane.WARNING_MESSAGE);
+						else {
+
+							if (phone.matches("\\d+")) {
+								if (mail.matches("^[A-Za-z0-9+_.-]+@\\w+\\.\\w+$")) {
+									phoneInt = Integer.parseInt(phone);
+									provider = new Provider(name, location, mail, phoneInt, 1);
+									try {
+										Test.provider.save(Conexion.obtain(), provider);
+									} catch (ClassNotFoundException | SQLException e1) {
+										e1.printStackTrace();
+									}
+									
+									int provId = 0;
+									try {
+										provId = Test.provider.getProviderID(Conexion.obtain(), name);
+									} catch (ClassNotFoundException | SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									
+									Action a = new Action(Test.LogedInUser.getId(), 0 , provId, 4, Date.valueOf(LocalDate.now()));
+									System.out.println(a);
+									try {
+										Test.action.save(Conexion.obtain(), a);
+									} catch (ClassNotFoundException | SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									Test.actionList.add(a);
+									JOptionPane.showMessageDialog(null, "You have edited the provider!",
+											"Editing...", JOptionPane.INFORMATION_MESSAGE);
+									dispose();
+									new SeeProv();
+								} else
+									JOptionPane.showMessageDialog(null, "Mail not valid!", "Error",
+											JOptionPane.WARNING_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(null, "Phone must be a number!", "Error",
+										JOptionPane.WARNING_MESSAGE);
+							}
+						}
+					}
+
+				} else {
+
+					JOptionPane.showMessageDialog(null, "Please fill at least the name field", "Error",
+							JOptionPane.WARNING_MESSAGE);
+
 				}
+				
 			}
 		});
 		
@@ -154,7 +228,7 @@ public class EditProv extends JFrame {
 		lblCancel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "You have cancelled the creation", "Cancelling...", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You have cancelled the edition", "Cancelling...", JOptionPane.ERROR_MESSAGE);
 				dispose();
 				new SeeProv();
 			}
