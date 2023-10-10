@@ -185,11 +185,13 @@ public class EditProd extends JFrame {
 		panel.add(txtAmount);
 
 		lblCreate = new JLabel(new ImageIcon("images/icons/add.png"));
+		lblCreate.setToolTipText("Save");
 		lblCreate.setBounds(152, 234, 60, 60);
 		contentPane.add(lblCreate);
 		lblCreate.addMouseListener(ml);
 
 		lblCancel = new JLabel(new ImageIcon("images/icons/red_x.png"));
+		lblCancel.setToolTipText("Cancel");
 		lblCancel.setBounds(316, 234, 60, 60);
 		contentPane.add(lblCancel);
 		lblCancel.addMouseListener(ml);

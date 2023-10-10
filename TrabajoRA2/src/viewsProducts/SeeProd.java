@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -35,7 +36,6 @@ public class SeeProd extends JFrame {
 	private JPanel contentPane;
 	public static JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
-	@SuppressWarnings("rawtypes")
 	private JComboBox cbSearch;
 	private int idRow, row;
 	private float inputFloat;
@@ -45,7 +45,6 @@ public class SeeProd extends JFrame {
 	private List<String> listSearch = new ArrayList<String>();
 	private List<String> listCategories = createCategories();
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public SeeProd() {
 		super("CRUD products");
 		getListSerch();
@@ -55,7 +54,7 @@ public class SeeProd extends JFrame {
 			e.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 647, 367);
+		setBounds(100, 100, 808, 403);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,7 +63,7 @@ public class SeeProd extends JFrame {
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 423, 239);
+		scrollPane.setBounds(10, 11, 557, 267);
 		contentPane.add(scrollPane);
 
 		table = new JTable(Method.UploadProductList()) {
@@ -89,8 +88,12 @@ public class SeeProd extends JFrame {
 				image = Test.productList.get(row).getImage();
 				lblImage.setIcon(new ImageIcon(image));
 				try {
+
+					System.out.println(idRow);
 					Method.UploadProductList();
 					p = ps.getProduct(Conexion.obtain(), ps.getProductID(Conexion.obtain(), name));
+					System.out.println(p);
+
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -109,51 +112,57 @@ public class SeeProd extends JFrame {
 		MouseListen m = new MouseListen();
 
 		lblCreate = new JLabel(new ImageIcon("images/icons/create.png"));
-		lblCreate.setBounds(30, 268, 50, 50);
+		lblCreate.setToolTipText("Create");
+		lblCreate.setBounds(110, 295, 50, 50);
 		lblCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblCreate);
 		lblCreate.addMouseListener(m);
 
 		lblEdit = new JLabel(new ImageIcon("images/icons/edit.png"));
-		lblEdit.setBounds(110, 268, 50, 50);
+		lblEdit.setToolTipText("Edit");
+		lblEdit.setBounds(190, 295, 50, 50);
 		lblEdit.setEnabled(false);
 		lblEdit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblEdit);
 		lblEdit.addMouseListener(m);
 
 		lblDelete = new JLabel(new ImageIcon("images/icons/delete.png"));
-		lblDelete.setBounds(190, 268, 50, 50);
+		lblDelete.setToolTipText("Delete");
+		lblDelete.setBounds(270, 295, 50, 50);
 		lblDelete.setEnabled(false);
 		lblDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblDelete);
 		lblDelete.addMouseListener(m);
 
 		lblUndo = new JLabel(new ImageIcon("images/icons/undo.png"));
-		lblUndo.setBounds(350, 268, 50, 50);
+		lblUndo.setToolTipText("Undo");
+		lblUndo.setBounds(430, 295, 50, 50);
 		lblUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		getContentPane().add(lblUndo);
 		lblUndo.addMouseListener(m);
 
 		lblImage = new JLabel(new ImageIcon("images/products/Image_not_available.png"));
-		lblImage.setBounds(443, 70, 180, 180);
+		lblImage.setBounds(577, 73, 190, 205);
 		contentPane.add(lblImage);
 
 		cbSearch = new JComboBox(listSearch.toArray());
-		cbSearch.setBounds(443, 25, 140, 20);
+		cbSearch.setBounds(577, 28, 140, 20);
 		contentPane.add(cbSearch);
 
 		lblSell = new JLabel(new ImageIcon("images/icons/sell.png"));
-		lblSell.setBounds(270, 268, 50, 50);
+		lblSell.setToolTipText("Sell");
+		lblSell.setBounds(350, 295, 50, 50);
 		lblSell.setEnabled(false);
 		contentPane.add(lblSell);
 		lblSell.addMouseListener(m);
 
 		lblNewLabel = new JLabel("Search products by: ");
-		lblNewLabel.setBounds(443, 8, 140, 13);
+		lblNewLabel.setBounds(577, 11, 140, 13);
 		contentPane.add(lblNewLabel);
 
 		lblSearch = new JLabel(new ImageIcon("images/icons/lupa.png"));
-		lblSearch.setBounds(593, 20, 25, 25);
+		lblSearch.setToolTipText("Search");
+		lblSearch.setBounds(727, 28, 25, 25);
 		contentPane.add(lblSearch);
 		lblSearch.addMouseListener(m);
 		lblImage.repaint();
@@ -180,17 +189,21 @@ public class SeeProd extends JFrame {
 			if (lblDelete.isEnabled()) {
 				if (o == lblDelete) {
 
-					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this product?",
-							"Delete product", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?",
+							"Delete provider", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
-					if (option == JOptionPane.YES_OPTION) {
+					if (option == 1) {
+						System.out.println("You didn't delete the team");
+					} else {
 						try {
 							Test.product.remove(Conexion.obtain(), p.getId());
-							Method.refreshTableProduct();
+
+							Method.refreshTableProduct(Test.product.getAllProducts(Conexion.obtain()));
+
 							Action a = new Action(Test.LogedInUser.getId(), p.getId(), p.getId_prov(), 3,
 									Date.valueOf(LocalDate.now()));
 							try {
-								Test.action.save(Conexion.obtain(), a);
+								Test.action.remove(Conexion.obtain(), p.getId());
 							} catch (ClassNotFoundException | SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -239,7 +252,7 @@ public class SeeProd extends JFrame {
 								if (p.getAvailable() == 1)
 									sortedAllProd.add(p);
 							}
-							Method.refreshTableProduct2(sortedAllProd);
+							Method.refreshTableProduct(sortedAllProd);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -253,7 +266,7 @@ public class SeeProd extends JFrame {
 						if (inputString != null && !inputString.trim().isEmpty()) {
 							try {
 								List<Product> sortedProv = ps.getProductsByProvider(Conexion.obtain(), inputString);
-								Method.refreshTableProduct2(sortedProv);
+								Method.refreshTableProduct(sortedProv);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
@@ -267,7 +280,7 @@ public class SeeProd extends JFrame {
 						if (inputString != null && !inputString.trim().isEmpty()) {
 							try {
 								List<Product> sortedName = ps.getProductsByName(Conexion.obtain(), inputString);
-								Method.refreshTableProduct2(sortedName);
+								Method.refreshTableProduct(sortedName);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
@@ -291,7 +304,7 @@ public class SeeProd extends JFrame {
 							try {
 								List<Product> sortedCategory = ps.getProductsByCategory(Conexion.obtain(),
 										selectedCategory);
-								Method.refreshTableProduct2(sortedCategory);
+								Method.refreshTableProduct(sortedCategory);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
@@ -314,7 +327,7 @@ public class SeeProd extends JFrame {
 							try {
 								List<Product> sortedPrice = ps.getProductsByPrice(Conexion.obtain(), belowLimit,
 										aboveLimit);
-								Method.refreshTableProduct2(sortedPrice);
+								Method.refreshTableProduct(sortedPrice);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}

@@ -25,14 +25,19 @@ import viewsProviders.SeeProv;
 public class Method {
 
 	public static TableModel UploadProductList() {
-		String[] col = { "id_prov", "Name", "Description", "Price", "Amount", "Category", "Image", "Expire_Date",
-				"Available" };
+		String name = null;
+		String[] col = { "Provider", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
 			if (p.getAvailable() != 0) {
-				Object[] row = { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
-						p.getCategory(), p.getImage(), p.getExpire_date(), p.getAvailable() };
+				try {
+					name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Object[] row = { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
+						p.getCategory(), p.getExpire_date()};
 				model.addRow(row);
 			}
 		}
@@ -44,8 +49,10 @@ public class Method {
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Provider p : Test.providerList) {
+			if(p.getAvailable()==1) {
 			Object[] row = { p.getName(), p.getLocation(), p.getMail(), p.getPhone() };
 			model.addRow(row);
+			}
 		}
 		return model;
 	}
@@ -60,6 +67,7 @@ public class Method {
 			it = Test.provider.getAllProviders(Conexion.obtain()).iterator();
 			while (it.hasNext()) {
 				Provider p = it.next();
+				if(p.getAvailable()==1)
 				model.addRow(new Object[] { p.getName(), p.getLocation(), p.getMail(), p.getPhone() });
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -69,40 +77,21 @@ public class Method {
 		SeeProv.table.setModel(model);
 	}
 
-	public static void refreshTableProduct() {
-
-		String[] cols = { "Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
-		DefaultTableModel model = new DefaultTableModel(cols, 0);
-		Iterator<Product> it;
-		try {
-			it = Test.product.getAllProducts(Conexion.obtain()).iterator();
-			while (it.hasNext()) {
-				Product p = it.next();
-				if (p.getAvailable() != 0) {
-					model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(),
-							p.getAmount(), p.getCategory(), p.getImage(), p.getExpire_date() });
-				}
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		SeeProd.table.setModel(model);
-	}
-
-	public static void refreshTableProduct2(List<Product> listP) {
-
-		String[] cols = { "Id_prov", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
+	public static void refreshTableProduct(List<Product> listP) {
+		String name = null;
+		String[] cols = { "Provider", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
 		DefaultTableModel model = new DefaultTableModel(cols, 0);
 		Iterator<Product> it;
 		it = listP.iterator();
 		while (it.hasNext()) {
+			
 			Product p = it.next();
-			model.addRow(new Object[] { p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
+			try {
+				name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			model.addRow(new Object[] { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
 					p.getCategory(), p.getExpire_date() });
 		}
 		SeeProd.table.setModel(model);
