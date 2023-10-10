@@ -3,12 +3,18 @@ package views;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,6 +23,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+
+import methods.DrawPDF;
 import methods.Method;
 import models.Transaction;
 import services.Conexion;
@@ -96,7 +110,7 @@ public class Bill extends JFrame {
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
 				Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				comp.setBackground(new Color(220, 220, 220)); 
+				comp.setBackground(new Color(220, 220, 220));
 				return comp;
 			}
 		};
@@ -107,32 +121,33 @@ public class Bill extends JFrame {
 					boolean hasFocus, int row, int column) {
 				Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				if (column == table.getColumnCount() - 1) {
-					comp.setBackground(new Color(255, 200, 150)); 
+					comp.setBackground(new Color(255, 200, 150));
 				}
 				return comp;
 			}
 		};
 
 		DefaultTableCellRenderer columnRenderer = new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column != 0 && column != table.getColumnCount() - 1) {
-                    comp.setBackground(new Color(251, 242, 221)); 
-                }
-                return comp;
-            }
-        };
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				if (column != 0 && column != table.getColumnCount() - 1) {
+					comp.setBackground(new Color(251, 242, 221));
+				}
+				return comp;
+			}
+		};
 
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-        }
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+		}
 
-        table.getColumnModel().getColumn(table.getColumnCount() - 1).setCellRenderer(lastColumnRenderer);
+		table.getColumnModel().getColumn(table.getColumnCount() - 1).setCellRenderer(lastColumnRenderer);
 
-        for (int i = 1; i < table.getColumnCount() - 1; i++) {
-            table.getColumnModel().getColumn(i).setCellRenderer(columnRenderer);
-        }
+		for (int i = 1; i < table.getColumnCount() - 1; i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(columnRenderer);
+		}
 
 		lbl_1_1 = new JLabel("----------------------------------------------------------------");
 		lbl_1_1.setBounds(205, 444, 258, 13);
@@ -148,9 +163,9 @@ public class Bill extends JFrame {
 		lblTotalPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTotalPrice.setBounds(6, 18, 86, 28);
 		panel_1.add(lblTotalPrice);
-		
+
 		for (Transaction t : Test.transactionList) {
-			totalPrice += (t.getPrice()*t.getAmount());
+			totalPrice += (t.getPrice() * t.getAmount());
 		}
 
 		txtDollars = new JTextField();
@@ -158,29 +173,29 @@ public class Bill extends JFrame {
 		txtDollars.setBackground(new Color(251, 242, 221));
 		txtDollars.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDollars.setEditable(false);
-		txtDollars.setText(totalPrice+ " $");
+		txtDollars.setText(totalPrice + " $");
 		txtDollars.setBounds(98, 18, 105, 28);
 		panel_1.add(txtDollars);
 		txtDollars.setColumns(10);
-		
+
 		panel_2 = new JPanel();
 		panel_2.setBackground(new Color(255, 255, 255));
 		panel_2.setBounds(10, 452, 222, 98);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
-		
+
 		lblCompany = new JLabel("Company: Mercadona");
 		lblCompany.setBounds(10, 9, 202, 13);
 		panel_2.add(lblCompany);
-		
+
 		lblLocationCadiz = new JLabel("Location: Cadiz");
 		lblLocationCadiz.setBounds(10, 31, 202, 13);
 		panel_2.add(lblLocationCadiz);
-		
+
 		lblEmail = new JLabel("Email: mercadona@gmai.com");
 		lblEmail.setBounds(10, 53, 202, 13);
 		panel_2.add(lblEmail);
-		
+
 		lblNumber = new JLabel("Number: 956 46 38 22");
 		lblNumber.setBounds(10, 75, 202, 13);
 		panel_2.add(lblNumber);
@@ -196,32 +211,47 @@ public class Bill extends JFrame {
 		panel3.setBackground(new Color(222, 222, 222));
 		panel3.setBounds(50, 27, 473, 560);
 		contentPane.add(panel3);
-		
-				lblBack = new JLabel(new ImageIcon("images/icons/undo.png"));
-				lblBack.setBounds(20, 614, 45, 40);
-				contentPane.add(lblBack);
-				lblBack.setToolTipText("Undo");
-				lblBack.addMouseListener(new MouseListener(){
 
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						dispose();
-						new MainPanel();
-					}
+		JButton btnPDF = new JButton("Create PDF");
+		btnPDF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-					@Override
-					public void mousePressed(MouseEvent e) {}
+				DrawPDF.writePDF();
 
-					@Override
-					public void mouseReleased(MouseEvent e) {}
+			}
+		});
+		btnPDF.setBounds(454, 631, 89, 23);
+		contentPane.add(btnPDF);
 
-					@Override
-					public void mouseEntered(MouseEvent e) {}
+		lblBack = new JLabel(new ImageIcon("images/icons/undo.png"));
+		lblBack.setBounds(20, 614, 45, 40);
+		contentPane.add(lblBack);
+		lblBack.setToolTipText("Undo");
+		lblBack.addMouseListener(new MouseListener() {
 
-					@Override
-					public void mouseExited(MouseEvent e) {}
-					
-				});
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				new MainPanel();
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+		});
 
 		setVisible(true);
 	}

@@ -32,7 +32,7 @@ public class LoadingScreen extends JFrame {
 		contentPane.setLayout(null);
 		
 		ImageIcon imgIcon = new ImageIcon("images/MercadonaLogo.png");
-		Image image = imgIcon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+		Image image = imgIcon.getImage().getScaledInstance(193, 145, Image.SCALE_SMOOTH);
 		ImageIcon imgLogo = new ImageIcon(image);
 		
 		JLabel lblLogo = new JLabel(imgLogo);
