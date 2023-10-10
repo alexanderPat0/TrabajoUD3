@@ -117,34 +117,13 @@ public class MainPanel extends JFrame {
 				
 			}else if(e.getSource() == lblInfo) {
 				
-//				 JFileChooser chooser = new JFileChooser();
-//				 
-//				    File selectedFile = new File("/Downloads");
-//				    chooser.setSelectedFile(selectedFile);
-//
-//				    FileFilter filter = new FileFilter(){
-//				    	public boolean accept(File file) {
-//				    		if (file.getName().endsWith(".jpg") || file.getName().endsWith(".gif")) {
-//				    			return true;
-//				    		}
-//				    		return false;
-//				    	}
-//				    };
-//				
-//				    int returnVal = chooser.showSaveDialog(null);
-//				    if(returnVal == JFileChooser.APPROVE_OPTION) {
-//				       System.out.println("You chose to open this file: " +
-//				            chooser.getSelectedFile().getName());
-//				       //then write your code to write to disk
-//				    }
+				dispose();
+				new Bill();
 				
 			}else if(e.getSource() == lblExit) {
 				
 				dispose();
 				new Login();
-//				LogedInUser = null;
-//				O algo así, no sé.
-				
 			} 
 		}
 

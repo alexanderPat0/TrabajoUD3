@@ -17,6 +17,7 @@ import javax.swing.table.TableModel;
 import models.Action;
 import models.Product;
 import models.Provider;
+import models.Transaction;
 import services.Conexion;
 import test.Test;
 import viewsProducts.SeeProd;
@@ -53,6 +54,24 @@ public class Method {
 			Object[] row = { p.getName(), p.getLocation(), p.getMail(), p.getPhone() };
 			model.addRow(row);
 			}
+		}
+		return model;
+	}
+	
+	public static TableModel UploadTransactionList() {
+		String name = null;
+		String[] col = { "Product", "Price By Unit", "Amount", "Total Price"};
+		DefaultTableModel model = new DefaultTableModel(col, 0);
+		
+		for (Transaction t : Test.transactionList) {
+			try {
+				name = Test.product.getProduct(Conexion.obtain(), t.getId_prod()).getName();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			float totalPrice = t.getPrice()*t.getAmount();
+			Object[] row = { name, t.getPrice(), t.getAmount(), totalPrice };
+			model.addRow(row);
 		}
 		return model;
 	}
