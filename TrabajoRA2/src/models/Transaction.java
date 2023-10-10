@@ -9,11 +9,11 @@ public class Transaction {
 	private float price;
 	private int amount;
 	private Date date;
-	
+
 	public Transaction() {
 		super();
 	}
-	
+
 	public Transaction(int id_prod, float price, int amount, Date date) {
 		super();
 		this.id_prod = id_prod;
@@ -21,7 +21,7 @@ public class Transaction {
 		this.amount = amount;
 		this.date = date;
 	}
-	
+
 	public Transaction(Integer id, int id_prod, float price, int amount, Date date) {
 		super();
 		this.id = id;

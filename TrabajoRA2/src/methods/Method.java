@@ -37,8 +37,8 @@ public class Method {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				Object[] row = { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
-						p.getCategory(), p.getExpire_date()};
+				Object[] row = { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(), p.getCategory(),
+						p.getExpire_date() };
 				model.addRow(row);
 			}
 		}
@@ -50,27 +50,27 @@ public class Method {
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Provider p : Test.providerList) {
-			if(p.getAvailable()==1) {
-			Object[] row = { p.getName(), p.getLocation(), p.getMail(), p.getPhone() };
-			model.addRow(row);
+			if (p.getAvailable() == 1) {
+				Object[] row = { p.getName(), p.getLocation(), p.getMail(), p.getPhone() };
+				model.addRow(row);
 			}
 		}
 		return model;
 	}
-	
+
 	public static TableModel UploadTransactionList() {
 		String name = null;
-		String[] col = { "Date", "Product", "Price By Unit", "Amount", "Total Price"};
+		String[] col = { "Date", "Product", "Price By Unit", "Amount", "Total Price" };
 		DefaultTableModel model = new DefaultTableModel(col, 0);
-		
+
 		for (Transaction t : Test.transactionList) {
 			try {
 				name = Test.product.getProduct(Conexion.obtain(), t.getId_prod()).getName();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			float totalPrice = t.getPrice()*t.getAmount();
-			Object[] row = { t.getDate(), name, t.getPrice()+" $", t.getAmount(), totalPrice+" $" };
+			float totalPrice = t.getPrice() * t.getAmount();
+			Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
 			model.addRow(row);
 		}
 		return model;
@@ -86,8 +86,8 @@ public class Method {
 			it = Test.provider.getAllProviders(Conexion.obtain()).iterator();
 			while (it.hasNext()) {
 				Provider p = it.next();
-				if(p.getAvailable()==1)
-				model.addRow(new Object[] { p.getName(), p.getLocation(), p.getMail(), p.getPhone() });
+				if (p.getAvailable() == 1)
+					model.addRow(new Object[] { p.getName(), p.getLocation(), p.getMail(), p.getPhone() });
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public class Method {
 		Iterator<Product> it;
 		it = listP.iterator();
 		while (it.hasNext()) {
-			
+
 			Product p = it.next();
 			try {
 				name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();

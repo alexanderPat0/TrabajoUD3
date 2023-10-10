@@ -28,7 +28,6 @@ public class Conexion {
 				cnx = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/trabajo_ra2?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
 						"root", "root");
-				System.out.println("Connected");
 			} catch (SQLException ex) {
 				throw new SQLException(ex);
 			} catch (ClassNotFoundException ex) {

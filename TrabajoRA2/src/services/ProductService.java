@@ -79,7 +79,6 @@ public class ProductService {
 		return product;
 	}
 
-	// he cambiado Product product por Integer id
 	public void remove(Connection conexion, Integer id) throws SQLException {
 		PreparedStatement consult;
 		try {
@@ -112,7 +111,6 @@ public class ProductService {
 		return productList;
 	}
 
-	
 	public List<Product> getProductsByPrice(Connection conexion, int a, int b) throws SQLException {
 		List<Product> productList = new ArrayList<>();
 		try {
@@ -120,8 +118,8 @@ public class ProductService {
 
 					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
 							+ " FROM " + this.table + " WHERE price >= ? AND price <= ?");
-					consult.setInt(1, a);
-					consult.setInt(2, b);
+			consult.setInt(1, a);
+			consult.setInt(2, b);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
@@ -205,12 +203,12 @@ public class ProductService {
 							+ "products.amount , products.category , products.image , products.expire_date , products.available FROM "
 							+ this.table
 							+ " INNER JOIN providers ON products.id_prov = providers.id WHERE providers.name = ? AND products.available = ?");
-				consult.setString(1, provider_name);
-				consult.setInt(2, 1);
+			consult.setString(1, provider_name);
+			consult.setInt(2, 1);
 
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				
+
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
 						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
@@ -221,19 +219,19 @@ public class ProductService {
 		}
 		return productList;
 	}
-	
+
 	public List<Product> getProductsByName(Connection conexion, String name) throws SQLException {
 		List<Product> productList = new ArrayList<>();
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 					"SELECT id , id_prov, name, description, price, amount, category, image, expire_date , available"
 							+ " FROM " + this.table + " WHERE name = ? AND available = ?");
-				consult.setString(1, name);
-				consult.setInt(2, 1);
+			consult.setString(1, name);
+			consult.setInt(2, 1);
 
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				
+
 				productList.add(new Product(result.getInt("id"), result.getInt("id_prov"), result.getString("name"),
 						result.getString("description"), result.getFloat("price"), result.getInt("amount"),
 						result.getString("category"), result.getString("image"), result.getDate("expire_date"),
@@ -250,7 +248,6 @@ public class ProductService {
 		try {
 			PreparedStatement consult = conexion
 					.prepareStatement("SELECT id" + " FROM " + this.table + " WHERE name = ?");
-			// consult.setInt(1, id_prov);
 			consult.setString(1, name);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {

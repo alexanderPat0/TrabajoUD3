@@ -11,21 +11,21 @@ import models.User;
 public class UserService {
 
 	/** The table. */
-	private final  String table = "users";
+	private final String table = "users";
 
-	public  void save(Connection conexion, User user) throws SQLException {
+	public void save(Connection conexion, User user) throws SQLException {
 		try {
 			PreparedStatement consult;
 			if (user.getId() == null) {
-				consult = conexion.prepareStatement("INSERT INTO " + table
-						+ "(name, age, username, password) VALUES(?, ?, ?, ?)");
+				consult = conexion.prepareStatement(
+						"INSERT INTO " + table + "(name, age, username, password) VALUES(?, ?, ?, ?)");
 				consult.setString(1, user.getName());
 				consult.setInt(2, user.getAge());
 				consult.setString(3, user.getUsername());
 				consult.setString(4, user.getPassword());
 			} else {
-				consult = conexion.prepareStatement("UPDATE " + table
-						+ " SET id = ?, name = ?, age = ?, username = ?, password = ? WHERE id = ?");
+				consult = conexion.prepareStatement(
+						"UPDATE " + table + " SET id = ?, name = ?, age = ?, username = ?, password = ? WHERE id = ?");
 				consult.setString(1, user.getName());
 				consult.setInt(2, user.getAge());
 				consult.setString(3, user.getUsername());
@@ -38,30 +38,26 @@ public class UserService {
 		}
 	}
 
-	
 	public User getUser(Connection conexion, int id) throws SQLException {
 		User user = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name, age, username, password"
-							+ " FROM " + this.table + " WHERE id = ?");
+					"SELECT id, name, age, username, password" + " FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				user = new User(result.getInt("id"), result.getString("name"), result.getInt("age"), 
+				user = new User(result.getInt("id"), result.getString("name"), result.getInt("age"),
 						result.getString("username"), result.getString("password"));
-			} 
+			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return user;
 	}
 
-	
 	public void remove(Connection conexion, User provider) throws SQLException {
 		try {
-			PreparedStatement consult = conexion
-					.prepareStatement("DELETE FROM " + this.table + " WHERE id = ?");
+			PreparedStatement consult = conexion.prepareStatement("DELETE FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, provider.getId());
 			consult.executeUpdate();
 		} catch (SQLException ex) {
@@ -69,16 +65,14 @@ public class UserService {
 		}
 	}
 
- 
 	public List<User> getAllUsers(Connection conexion) throws SQLException {
 		List<User> userList = new ArrayList<>();
 		try {
-			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name, age, username, password"
-							+ " FROM " + this.table);
+			PreparedStatement consult = conexion
+					.prepareStatement("SELECT id, name, age, username, password" + " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				userList.add(new User(result.getInt("id"), result.getString("name"), result.getInt("age"), 
+				userList.add(new User(result.getInt("id"), result.getString("name"), result.getInt("age"),
 						result.getString("username"), result.getString("password")));
 			}
 		} catch (SQLException ex) {
@@ -86,22 +80,21 @@ public class UserService {
 		}
 		return userList;
 	}
-	
+
 	public User checkUser(Connection conexion, String username) throws SQLException {
 		User user = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name, age, username, password"
-							+ " FROM " + this.table + " WHERE username = ?");
+					"SELECT id, name, age, username, password" + " FROM " + this.table + " WHERE username = ?");
 			consult.setString(1, username);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				user = new User(result.getInt("id"), result.getString("name"), result.getInt("age"), 
+				user = new User(result.getInt("id"), result.getString("name"), result.getInt("age"),
 						result.getString("username"), result.getString("password"));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
-		return user;		
+		return user;
 	}
 }

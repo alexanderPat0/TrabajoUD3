@@ -241,7 +241,6 @@ public class AddProd extends JFrame {
 								try {
 									prodId = Test.product.getProductID(Conexion.obtain(), name);
 								} catch (ClassNotFoundException | SQLException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								Action a = new Action(Test.LogedInUser.getId(), prodId, p.getId_prov(), 1,
@@ -249,7 +248,6 @@ public class AddProd extends JFrame {
 								try {
 									Test.action.save(Conexion.obtain(), a);
 								} catch (ClassNotFoundException | SQLException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								Test.actionList.add(a);
@@ -273,7 +271,6 @@ public class AddProd extends JFrame {
 								try {
 									Test.action.save(Conexion.obtain(), a);
 								} catch (ClassNotFoundException | SQLException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								Test.actionList.add(a);

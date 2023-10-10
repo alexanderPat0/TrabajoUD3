@@ -43,16 +43,13 @@ public class EditProd extends JFrame {
 			lblCreate, lblCancel;
 	private String name, description, amount, price, category, image;
 	private Date date;
-//	private Date date = new Date(20231210);
 	private int id, id_prov, amountInt;
 	private float priceFloat;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
 	private Product p = new Product();
 
-	/**
-	 * Create the frame.
-	 */
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public EditProd(Product p) {
 		this.image=p.getImage();
@@ -162,7 +159,7 @@ public class EditProd extends JFrame {
 		lblImage.setBounds(180, 105, 46, 14);
 		panel.add(lblImage);
 
-		lblSetImage = new JLabel(new ImageIcon("images/icons/addImg.png"));
+		lblSetImage = new JLabel(new ImageIcon(p.getImage()));
 		lblSetImage.setBounds(180, 120, 138, 70);
 		lblSetImage.addMouseListener(ml);
 		panel.add(lblSetImage);
@@ -213,8 +210,6 @@ public class EditProd extends JFrame {
 			Object o = e.getSource();
 
 			if (o == lblCreate) {
-				// int id_prov, String name, String description,float price, int amount, String
-				// category, String image, Date expire_date
 				name = txtName.getText();
 				description = txtArea.getText();
 				price = txtPrice.getText();
@@ -241,7 +236,6 @@ public class EditProd extends JFrame {
 							try {
 								Test.action.save(Conexion.obtain(), a);
 							} catch (ClassNotFoundException | SQLException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							Test.actionList.add(a);

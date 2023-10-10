@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -36,7 +35,7 @@ public class SeeProd extends JFrame {
 	private JPanel contentPane;
 	public static JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
-	private JComboBox cbSearch;
+	private JComboBox<String> cbSearch;
 	private int idRow, row;
 	private float inputFloat;
 	private String option, inputString, image;
@@ -205,7 +204,6 @@ public class SeeProd extends JFrame {
 							try {
 								Test.action.remove(Conexion.obtain(), p.getId());
 							} catch (ClassNotFoundException | SQLException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							Test.actionList.add(a);

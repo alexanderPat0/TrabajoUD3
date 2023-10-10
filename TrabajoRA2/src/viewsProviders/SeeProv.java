@@ -21,7 +21,6 @@ import methods.Method;
 import models.Action;
 import models.Provider;
 import services.Conexion;
-import services.ProviderService;
 import test.Test;
 import views.MainPanel;
 
@@ -33,7 +32,6 @@ public class SeeProv extends JFrame {
 	private JLabel lblUndo, lblCreate, lblEdit, lblDelete; 
 	private int idRow, row;
 	private Provider p = null;
-	private ProviderService ps = new ProviderService();
 
 	public SeeProv() {
 		super("Providers");
@@ -76,7 +74,6 @@ public class SeeProv extends JFrame {
 				try {
 					Method.UploadProviderList();
 					p = Test.provider.getProvider(Conexion.obtain(), Test.provider.getProviderID(Conexion.obtain(), name));
-					System.out.println(p);
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}

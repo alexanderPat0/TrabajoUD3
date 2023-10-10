@@ -11,7 +11,7 @@ import models.Provider;
 public class ProviderService {
 
 	/** The table. */
-	private final  String table = "providers";
+	private final String table = "providers";
 
 	public void save(Connection conexion, Provider provider) throws SQLException {
 		try {
@@ -41,17 +41,15 @@ public class ProviderService {
 		}
 	}
 
-	
 	public Provider getProvider(Connection conexion, int id) throws SQLException {
 		Provider provider = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name, location, mail, phone, available"
-							+ " FROM " + this.table + " WHERE id = ?");
+					"SELECT id, name, location, mail, phone, available" + " FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				provider = new Provider(result.getInt("id"), result.getString("name"), result.getString("location"), 
+				provider = new Provider(result.getInt("id"), result.getString("name"), result.getString("location"),
 						result.getString("mail"), result.getInt("phone"), result.getInt("available"));
 			}
 		} catch (SQLException ex) {
@@ -60,7 +58,6 @@ public class ProviderService {
 		return provider;
 	}
 
-	
 	public void remove(Connection conexion, Integer id) throws SQLException {
 		PreparedStatement consult;
 		try {
@@ -73,29 +70,27 @@ public class ProviderService {
 		}
 	}
 
-
 	public List<Provider> getAllProviders(Connection conexion) throws SQLException {
 		List<Provider> providerList = new ArrayList<>();
 		try {
-			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name, location, mail, phone, available"
-							+ " FROM " + this.table );
+			PreparedStatement consult = conexion
+					.prepareStatement("SELECT id, name, location, mail, phone, available" + " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				providerList.add(new Provider(result.getInt("id"), result.getString("name"), result.getString("location"), 
-						result.getString("mail"), result.getInt("phone"), result.getInt("available")));
+				providerList
+						.add(new Provider(result.getInt("id"), result.getString("name"), result.getString("location"),
+								result.getString("mail"), result.getInt("phone"), result.getInt("available")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return providerList;
 	}
-	public List<String>getNameProvs(Connection conexion) throws SQLException{
-		List<String>nameProvs=new ArrayList<>();
+
+	public List<String> getNameProvs(Connection conexion) throws SQLException {
+		List<String> nameProvs = new ArrayList<>();
 		try {
-			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, name"
-							+ " FROM " + this.table);
+			PreparedStatement consult = conexion.prepareStatement("SELECT id, name" + " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
 				nameProvs.add(result.getString("name"));
@@ -105,23 +100,21 @@ public class ProviderService {
 		}
 		return nameProvs;
 	}
-	
+
 	public Integer getProviderID(Connection conexion, String name) throws SQLException {
-		int id_prov=0;
+		int id_prov = 0;
 		try {
-			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id"
-							+ " FROM " + this.table + " WHERE name = ?");
-			//consult.setInt(1, id_prov);
+			PreparedStatement consult = conexion
+					.prepareStatement("SELECT id" + " FROM " + this.table + " WHERE name = ?");
 			consult.setString(1, name);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				id_prov=result.getInt("id");
+				id_prov = result.getInt("id");
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return id_prov;
 	}
-	
+
 }

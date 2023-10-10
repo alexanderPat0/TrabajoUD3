@@ -13,7 +13,6 @@ import models.Transaction;
 
 public class TransactionService {
 
-	
 	/** The table. */
 	private final String table = "transactions";
 
@@ -22,21 +21,21 @@ public class TransactionService {
 			PreparedStatement consult;
 			if (transaction.getId() == null) {
 				LocalDateTime localDate = LocalDateTime.now();
-				consult = conexion.prepareStatement("INSERT INTO " + this.table
-						+ "(id_prod, price, amount, date) VALUES(?, ?, ?, ?)");
+				consult = conexion.prepareStatement(
+						"INSERT INTO " + this.table + "(id_prod, price, amount, date) VALUES(?, ?, ?, ?)");
 
 				consult.setInt(1, transaction.getId_prod());
-				consult.setFloat(2,transaction.getPrice());
+				consult.setFloat(2, transaction.getPrice());
 				consult.setInt(3, transaction.getAmount());
 				Date sqlDate = Date.valueOf(localDate.toLocalDate());
 				consult.setDate(4, sqlDate);
 
 			} else {
 				LocalDateTime localDate = LocalDateTime.now();
-				consult = conexion.prepareStatement("UPDATE " + this.table
-						+ " SET id_prod = ?, price = ?, amount = ?, date = ? WHERE id = ?");
+				consult = conexion.prepareStatement(
+						"UPDATE " + this.table + " SET id_prod = ?, price = ?, amount = ?, date = ? WHERE id = ?");
 				consult.setInt(1, transaction.getId_prod());
-				consult.setFloat(2,transaction.getPrice());
+				consult.setFloat(2, transaction.getPrice());
 				consult.setInt(3, transaction.getAmount());
 				Date sqlDate = Date.valueOf(localDate.toLocalDate());
 				consult.setDate(4, sqlDate);
@@ -53,12 +52,12 @@ public class TransactionService {
 		Transaction transaction = null;
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
-					"SELECT id, id_prod, price, amount, date"
-							+ " FROM " + this.table + " WHERE id = ?");
+					"SELECT id, id_prod, price, amount, date" + " FROM " + this.table + " WHERE id = ?");
 			consult.setInt(1, id);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				transaction = new Transaction(result.getInt("id"), result.getInt("id_prod"), result.getFloat("price"), result.getInt("amount"), result.getDate("date"));
+				transaction = new Transaction(result.getInt("id"), result.getInt("id_prod"), result.getFloat("price"),
+						result.getInt("amount"), result.getDate("date"));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -83,16 +82,16 @@ public class TransactionService {
 		try {
 			PreparedStatement consult = conexion.prepareStatement(
 
-					"SELECT id, id_prod, price, amount, date"
-							+ " FROM " + this.table);
+					"SELECT id, id_prod, price, amount, date" + " FROM " + this.table);
 			ResultSet result = consult.executeQuery();
 			while (result.next()) {
-				transactionList.add(new Transaction(result.getInt("id"), result.getInt("id_prod"), result.getFloat("price"), result.getInt("amount"), result.getDate("date")));
+				transactionList.add(new Transaction(result.getInt("id"), result.getInt("id_prod"),
+						result.getFloat("price"), result.getInt("amount"), result.getDate("date")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
 		return transactionList;
 	}
-	
+
 }

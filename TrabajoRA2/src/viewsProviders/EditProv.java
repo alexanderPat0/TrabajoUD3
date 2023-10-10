@@ -34,7 +34,6 @@ public class EditProv extends JFrame {
 	private JTextField txtName, txtLocation, txtMail, txtPhone;
 	private JLabel lblLocation, lblMail, lblPhone, lblCreate, lblCancel, lblName;
 	private String name, location, mail, phone;
-	private int phoneInt;
 	private Provider provider;
 
 	public EditProv(Provider p) {
@@ -132,10 +131,8 @@ public class EditProv extends JFrame {
 				else {
 
 					int cont = 0;
-					System.out.println(name);
 
 					for (Provider p : Test.providerList) {
-						System.out.println(p.getName());
 						if (name.matches(p.getName()))
 							cont++;
 					}
@@ -160,11 +157,9 @@ public class EditProv extends JFrame {
 
 								Action a = new Action(Test.LogedInUser.getId(), 0, provider.getId(), 4,
 										Date.valueOf(LocalDate.now()));
-								System.out.println(a);
 								try {
 									Test.action.save(Conexion.obtain(), a);
 								} catch (ClassNotFoundException | SQLException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								Test.actionList.add(a);

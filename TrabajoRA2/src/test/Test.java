@@ -30,46 +30,25 @@ public class Test {
 	public static ActionService action = new ActionService();
 	public static TransactionService transaction = new TransactionService();
 
-
 	public static User LogedInUser;
 
 	public static void main(String[] args) {
-				
+
 		try {
-			System.out.println("Products:");
 
 			productList = product.getAllProducts(Conexion.obtain());
-			for (Product p : productList) {
-				System.out.println(p);
-			}
-			System.out.println("Providers:");
+
 			providerList = provider.getAllProviders(Conexion.obtain());
-			for (Provider p : providerList) {
-				System.out.println(p);
-			}
-			System.out.println("Users:");
+
 			userList = user.getAllUsers(Conexion.obtain());
-			for (User p : userList) {
-				System.out.println(p);
-			}
-			
-			System.out.println("Actions:");
-			
+
 			actionList = action.getAllActions(Conexion.obtain());
-			for (Action a : actionList) {
-				System.out.println(a);
-			}
-			
-			System.out.println("Transactions:");
-			
+
 			transactionList = transaction.getAllTransactions(Conexion.obtain());
-			for (Transaction t : transactionList) {
-				System.out.println(t);
-			}
+
 			Conexion.obtain();
 			new LoadingScreen();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

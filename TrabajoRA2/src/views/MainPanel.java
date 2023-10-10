@@ -55,7 +55,6 @@ public class MainPanel extends JFrame {
 			try {
 				stringAction = Method.getActionString(a);
 			} catch (ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			model.addRow(new Object[] { a.getDate() , stringAction});
