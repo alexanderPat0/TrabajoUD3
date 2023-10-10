@@ -1,22 +1,34 @@
 package models;
 
+import java.sql.Date;
+
 public class Transaction {
 
 	private Integer id;
 	private int id_prod;
 	private float price;
 	private int amount;
+	private Date date;
 	
 	public Transaction() {
 		super();
 	}
 	
-	public Transaction(Integer id, int id_prod, float price, int amount) {
+	public Transaction(int id_prod, float price, int amount, Date date) {
+		super();
+		this.id_prod = id_prod;
+		this.price = price;
+		this.amount = amount;
+		this.date = date;
+	}
+	
+	public Transaction(Integer id, int id_prod, float price, int amount, Date date) {
 		super();
 		this.id = id;
 		this.id_prod = id_prod;
 		this.price = price;
 		this.amount = amount;
+		this.date = date;
 	}
 
 	public Integer getId() {
@@ -51,9 +63,18 @@ public class Transaction {
 		this.amount = amount;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	@Override
 	public String toString() {
-		return "Transaction [id=" + id + ", id_prod=" + id_prod + ", price=" + price + ", amount=" + amount + "]";
+		return "Transaction [id=" + id + ", id_prod=" + id_prod + ", price=" + price + ", amount=" + amount + ", date="
+				+ date + "]";
 	}
-	
+
 }

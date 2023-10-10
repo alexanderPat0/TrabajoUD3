@@ -10,7 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
 import models.Product;
+import models.Transaction;
 import services.Conexion;
 import test.Test;
 
@@ -40,6 +43,7 @@ public class SellProduct extends JFrame {
 	private JLabel lblInfo, lblPriceUnit, lbl_1, lbl_2, lbl_3, lblTotalPrice, lblStocks, lblSave, lblCancel;
 	private JTextField UnitPrice, TotalPrice, textStock;
 	private Product p = new Product();
+	private Date date = null;
 	@SuppressWarnings("unused")
 	private int amount, available = 1, finalStock;
 
@@ -195,13 +199,18 @@ public class SellProduct extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Object o = e.getSource();
+			int amountTransaction = Integer.parseInt(cbAmount.getSelectedItem().toString());
 			amount = Integer.parseInt(textStock.getText());
 			if(o == lblSave) {
 
 					Product p2 = new Product(p.getId(), p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
 							p.getImage(), p.getExpire_date(), available);
+					Transaction t = new Transaction(p.getId(), p.getPrice(), amountTransaction, Date.valueOf(LocalDate.now()));
+					System.out.println(t);
 					try {
 						Test.product.save(Conexion.obtain(), p2);
+						Test.transaction.save(Conexion.obtain(), t);
+						
 					} catch (ClassNotFoundException | SQLException e1) {
 						e1.printStackTrace();
 					}
