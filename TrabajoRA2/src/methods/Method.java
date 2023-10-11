@@ -146,36 +146,104 @@ public class Method {
 		return stringAction;
 	}
 
-	public static String FileChooserImage() {
-		JFileChooser fc = new JFileChooser();
-		String path = "";
-		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
-		fc.setFileFilter(imgFilter);
-		int result = fc.showOpenDialog(null);
+//	public static String FileChooserImage() {
+//		JFileChooser fc = new JFileChooser();
+//		String path = "";
+//		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+//		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
+//		fc.setFileFilter(imgFilter);
+//		int result = fc.showOpenDialog(null);
+//
+//		File file = fc.getSelectedFile();
+//
+//		if (result != JFileChooser.CANCEL_OPTION) {
+//
+//			if (file == null || file.getName().equalsIgnoreCase("")) {
+//				path = "images/products/Image_not_available.png";
+//			} else {
+//
+//				String pathImage = "images/products/" + file.getName();
+//				Path destino = Path.of(pathImage).toAbsolutePath();
+//
+//				path = pathImage;
+//
+//				try {
+//					Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+//
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		return path;
+//	}
+	
+	public static String FileChooserImageEdit(String img) {
+	    JFileChooser fc = new JFileChooser();
+	    String path = "";
 
-		File file = fc.getSelectedFile();
+	    fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	    FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
+	    fc.setFileFilter(imgFilter);
+	    int result = fc.showOpenDialog(null);
 
-		if (result != JFileChooser.CANCEL_OPTION) {
+	    if (result == JFileChooser.APPROVE_OPTION) {
+	        File file = fc.getSelectedFile();
 
-			if (file == null || file.getName().equalsIgnoreCase("")) {
-				path = "images/products/Image_not_available.png";
-			} else {
+	        if (file == null || file.getName().equalsIgnoreCase("")) {
+	            path = "images/products/Image_not_available.png";
+	        } else {
+	            String pathImage = "images/products/" + file.getName();
+	            Path destino = Path.of(pathImage).toAbsolutePath();
+	            path = pathImage;
 
-				String pathImage = "images/products/" + file.getName();
-				Path destino = Path.of(pathImage).toAbsolutePath();
+	            try {
+	                Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    } else {
+	        path = img;
+	    }
 
-				path = pathImage;
-
-				try {
-					Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return path;
+	    return path;
 	}
+	
+	public static String FileChooserImageAdd() {
+	    JFileChooser fc = new JFileChooser();
+	    String path = "";
+
+	    fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	    FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
+	    fc.setFileFilter(imgFilter);
+	    int result = fc.showOpenDialog(null);
+
+	    if (result == JFileChooser.APPROVE_OPTION) {
+	        File file = fc.getSelectedFile();
+
+	        if (file == null || file.getName().equalsIgnoreCase("")) {
+	            path = "images/products/Image_not_available.png";
+	        } else {
+	            String pathImage = "images/products/" + file.getName();
+	            Path destino = Path.of(pathImage).toAbsolutePath();
+	            path = pathImage;
+
+	            try {
+	                Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    } else {
+	        path = "images/icons/addImg.png";
+	    }
+
+	    return path;
+	}
+
+	
+	
+
 
 }

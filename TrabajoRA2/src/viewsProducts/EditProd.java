@@ -113,6 +113,12 @@ public class EditProd extends JFrame {
 		for (String a : provNames) {
 			comboBox.addItem(a);
 		}
+		try {
+			comboBox.setSelectedItem(Test.provider.getProvider(Conexion.obtain(), Test.product.getProduct(Conexion.obtain(), p.getId()).getId_prov()).getName());
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		panel.add(comboBox);
 
 		lblName = new JLabel("Name:");
@@ -284,14 +290,24 @@ public class EditProd extends JFrame {
 				dispose();
 				new SeeProd();
 			} else if (o == lblSetImage) {
-				File f = new File(image);
-				f.delete();
-				image = Method.FileChooserImage();
-				if (image != null) {
-					lblSetImage.setIcon(new ImageIcon(image));
-				}
-			}
+			    // Guarda la imagen actual en una variable antes de cambiarla
+			    String oldImagePath = image;
 
+			    // Llama a FileChooserImage para obtener la nueva imagen
+			    image = Method.FileChooserImageEdit(p.getImage());
+
+			    // Si la imagen actual no es la imagen predeterminada, elimina la imagen anterior
+			    if (!oldImagePath.equals(image)) {
+			    	if(!oldImagePath.equals("images/MercadonaLogo.png")) {
+				        File f = new File(oldImagePath);
+				        f.delete();
+			    	}
+			    }
+
+			    if (image != null) {
+			        lblSetImage.setIcon(new ImageIcon(image));
+			    }
+			}
 		}
 
 		@Override

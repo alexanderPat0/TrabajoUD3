@@ -303,7 +303,7 @@ public class AddProd extends JFrame {
 				dispose();
 				new SeeProd();
 			} else if (o == lblSetImage) {
-				image = Method.FileChooserImage();
+				image = Method.FileChooserImageAdd();
 				if (image != null) {
 					lblSetImage.setIcon(new ImageIcon(image));
 				}
