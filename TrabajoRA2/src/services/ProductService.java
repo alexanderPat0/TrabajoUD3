@@ -82,7 +82,7 @@ public class ProductService {
 	public void remove(Connection conexion, Integer id) throws SQLException {
 		PreparedStatement consult;
 		try {
-			consult = conexion.prepareStatement("UPDATE " + this.table + " SET available = ? WHERE id = ?");
+			consult = conexion.prepareStatement("UPDATE " + this.table + " SET available = ?, amount = 0 WHERE id = ?");
 			consult.setInt(1, 0);
 			consult.setInt(2, id);
 			consult.executeUpdate();
