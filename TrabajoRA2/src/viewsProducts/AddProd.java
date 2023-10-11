@@ -224,9 +224,14 @@ public class AddProd extends JFrame {
 
 							boolean productExists = false;
 							for (Product p : Test.productList) {
-								if (name.equalsIgnoreCase(p.getName())) {
-									existingProduct = p;
-									productExists = true;
+								try {
+									if (name.equalsIgnoreCase(p.getName()) && comboBox.getSelectedItem().toString().equalsIgnoreCase(Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName())) {
+										existingProduct = p;
+										productExists = true;
+									}
+								} catch (ClassNotFoundException | SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
 								}
 							}
 							if (productExists == false) {

@@ -49,10 +49,10 @@ public class EditProd extends JFrame {
 	private List<String> listCategories = new ArrayList<String>();
 	private Product p = new Product();
 
-	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public EditProd(Product p) {
-		this.image=p.getImage();
+	public EditProd(Product p2) {
+		p = p2;
+		this.image = p.getImage();
 		setTitle("Edit Product");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 343);
@@ -192,11 +192,11 @@ public class EditProd extends JFrame {
 		lblCancel.setBounds(316, 234, 60, 60);
 		contentPane.add(lblCancel);
 		lblCancel.addMouseListener(ml);
-		
+
 		name = txtName.getText();
 		try {
 			id = Test.product.getProductID(Conexion.obtain(), name);
-			
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -216,36 +216,63 @@ public class EditProd extends JFrame {
 				amount = txtAmount.getText();
 				category = String.valueOf(cbCategory.getSelectedItem());
 				date = Date.valueOf(txtExpDate.getText());
+				try {
+					id_prov = Test.provider.getProviderID(Conexion.obtain(), comboBox.getSelectedItem().toString());
 
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				if (name.isEmpty() || description.isEmpty() || price.isEmpty() || amount.isEmpty() || category.isEmpty()
 						|| image == null) {
 					JOptionPane.showMessageDialog(null, "You need to complete all the fields!", "Error",
 							JOptionPane.WARNING_MESSAGE);
 
 				} else {
+
 					if (price.matches("^-?\\d+(\\.\\d+)?$") && amount.matches("\\d+")) {
 						priceFloat = Float.parseFloat(txtPrice.getText());
 						amountInt = Integer.parseInt(txtAmount.getText());
 						int available = 1;
-						p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image, date , available);
-						try {
-							
-							Test.product.save(Conexion.obtain(), p);
-							
-							Action a = new Action(Test.LogedInUser.getId() , id , p.getId_prov() , 4 , Date.valueOf(LocalDate.now()));
+						boolean productExists = false;
+						for (Product p : Test.productList) {
 							try {
-								Test.action.save(Conexion.obtain(), a);
+								if (name.equalsIgnoreCase(p.getName())
+										&& comboBox.getSelectedItem().toString().equalsIgnoreCase(Test.provider
+												.getProvider(Conexion.obtain(), p.getId_prov()).getName())) {
+									productExists = true;
+								}
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+
+						if (!productExists) {
+							
+							Product p = new Product(id, id_prov, name, description, priceFloat, amountInt, category,
+									image, date, available);
+							try {
+
+								Test.product.save(Conexion.obtain(), p);
+
+								Action a = new Action(Test.LogedInUser.getId(), id, p.getId_prov(), 4,
+										Date.valueOf(LocalDate.now()));
+								try {
+									Test.action.save(Conexion.obtain(), a);
+								} catch (ClassNotFoundException | SQLException e1) {
+									e1.printStackTrace();
+								}
+								Test.actionList.add(a);
 							} catch (ClassNotFoundException | SQLException e1) {
 								e1.printStackTrace();
 							}
-							Test.actionList.add(a);
-						} catch (ClassNotFoundException | SQLException e1) {
-							e1.printStackTrace();
-						}
-						JOptionPane.showMessageDialog(null, "You have updated the Product!", "Updating...",
-								JOptionPane.INFORMATION_MESSAGE);
-						dispose();
-						new SeeProd();
+							JOptionPane.showMessageDialog(null, "You have updated the Product!", "Updating...",
+									JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+							new SeeProd();
+						} else
+							JOptionPane.showMessageDialog(null, "That product already exists!", "Error",
+									JOptionPane.WARNING_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "Price and Amount must be numbers!", "Error",
 								JOptionPane.WARNING_MESSAGE);
@@ -257,7 +284,7 @@ public class EditProd extends JFrame {
 				dispose();
 				new SeeProd();
 			} else if (o == lblSetImage) {
-				File f=new File(image);
+				File f = new File(image);
 				f.delete();
 				image = Method.FileChooserImage();
 				if (image != null) {
