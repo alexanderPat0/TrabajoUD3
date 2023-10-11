@@ -105,6 +105,31 @@ public class Bill extends JFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(70);
 		table.getColumnModel().getColumn(4).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
+		
+		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		        Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		        Object totalPriceValue = table.getValueAt(row, table.getColumn("Total Price").getModelIndex());
+		        String totalPriceStr = totalPriceValue.toString();
+
+		        if (totalPriceStr.startsWith("-")) {
+		            comp.setBackground(new Color(255, 200, 200)); // RED COLOR
+		        } else {
+		            comp.setBackground(new Color(200, 255, 200)); // GREEN COLOR
+		        }
+
+		        return comp;
+		    }
+		};
+		
+		for (Transaction t : Test.transactionList) {
+		    if (t.getType() == 1) {
+		        table.setDefaultRenderer(Object.class, customRowRenderer);
+		    } else if (t.getType() == 2) {
+		        table.setDefaultRenderer(Object.class, customRowRenderer);
+		    }
+		}
 
 		DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
 			@Override
@@ -128,28 +153,12 @@ public class Bill extends JFrame {
 			}
 		};
 
-		DefaultTableCellRenderer columnRenderer = new DefaultTableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
-				Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if (column != 0 && column != table.getColumnCount() - 1) {
-					comp.setBackground(new Color(251, 242, 221));
-				}
-				return comp;
-			}
-		};
-
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
 		}
 
 		table.getColumnModel().getColumn(table.getColumnCount() - 1).setCellRenderer(lastColumnRenderer);
-
-		for (int i = 1; i < table.getColumnCount() - 1; i++) {
-			table.getColumnModel().getColumn(i).setCellRenderer(columnRenderer);
-		}
-
+		
 		lbl_1_1 = new JLabel("----------------------------------------------------------------");
 		lbl_1_1.setBounds(205, 444, 258, 13);
 		panel.add(lbl_1_1);
