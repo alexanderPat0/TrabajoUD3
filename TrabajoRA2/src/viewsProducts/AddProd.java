@@ -28,6 +28,7 @@ import methods.ImageUtilities;
 import methods.Method;
 import models.Action;
 import models.Product;
+import models.Transaction;
 import services.Conexion;
 import test.Test;
 
@@ -41,7 +42,7 @@ public class AddProd extends JFrame {
 	private JComboBox<String> comboBox, cbCategory;
 	private List<String> provNames;
 	private List<String> listCategories = new ArrayList<String>();
-	private int id, amountInt;
+	private int id, amountInt, type = 2;
 	private String name, description, category, image = "", price, amount;
 	private Date date = null;
 	private float priceFloat;
@@ -218,7 +219,7 @@ public class AddProd extends JFrame {
 					} else {
 
 						if (price.matches("^-?\\d+(\\.\\d+)?$") && amount.matches("\\d+")) {
-							priceFloat = Float.parseFloat(txtPrice.getText());
+							priceFloat = Float.parseFloat(txtPrice.getText())*1.8F;
 							amountInt = Integer.parseInt(txtAmount.getText());
 
 							boolean productExists = false;
@@ -262,8 +263,12 @@ public class AddProd extends JFrame {
 										existingProduct.getDescription(), existingProduct.getPrice(),
 										existingProduct.getAmount() + amountInt, existingProduct.getCategory(),
 										existingProduct.getImage(), existingProduct.getExpire_date(), 1);
+								Transaction t = new Transaction(p.getId(), p.getPrice(), p.getAmount(), type, Date.valueOf(LocalDate.now()));
+								System.out.println(t);
 								try {
 									Test.product.save(Conexion.obtain(), p);
+									Test.transaction.save(Conexion.obtain(), t);
+									
 								} catch (ClassNotFoundException | SQLException e1) {
 									e1.printStackTrace();
 								}

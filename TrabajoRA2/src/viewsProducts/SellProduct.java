@@ -44,6 +44,7 @@ public class SellProduct extends JFrame {
 	private JTextField UnitPrice, TotalPrice, textStock;
 	private Product p = new Product();
 	private Date date = null;
+	private int type = 1;
 	@SuppressWarnings("unused")
 	private int amount, available = 1, finalStock;
 
@@ -205,7 +206,7 @@ public class SellProduct extends JFrame {
 
 					Product p2 = new Product(p.getId(), p.getId_prov(), p.getName(), p.getDescription(), p.getPrice(), amount, p.getCategory(),
 							p.getImage(), p.getExpire_date(), available);
-					Transaction t = new Transaction(p.getId(), p.getPrice(), amountTransaction, Date.valueOf(LocalDate.now()));
+					Transaction t = new Transaction(p.getId(), p.getPrice(), amountTransaction, type, Date.valueOf(LocalDate.now()));
 					System.out.println(t);
 					try {
 						Test.product.save(Conexion.obtain(), p2);

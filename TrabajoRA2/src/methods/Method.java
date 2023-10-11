@@ -62,6 +62,7 @@ public class Method {
 		String name = null;
 		String[] col = { "Date", "Product", "Price By Unit", "Amount", "Total Price" };
 		DefaultTableModel model = new DefaultTableModel(col, 0);
+		float totalPrice = 0;
 
 		for (Transaction t : Test.transactionList) {
 			try {
@@ -69,9 +70,15 @@ public class Method {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			float totalPrice = t.getPrice() * t.getAmount();
-			Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
-			model.addRow(row);
+			if(t.getType()==1) {
+				totalPrice = t.getPrice() * t.getAmount();
+				Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
+				model.addRow(row);
+			}else if(t.getType()==2){
+				totalPrice = -(t.getPrice() * t.getAmount());
+				Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
+				model.addRow(row);
+			}
 		}
 		return model;
 	}

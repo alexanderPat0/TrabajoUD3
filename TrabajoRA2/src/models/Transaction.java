@@ -7,27 +7,29 @@ public class Transaction {
 	private Integer id;
 	private int id_prod;
 	private float price;
-	private int amount;
+	private int amount, type;
 	private Date date;
 
 	public Transaction() {
 		super();
 	}
 
-	public Transaction(int id_prod, float price, int amount, Date date) {
+	public Transaction(int id_prod, float price, int amount, int type, Date date) {
 		super();
 		this.id_prod = id_prod;
 		this.price = price;
 		this.amount = amount;
+		this.type = type;
 		this.date = date;
 	}
 
-	public Transaction(Integer id, int id_prod, float price, int amount, Date date) {
+	public Transaction(Integer id, int id_prod, float price, int amount, int type, Date date) {
 		super();
 		this.id = id;
 		this.id_prod = id_prod;
 		this.price = price;
 		this.amount = amount;
+		this.type = type;
 		this.date = date;
 	}
 
@@ -71,10 +73,18 @@ public class Transaction {
 		this.date = date;
 	}
 
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString() {
-		return "Transaction [id=" + id + ", id_prod=" + id_prod + ", price=" + price + ", amount=" + amount + ", date="
-				+ date + "]";
+		return "Transaction [id=" + id + ", id_prod=" + id_prod + ", price=" + price + ", amount=" + amount + ", type="
+				+ type + ", date=" + date + "]";
 	}
 
 }
