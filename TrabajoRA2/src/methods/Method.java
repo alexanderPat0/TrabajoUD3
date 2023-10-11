@@ -75,7 +75,7 @@ public class Method {
 				Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
 				model.addRow(row);
 			}else if(t.getType()==2){
-				totalPrice = -(t.getPrice() * t.getAmount());
+				totalPrice = -1*(t.getPrice() * t.getAmount());
 				Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
 				model.addRow(row);
 			}

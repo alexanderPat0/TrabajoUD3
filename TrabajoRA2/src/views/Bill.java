@@ -160,13 +160,15 @@ public class Bill extends JFrame {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
-		lblTotalPrice = new JLabel("Total Price:");
+		lblTotalPrice = new JLabel("Profits:");
 		lblTotalPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTotalPrice.setBounds(6, 18, 86, 28);
 		panel_1.add(lblTotalPrice);
 
-		for (Transaction t : Test.transactionList) {
-			totalPrice += (t.getPrice() * t.getAmount());
+		for (int i = 1; i < table.getRowCount() - 1; i++) {
+			String[] cellPrice = table.getValueAt(i, 4).toString().split(" ");
+			float priceSelected = Float.parseFloat(cellPrice[0]);
+			totalPrice += priceSelected;
 		}
 
 		txtDollars = new JTextField();
