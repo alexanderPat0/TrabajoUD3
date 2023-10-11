@@ -35,11 +35,12 @@ import methods.Method;
 import models.Transaction;
 import services.Conexion;
 import test.Test;
+import javax.swing.Icon;
 
 public class Bill extends JFrame {
 
 	private JPanel contentPane, panel, panel2, panel3;
-	private JLabel lblBack, lblTittle, lbl_1, lbl_1_1, lblTotalPrice;
+	private JLabel lblBack, lblTittle, lbl_1, lbl_1_1, lblTotalPrice, lblPdf;
 	private JTable table;
 	private JTextField txtDollars;
 	private float totalPrice;
@@ -55,7 +56,7 @@ public class Bill extends JFrame {
 	public Bill() {
 		super("Bill Prodcuts");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 616, 710);
+		setBounds(100, 100, 633, 720);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(189, 239, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -211,48 +212,63 @@ public class Bill extends JFrame {
 		panel3.setBackground(new Color(222, 222, 222));
 		panel3.setBounds(50, 27, 473, 560);
 		contentPane.add(panel3);
-
-		JButton btnPDF = new JButton("Create PDF");
-		btnPDF.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				DrawPDF.writePDF();
-
-			}
-		});
-		btnPDF.setBounds(454, 631, 89, 23);
-		contentPane.add(btnPDF);
+		
+		MouseListen ml = new MouseListen();
 
 		lblBack = new JLabel(new ImageIcon("images/icons/undo.png"));
 		lblBack.setBounds(20, 614, 45, 40);
-		contentPane.add(lblBack);
 		lblBack.setToolTipText("Undo");
-		lblBack.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-				new MainPanel();
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-		});
+		contentPane.add(lblBack);
+		lblBack.addMouseListener(ml);
+		
+		lblPdf = new JLabel(new ImageIcon("images/icons/pdf.png"));
+		lblPdf.setToolTipText("PDF");
+		lblPdf.setBounds(559, 614, 50, 50);
+		contentPane.add(lblPdf);
+		lblPdf.addMouseListener(ml);
 
 		setVisible(true);
+	}
+	
+	public class MouseListen implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Object o = e.getSource();
+			
+			if(o == lblBack) {
+				dispose();
+				new MainPanel();
+				
+			}else if(o == lblPdf) {
+				DrawPDF.writePDF();
+			}
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
