@@ -238,8 +238,12 @@ public class AddProd extends JFrame {
 
 								p = new Product(id, name, description, priceFloat, amountInt, category, image, date,
 										available);
+								
 								try {
 									Test.product.save(Conexion.obtain(), p);
+									int idProd = Test.product.getProductID(Conexion.obtain(), name);
+									Transaction t = new Transaction(idProd, priceFloat, amountInt, type, Date.valueOf(LocalDate.now()));
+									Test.transaction.save(Conexion.obtain(), t);
 								} catch (ClassNotFoundException | SQLException e1) {
 									e1.printStackTrace();
 								}

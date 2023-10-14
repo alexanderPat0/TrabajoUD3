@@ -44,7 +44,6 @@ public class ActionService {
 			}
 			consult.executeUpdate();
 		} catch (SQLException ex) {
-			throw new SQLException(ex);
 		}
 	}
 
