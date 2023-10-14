@@ -258,5 +258,22 @@ public class ProductService {
 		}
 		return id;
 	}
+	
+	public int getProductAvailbale(Connection conexion, int id) throws SQLException {
+		int av = 0;
+		try {
+			PreparedStatement consult = conexion
+					.prepareStatement("SELECT available" + " FROM " + this.table + " WHERE id = ?");
+			consult.setInt(1, id);
+			ResultSet result = consult.executeQuery();
+			while (result.next()) {
+				av = result.getInt("available");
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return av;
+		
+	}
 
 }

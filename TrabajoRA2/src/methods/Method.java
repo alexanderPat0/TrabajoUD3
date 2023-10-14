@@ -31,7 +31,6 @@ public class Method {
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
-			if (p.getAvailable() == 1) {
 				try {
 					name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();
 				} catch (Exception e) {
@@ -40,7 +39,6 @@ public class Method {
 				Object[] row = { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(), p.getCategory(),
 						p.getExpire_date() };
 				model.addRow(row);
-			}
 		}
 		return model;
 	}
@@ -112,7 +110,6 @@ public class Method {
 		while (it.hasNext()) {
 
 			Product p = it.next();
-			if (p.getAvailable() == 1) {
 				try {
 					name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();
 				} catch (Exception e) {
@@ -120,7 +117,6 @@ public class Method {
 				}
 				model.addRow(new Object[] { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
 						p.getCategory(), p.getExpire_date() });
-			}
 		}
 		SeeProd.table.setModel(model);
 	}
@@ -147,38 +143,6 @@ public class Method {
 
 		return stringAction;
 	}
-
-//	public static String FileChooserImage() {
-//		JFileChooser fc = new JFileChooser();
-//		String path = "";
-//		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
-//		fc.setFileFilter(imgFilter);
-//		int result = fc.showOpenDialog(null);
-//
-//		File file = fc.getSelectedFile();
-//
-//		if (result != JFileChooser.CANCEL_OPTION) {
-//
-//			if (file == null || file.getName().equalsIgnoreCase("")) {
-//				path = "images/products/Image_not_available.png";
-//			} else {
-//
-//				String pathImage = "images/products/" + file.getName();
-//				Path destino = Path.of(pathImage).toAbsolutePath();
-//
-//				path = pathImage;
-//
-//				try {
-//					Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
-//
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		return path;
-//	}
 
 	public static String FileChooserImageEdit(String img) {
 		JFileChooser fc = new JFileChooser();
@@ -238,7 +202,7 @@ public class Method {
 				}
 			}
 		} else {
-			path = "images/icons/addImg.png";
+			path = "images/MercadonaLogo.png";
 		}
 
 		return path;

@@ -1,5 +1,7 @@
 package viewsProducts;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -20,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import methods.Method;
 import models.Action;
@@ -36,7 +39,7 @@ public class SeeProd extends JFrame {
 	public static JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
 	private JComboBox<String> cbSearch;
-	private int idRow, row;
+	private int idRow, row, availableValue;
 	private float inputFloat;
 	private String option, inputString, image;
 	private Product p = null;
@@ -106,6 +109,66 @@ public class SeeProd extends JFrame {
 
 			}
 		});
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		        Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+		        // Obtén el valor de "available" directamente de la base de datos
+//		        int availableValue = 0;
+				try {
+					availableValue = Test.product.getProductAvailbale(Conexion.obtain(), idRow);
+					System.out.println(availableValue);
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        
+		        // Verifica si el valor de "available" es igual a 0
+		        if (availableValue == 0) {
+		            comp.setBackground(Color.RED); // Rojo para "available" igual a 0
+		        } else if(availableValue == 1){
+		            comp.setBackground(Color.WHITE); // Blanco para "available" igual a 1
+		        }
+
+		        return comp;
+		    }
+		};
+
+		for (Product p : Test.productList) {
+		    if (p.getAvailable() == 0) {
+		        table.setDefaultRenderer(Object.class, customRowRenderer);
+		    } else
+		        table.setDefaultRenderer(Object.class, customRowRenderer);
+
+		}
+		
+//		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
+//		    @Override
+//		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//		        Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//
+//		        int availableValue = (int) table.getValueAt(row, /* ajusta el índice de la columna "available" */);
+//
+//		        if (availableValue == 0) {
+//		            comp.setBackground(Color.RED); // Rojo para "available" igual a 0
+//		        } else {
+//		            comp.setBackground(Color.WHITE); // Blanco para "available" igual a 1
+//		        }
+//
+//		        return comp;
+//		    }
+//		};
+//
+//		// Asigna el renderizador personalizado a la tabla una sola vez
+//		table.setDefaultRenderer(Object.class, customRowRenderer);
+		
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 		MouseListen m = new MouseListen();
 
