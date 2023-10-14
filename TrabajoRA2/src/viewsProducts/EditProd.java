@@ -114,7 +114,9 @@ public class EditProd extends JFrame {
 			comboBox.addItem(a);
 		}
 		try {
-			comboBox.setSelectedItem(Test.provider.getProvider(Conexion.obtain(), Test.product.getProduct(Conexion.obtain(), p.getId()).getId_prov()).getName());
+			comboBox.setSelectedItem(Test.provider
+					.getProvider(Conexion.obtain(), Test.product.getProduct(Conexion.obtain(), p.getId()).getId_prov())
+					.getName());
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -239,50 +241,32 @@ public class EditProd extends JFrame {
 						priceFloat = Float.parseFloat(txtPrice.getText());
 						amountInt = Integer.parseInt(txtAmount.getText());
 						int available = 1;
-						boolean productExists = false;
-						for (Product p : Test.productList) {
+
+						Product p = new Product(id, id_prov, name, description, priceFloat, amountInt, category, image,
+								date, available);
+						try {
+
+							Test.product.save(Conexion.obtain(), p);
+
+							Action a = new Action(Test.LogedInUser.getId(), id, p.getId_prov(), 4,
+									Date.valueOf(LocalDate.now()));
 							try {
-								if (name.equalsIgnoreCase(p.getName())
-										&& comboBox.getSelectedItem().toString().equalsIgnoreCase(Test.provider
-												.getProvider(Conexion.obtain(), p.getId_prov()).getName())) {
-									productExists = true;
-								}
+								Test.action.save(Conexion.obtain(), a);
 							} catch (ClassNotFoundException | SQLException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
+							Test.actionList.add(a);
+						} catch (ClassNotFoundException | SQLException e1) {
+							e1.printStackTrace();
 						}
-
-						if (!productExists) {
-							
-							Product p = new Product(id, id_prov, name, description, priceFloat, amountInt, category,
-									image, date, available);
-							try {
-
-								Test.product.save(Conexion.obtain(), p);
-
-								Action a = new Action(Test.LogedInUser.getId(), id, p.getId_prov(), 4,
-										Date.valueOf(LocalDate.now()));
-								try {
-									Test.action.save(Conexion.obtain(), a);
-								} catch (ClassNotFoundException | SQLException e1) {
-									e1.printStackTrace();
-								}
-								Test.actionList.add(a);
-							} catch (ClassNotFoundException | SQLException e1) {
-								e1.printStackTrace();
-							}
-							JOptionPane.showMessageDialog(null, "You have updated the Product!", "Updating...",
-									JOptionPane.INFORMATION_MESSAGE);
-							dispose();
-							new SeeProd();
-						} else
-							JOptionPane.showMessageDialog(null, "That product already exists!", "Error",
-									JOptionPane.WARNING_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, "Price and Amount must be numbers!", "Error",
+						JOptionPane.showMessageDialog(null, "You have updated the Product!", "Updating...",
+								JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						new SeeProd();
+					} else
+						JOptionPane.showMessageDialog(null, "That product already exists!", "Error",
 								JOptionPane.WARNING_MESSAGE);
-					}
+
 				}
 			} else if (o == lblCancel) {
 				JOptionPane.showMessageDialog(null, "You have cancelled the edition", "Cancelling...",
@@ -290,23 +274,24 @@ public class EditProd extends JFrame {
 				dispose();
 				new SeeProd();
 			} else if (o == lblSetImage) {
-			    // Guarda la imagen actual en una variable antes de cambiarla
-			    String oldImagePath = image;
+				// Guarda la imagen actual en una variable antes de cambiarla
+				String oldImagePath = image;
 
-			    // Llama a FileChooserImage para obtener la nueva imagen
-			    image = Method.FileChooserImageEdit(p.getImage());
+				// Llama a FileChooserImage para obtener la nueva imagen
+				image = Method.FileChooserImageEdit(p.getImage());
 
-			    // Si la imagen actual no es la imagen predeterminada, elimina la imagen anterior
-			    if (!oldImagePath.equals(image)) {
-			    	if(!oldImagePath.equals("images/MercadonaLogo.png")) {
-				        File f = new File(oldImagePath);
-				        f.delete();
-			    	}
-			    }
+				// Si la imagen actual no es la imagen predeterminada, elimina la imagen
+				// anterior
+				if (!oldImagePath.equals(image)) {
+					if (!oldImagePath.equals("images/MercadonaLogo.png")) {
+						File f = new File(oldImagePath);
+						f.delete();
+					}
+				}
 
-			    if (image != null) {
-			        lblSetImage.setIcon(new ImageIcon(image));
-			    }
+				if (image != null) {
+					lblSetImage.setIcon(new ImageIcon(image));
+				}
 			}
 		}
 

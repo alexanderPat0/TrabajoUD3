@@ -69,7 +69,6 @@ public class SeeProv extends JFrame {
 				row = table.getSelectedRow();
 				
 				String name = (String) table.getValueAt(row, 0);
-				System.out.println(name);
 				idRow = Test.providerList.get(row).getId();
 				try {
 					Method.UploadProviderList();

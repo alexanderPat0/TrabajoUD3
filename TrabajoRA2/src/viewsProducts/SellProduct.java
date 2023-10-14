@@ -43,6 +43,7 @@ public class SellProduct extends JFrame {
 	private JLabel lblInfo, lblPriceUnit, lbl_1, lbl_2, lbl_3, lblTotalPrice, lblStocks, lblSave, lblCancel;
 	private JTextField UnitPrice, TotalPrice, textStock;
 	private Product p = new Product();
+	@SuppressWarnings("unused")
 	private Date date = null;
 	private int type = 1;
 	@SuppressWarnings("unused")

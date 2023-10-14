@@ -31,6 +31,7 @@ public class DrawPDF {
 	private static float salesMony;
 	private static float buyMony;
 
+	@SuppressWarnings("unused")
 	public static void writePDF() {
 
 		try {

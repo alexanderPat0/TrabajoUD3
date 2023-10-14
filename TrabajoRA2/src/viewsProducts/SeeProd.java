@@ -44,6 +44,7 @@ public class SeeProd extends JFrame {
 	private List<String> listSearch = new ArrayList<String>();
 	private List<String> listCategories = createCategories();
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public SeeProd() {
 		super("CRUD products");
 		getListSerch();
@@ -88,10 +89,8 @@ public class SeeProd extends JFrame {
 				lblImage.setIcon(new ImageIcon(image));
 				try {
 
-					System.out.println(idRow);
 					Method.UploadProductList();
 					p = ps.getProduct(Conexion.obtain(), ps.getProductID(Conexion.obtain(), name));
-					System.out.println(p);
 
 				} catch (ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
@@ -99,7 +98,7 @@ public class SeeProd extends JFrame {
 				if (idRow >= 0) {
 					lblEdit.setEnabled(true);
 					lblDelete.setEnabled(true);
-					if (p.getAmount() != 0)
+					if (p.getAmount() > 0)
 						lblSell.setEnabled(true);
 					else
 						lblSell.setEnabled(false);

@@ -31,7 +31,7 @@ public class Method {
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
-			if (p.getAvailable() != 0) {
+			if (p.getAvailable() == 1) {
 				try {
 					name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();
 				} catch (Exception e) {
@@ -70,12 +70,12 @@ public class Method {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(t.getType()==1) {
+			if (t.getType() == 1) {
 				totalPrice = t.getPrice() * t.getAmount();
 				Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
 				model.addRow(row);
-			}else if(t.getType()==2){
-				totalPrice = -1*(t.getPrice() * t.getAmount());
+			} else if (t.getType() == 2) {
+				totalPrice = -1 * (t.getPrice() * t.getAmount());
 				Object[] row = { t.getDate(), name, t.getPrice() + " $", t.getAmount(), totalPrice + " $" };
 				model.addRow(row);
 			}
@@ -112,13 +112,15 @@ public class Method {
 		while (it.hasNext()) {
 
 			Product p = it.next();
-			try {
-				name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (p.getAvailable() == 1) {
+				try {
+					name = Test.provider.getProvider(Conexion.obtain(), p.getId_prov()).getName();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				model.addRow(new Object[] { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
+						p.getCategory(), p.getExpire_date() });
 			}
-			model.addRow(new Object[] { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
-					p.getCategory(), p.getExpire_date() });
 		}
 		SeeProd.table.setModel(model);
 	}
@@ -177,73 +179,69 @@ public class Method {
 //		}
 //		return path;
 //	}
-	
+
 	public static String FileChooserImageEdit(String img) {
-	    JFileChooser fc = new JFileChooser();
-	    String path = "";
+		JFileChooser fc = new JFileChooser();
+		String path = "";
 
-	    fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-	    FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
-	    fc.setFileFilter(imgFilter);
-	    int result = fc.showOpenDialog(null);
+		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
+		fc.setFileFilter(imgFilter);
+		int result = fc.showOpenDialog(null);
 
-	    if (result == JFileChooser.APPROVE_OPTION) {
-	        File file = fc.getSelectedFile();
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
 
-	        if (file == null || file.getName().equalsIgnoreCase("")) {
-	            path = "images/products/Image_not_available.png";
-	        } else {
-	            String pathImage = "images/products/" + file.getName();
-	            Path destino = Path.of(pathImage).toAbsolutePath();
-	            path = pathImage;
+			if (file == null || file.getName().equalsIgnoreCase("")) {
+				path = "images/products/Image_not_available.png";
+			} else {
+				String pathImage = "images/products/" + file.getName();
+				Path destino = Path.of(pathImage).toAbsolutePath();
+				path = pathImage;
 
-	            try {
-	                Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    } else {
-	        path = img;
-	    }
+				try {
+					Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			path = img;
+		}
 
-	    return path;
+		return path;
 	}
-	
+
 	public static String FileChooserImageAdd() {
-	    JFileChooser fc = new JFileChooser();
-	    String path = "";
+		JFileChooser fc = new JFileChooser();
+		String path = "";
 
-	    fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-	    FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
-	    fc.setFileFilter(imgFilter);
-	    int result = fc.showOpenDialog(null);
+		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG and GIF images", "JPG", "GIF", "PNG");
+		fc.setFileFilter(imgFilter);
+		int result = fc.showOpenDialog(null);
 
-	    if (result == JFileChooser.APPROVE_OPTION) {
-	        File file = fc.getSelectedFile();
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
 
-	        if (file == null || file.getName().equalsIgnoreCase("")) {
-	            path = "images/products/Image_not_available.png";
-	        } else {
-	            String pathImage = "images/products/" + file.getName();
-	            Path destino = Path.of(pathImage).toAbsolutePath();
-	            path = pathImage;
+			if (file == null || file.getName().equalsIgnoreCase("")) {
+				path = "images/products/Image_not_available.png";
+			} else {
+				String pathImage = "images/products/" + file.getName();
+				Path destino = Path.of(pathImage).toAbsolutePath();
+				path = pathImage;
 
-	            try {
-	                Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    } else {
-	        path = "images/icons/addImg.png";
-	    }
+				try {
+					Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			path = "images/icons/addImg.png";
+		}
 
-	    return path;
+		return path;
 	}
-
-	
-	
-
 
 }

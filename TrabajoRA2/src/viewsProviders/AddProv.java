@@ -23,7 +23,6 @@ import javax.swing.border.EmptyBorder;
 
 import methods.ImageUtilities;
 import models.Action;
-import models.Product;
 import models.Provider;
 import services.Conexion;
 import test.Test;
@@ -194,7 +193,6 @@ public class AddProv extends JFrame {
 									}
 									
 									Action a = new Action(Test.LogedInUser.getId(), 0 , provId, 1, Date.valueOf(LocalDate.now()));
-									System.out.println(a);
 									try {
 										Test.action.save(Conexion.obtain(), a);
 									} catch (ClassNotFoundException | SQLException e1) {
