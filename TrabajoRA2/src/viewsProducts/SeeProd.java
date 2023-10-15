@@ -105,11 +105,13 @@ public class SeeProd extends JFrame {
 					
 					
 					if (p.getAvailable() > 0 ) {
+						
 						if (p.getAmount() > 0 )
 							lblSell.setEnabled(true);
 						else
 							lblSell.setEnabled(false);
 					}else {
+						JOptionPane.showMessageDialog(null, "This product is not available :(", "Error", JOptionPane.ERROR_MESSAGE);
 						lblSell.setEnabled(false);
 						lblEdit.setEnabled(false);
 						lblDelete.setEnabled(false);
