@@ -289,7 +289,6 @@ public class Register extends JFrame {
 	private void checkPassword(char[] password) {
 
 		String pass = new String(password);
-		System.out.println(pass);
 
 		if (pass.length() > 12) {
 			progressBar.setValue(100);

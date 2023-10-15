@@ -126,9 +126,9 @@ public class SeeProd extends JFrame {
 		        String availableStr = availableValue.toString();
 
 		        if (availableStr.equals("0")) {
-		            comp.setBackground(new Color(255, 200, 200)); // RED COLOR
+		            comp.setBackground(new Color(255, 200, 200)); 
 		        } else {
-		            comp.setBackground(new Color(240, 240, 240)); // WHITE COLOR
+		            comp.setBackground(new Color(240, 240, 240)); 
 		        }
 
 		        return comp;
