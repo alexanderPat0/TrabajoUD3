@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
@@ -51,6 +52,7 @@ public class EditProd extends JFrame {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public EditProd(Product p2) {
+		
 		p = p2;
 		this.image = p.getImage();
 		setTitle("Edit Product");
@@ -59,7 +61,7 @@ public class EditProd extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		JFrameIcon();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -181,7 +183,7 @@ public class EditProd extends JFrame {
 		panel.add(cbCategory);
 
 		lblAmount = new JLabel("Amount:");
-		lblAmount.setBounds(180, 60, 46, 14);
+		lblAmount.setBounds(180, 60, 67, 14);
 		panel.add(lblAmount);
 
 		txtAmount = new JTextField(String.valueOf(p.getAmount()));
@@ -322,6 +324,10 @@ public class EditProd extends JFrame {
 		listCategories.add("Other");
 
 		return listCategories;
+	}
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
 	}
 
 }

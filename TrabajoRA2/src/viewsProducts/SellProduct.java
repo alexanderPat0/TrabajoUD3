@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -60,6 +61,7 @@ public class SellProduct extends JFrame {
 		p = p2;
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		JFrameIcon();
 
 		panel = new JPanel() {
 			@Override
@@ -238,5 +240,8 @@ public class SellProduct extends JFrame {
 		public void mouseExited(MouseEvent e) {}
 		
 	}
-
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
+	}
 }

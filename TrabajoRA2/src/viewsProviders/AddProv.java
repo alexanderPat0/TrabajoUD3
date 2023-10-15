@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -44,6 +45,7 @@ public class AddProv extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JFrameIcon();
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -238,5 +240,9 @@ public class AddProv extends JFrame {
 		});
 
 		setVisible(true);
+	}
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
 	}
 }

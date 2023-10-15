@@ -27,7 +27,8 @@ public class LoadingScreen extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		JFrameIcon();
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -61,5 +62,9 @@ public class LoadingScreen extends JFrame {
         timer.start();
     	
 		setVisible(true);
+	}
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
 	}
 }

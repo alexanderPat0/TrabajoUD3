@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
@@ -57,6 +58,7 @@ public class AddProd extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JFrameIcon();
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -103,8 +105,7 @@ public class AddProd extends JFrame {
 		}
 		panel.add(comboBox);
 
-//		listCategories = Method.createCategories();
-		System.out.println(createCategories());
+		createCategories();
 
 		lblName = new JLabel("Name:");
 		lblName.setBounds(26, 60, 46, 14);
@@ -241,9 +242,6 @@ public class AddProd extends JFrame {
 								
 								try {
 									Test.product.save(Conexion.obtain(), p);
-									int idProd = Test.product.getProductID(Conexion.obtain(), name);
-									Transaction t = new Transaction(idProd, priceFloat, amountInt, type, Date.valueOf(LocalDate.now()));
-									Test.transaction.save(Conexion.obtain(), t);
 								} catch (ClassNotFoundException | SQLException e1) {
 									e1.printStackTrace();
 								}
@@ -269,11 +267,10 @@ public class AddProd extends JFrame {
 							} else {
 
 								p = new Product(existingProduct.getId(),  existingProduct.getId_prov(), existingProduct.getName(),
-										existingProduct.getDescription(), existingProduct.getPrice(),
-										existingProduct.getAmount() + amountInt, existingProduct.getCategory(),
-										existingProduct.getImage(), existingProduct.getExpire_date(), 1);
+										description , priceFloat,
+										amountInt, category,
+										image, existingProduct.getExpire_date(), 1);
 								Transaction t = new Transaction(p.getId(), p.getPrice(), p.getAmount(), type, Date.valueOf(LocalDate.now()));
-								System.out.println(t);
 								try {
 									Test.product.save(Conexion.obtain(), p);
 									Test.transaction.save(Conexion.obtain(), t);
@@ -344,4 +341,8 @@ public class AddProd extends JFrame {
 		return listCategories;
 	}
 
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
+	}
 }

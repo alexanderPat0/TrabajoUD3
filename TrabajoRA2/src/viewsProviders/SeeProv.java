@@ -1,6 +1,7 @@
 package viewsProviders;
 
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -45,6 +46,7 @@ public class SeeProv extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JFrameIcon();
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -185,6 +187,11 @@ public class SeeProv extends JFrame {
 		@Override
 		public void mouseExited(MouseEvent e) {}
 		
+	}
+	
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
 	}
 
 }

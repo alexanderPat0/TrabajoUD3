@@ -3,6 +3,7 @@ package views;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -48,6 +49,7 @@ public class Bill extends JFrame {
 		contentPane.setBackground(new Color(189, 239, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
+		JFrameIcon();
 
 		try {
 			Test.transactionList = Test.transaction.getAllTransactions(Conexion.obtain());
@@ -101,9 +103,9 @@ public class Bill extends JFrame {
 		        String totalPriceStr = totalPriceValue.toString();
 
 		        if (totalPriceStr.startsWith("-")) {
-		            comp.setBackground(new Color(255, 200, 200)); // RED COLOR
+		            comp.setBackground(new Color(255, 200, 200)); 
 		        } else {
-		            comp.setBackground(new Color(200, 255, 200)); // GREEN COLOR
+		            comp.setBackground(new Color(200, 255, 200)); 
 		        }
 
 		        return comp;
@@ -165,7 +167,6 @@ public class Bill extends JFrame {
 			String[] cellPrice = table.getValueAt(i, 4).toString().split(" ");
 			float priceSelected = Float.parseFloat(cellPrice[0]);
 			totalPrice += priceSelected;
-			System.out.println(totalPrice);
 		}
 
 		txtDollars = new JTextField();
@@ -253,7 +254,7 @@ public class Bill extends JFrame {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
+			// 
 			
 		}
 
@@ -269,5 +270,9 @@ public class Bill extends JFrame {
 			
 		}
 		
+	}
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
 	}
 }

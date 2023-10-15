@@ -145,67 +145,7 @@ public class SeeProd extends JFrame {
 		        table.setDefaultRenderer(Object.class, customRowRenderer);
 
 		}
-
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
-//		    @Override
-//		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//		        Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//
-//		        // Obtén el valor de "available" directamente de la base de datos
-////		        int availableValue = 0;
-//				try {
-//					availableValue = Test.product.getProductAvailbale(Conexion.obtain(), idRow);
-//					System.out.println(availableValue);
-//				} catch (ClassNotFoundException | SQLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//		        
-//		        // Verifica si el valor de "available" es igual a 0
-//		        if (availableValue == 0) {
-//		            comp.setBackground(Color.RED); // Rojo para "available" igual a 0
-//		        } else if(availableValue == 1){
-//		            comp.setBackground(Color.WHITE); // Blanco para "available" igual a 1
-//		        }
-//
-//		        return comp;
-//		    }
-//		};
-
-//		for (Product p : Test.productList) {
-//		    if (p.getAvailable() == 0) {
-//		        table.setDefaultRenderer(Object.class, customRowRenderer);
-//		    } else
-//		        table.setDefaultRenderer(Object.class, customRowRenderer);
-//
-//		}
-		
-//		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
-//		    @Override
-//		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//		        Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//
-//		        int availableValue = (int) table.getValueAt(row, /* ajusta el índice de la columna "available" */);
-//
-//		        if (availableValue == 0) {
-//		            comp.setBackground(Color.RED); // Rojo para "available" igual a 0
-//		        } else {
-//		            comp.setBackground(Color.WHITE); // Blanco para "available" igual a 1
-//		        }
-//
-//		        return comp;
-//		    }
-//		};
-//
-//		// Asigna el renderizador personalizado a la tabla una sola vez
-//		table.setDefaultRenderer(Object.class, customRowRenderer);
-		
-		
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 		MouseListen m = new MouseListen();
 
 		lblCreate = new JLabel(new ImageIcon("images/icons/create.png"));
@@ -286,12 +226,10 @@ public class SeeProd extends JFrame {
 			if (lblDelete.isEnabled()) {
 				if (o == lblDelete) {
 
-					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this provider?",
-							"Delete provider", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+					int option = JOptionPane.showConfirmDialog(null, "Do you want to delete this product?",
+							"Delete product", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
-					if (option == 1) {
-						System.out.println("You didn't delete the team");
-					} else {
+					if (option == JOptionPane.YES_OPTION){
 						try {
 							Test.product.remove(Conexion.obtain(), p.getId());
 
@@ -300,7 +238,7 @@ public class SeeProd extends JFrame {
 							Action a = new Action(Test.LogedInUser.getId(), p.getId(), p.getId_prov(), 3,
 									Date.valueOf(LocalDate.now()));
 							try {
-								Test.action.remove(Conexion.obtain(), p.getId());
+								Test.action.save(Conexion.obtain(), a);
 							} catch (ClassNotFoundException | SQLException e1) {
 								e1.printStackTrace();
 							}

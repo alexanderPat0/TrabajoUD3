@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
@@ -31,6 +32,7 @@ public class MainPanel extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JFrameIcon();
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -138,5 +140,9 @@ public class MainPanel extends JFrame {
 		@Override
 		public void mouseExited(MouseEvent e) {}
 
+	}
+	private void JFrameIcon() {
+		Image icon = new ImageIcon("images/MercadonaLogo.png").getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+		setIconImage(icon);
 	}
 }
