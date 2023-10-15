@@ -272,7 +272,7 @@ public class ProductService {
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
 		}
-		return av;
+		return  av;
 		
 	}
 

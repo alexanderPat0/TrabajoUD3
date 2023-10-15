@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import methods.Method;
 import models.Action;
@@ -101,43 +102,40 @@ public class SeeProd extends JFrame {
 				if (idRow >= 0) {
 					lblEdit.setEnabled(true);
 					lblDelete.setEnabled(true);
-					if (p.getAmount() > 0)
-						lblSell.setEnabled(true);
-					else
+					
+					
+					if (p.getAvailable() > 0 ) {
+						if (p.getAmount() > 0 )
+							lblSell.setEnabled(true);
+						else
+							lblSell.setEnabled(false);
+					}else {
 						lblSell.setEnabled(false);
+						lblEdit.setEnabled(false);
+						lblDelete.setEnabled(false);
+					}
 				}
 
 			}
 		});
 		
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
 		    @Override
 		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		        Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		        Object availableValue = table.getValueAt(row, table.getColumn("Available").getModelIndex());
+		        String availableStr = availableValue.toString();
 
-		        // Obtén el valor de "available" directamente de la base de datos
-//		        int availableValue = 0;
-				try {
-					availableValue = Test.product.getProductAvailbale(Conexion.obtain(), idRow);
-					System.out.println(availableValue);
-				} catch (ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        
-		        // Verifica si el valor de "available" es igual a 0
-		        if (availableValue == 0) {
-		            comp.setBackground(Color.RED); // Rojo para "available" igual a 0
-		        } else if(availableValue == 1){
-		            comp.setBackground(Color.WHITE); // Blanco para "available" igual a 1
+		        if (availableStr.equals("0")) {
+		            comp.setBackground(new Color(255, 200, 200)); // RED COLOR
+		        } else {
+		            comp.setBackground(new Color(240, 240, 240)); // WHITE COLOR
 		        }
 
 		        return comp;
 		    }
 		};
-
+		
 		for (Product p : Test.productList) {
 		    if (p.getAvailable() == 0) {
 		        table.setDefaultRenderer(Object.class, customRowRenderer);
@@ -145,6 +143,42 @@ public class SeeProd extends JFrame {
 		        table.setDefaultRenderer(Object.class, customRowRenderer);
 
 		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+//		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
+//		    @Override
+//		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//		        Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//
+//		        // Obtén el valor de "available" directamente de la base de datos
+////		        int availableValue = 0;
+//				try {
+//					availableValue = Test.product.getProductAvailbale(Conexion.obtain(), idRow);
+//					System.out.println(availableValue);
+//				} catch (ClassNotFoundException | SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//		        
+//		        // Verifica si el valor de "available" es igual a 0
+//		        if (availableValue == 0) {
+//		            comp.setBackground(Color.RED); // Rojo para "available" igual a 0
+//		        } else if(availableValue == 1){
+//		            comp.setBackground(Color.WHITE); // Blanco para "available" igual a 1
+//		        }
+//
+//		        return comp;
+//		    }
+//		};
+
+//		for (Product p : Test.productList) {
+//		    if (p.getAvailable() == 0) {
+//		        table.setDefaultRenderer(Object.class, customRowRenderer);
+//		    } else
+//		        table.setDefaultRenderer(Object.class, customRowRenderer);
+//
+//		}
 		
 //		DefaultTableCellRenderer customRowRenderer = new DefaultTableCellRenderer() {
 //		    @Override

@@ -27,7 +27,7 @@ public class Method {
 
 	public static TableModel UploadProductList() {
 		String name = null;
-		String[] col = { "Provider", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
+		String[] col = { "Provider", "Name", "Description", "Price", "Amount", "Category", "Expire_Date", "Available" };
 		DefaultTableModel model = new DefaultTableModel(col, 0);
 
 		for (Product p : Test.productList) {
@@ -37,7 +37,7 @@ public class Method {
 					e.printStackTrace();
 				}
 				Object[] row = { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(), p.getCategory(),
-						p.getExpire_date() };
+						p.getExpire_date(), p.getAvailable() };
 				model.addRow(row);
 		}
 		return model;
@@ -103,7 +103,7 @@ public class Method {
 
 	public static void refreshTableProduct(List<Product> listP) {
 		String name = null;
-		String[] cols = { "Provider", "Name", "Description", "Price", "Amount", "Category", "Expire_Date" };
+		String[] cols = { "Provider", "Name", "Description", "Price", "Amount", "Category", "Expire_Date", "Available" };
 		DefaultTableModel model = new DefaultTableModel(cols, 0);
 		Iterator<Product> it;
 		it = listP.iterator();
@@ -116,7 +116,7 @@ public class Method {
 					e.printStackTrace();
 				}
 				model.addRow(new Object[] { name, p.getName(), p.getDescription(), p.getPrice(), p.getAmount(),
-						p.getCategory(), p.getExpire_date() });
+						p.getCategory(), p.getExpire_date(), p.getAvailable() });
 		}
 		SeeProd.table.setModel(model);
 	}
