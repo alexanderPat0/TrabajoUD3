@@ -282,8 +282,7 @@ public class EditProd extends JFrame {
 				// Llama a FileChooserImage para obtener la nueva imagen
 				image = Method.FileChooserImageEdit(p.getImage());
 
-				// Si la imagen actual no es la imagen predeterminada, elimina la imagen
-				// anterior
+				// Si la imagen actual no es la imagen predeterminada, elimina la imagen anterior
 				if (!oldImagePath.equals(image)) {
 					if (!oldImagePath.equals("images/MercadonaLogo.png")) {
 						File f = new File(oldImagePath);

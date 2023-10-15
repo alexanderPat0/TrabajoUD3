@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -23,8 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
 import methods.Method;
 import models.Action;
 import models.Product;
@@ -40,7 +37,7 @@ public class SeeProd extends JFrame {
 	public static JTable table;
 	private JLabel lblCreate, lblEdit, lblDelete, lblUndo, lblImage, lblSell, lblSearch, lblNewLabel;
 	private JComboBox<String> cbSearch;
-	private int idRow, row, availableValue;
+	private int idRow, row;
 	private float inputFloat;
 	private String option, inputString, image;
 	private Product p = null;
