@@ -161,10 +161,11 @@ public class Bill extends JFrame {
 		lblTotalPrice.setBounds(6, 18, 86, 28);
 		panel_1.add(lblTotalPrice);
 
-		for (int i = 1; i < table.getRowCount() - 1; i++) {
+		for (int i = 0; i < table.getRowCount(); i++) {
 			String[] cellPrice = table.getValueAt(i, 4).toString().split(" ");
 			float priceSelected = Float.parseFloat(cellPrice[0]);
 			totalPrice += priceSelected;
+			System.out.println(totalPrice);
 		}
 
 		txtDollars = new JTextField();

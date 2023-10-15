@@ -135,9 +135,9 @@ public class DrawPDF {
 			transactions.setFont(PDType1Font.HELVETICA_BOLD, 15);
 			transactions.beginText();
 			transactions.newLineAtOffset(60, 640);
-			transactions.showText("Total Sales:                       Bought:                            Profits:");
+			transactions.showText("Total Sales:                       Bought:                               Profits:");
 			transactions.newLineAtOffset(0, -20);
-			transactions.showText(salesMony + "$                              "+ buyMony +"$                           "
+			transactions.showText(salesMony + "$                              "+ buyMony +"$                                     "
 					+ (salesMony - buyMony) + "$");
 			transactions.endText();
 
